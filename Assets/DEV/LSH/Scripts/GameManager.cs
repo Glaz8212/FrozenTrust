@@ -44,12 +44,12 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void PlayerEnemyReRoll()
     {
-        int palyerList = PhotonNetwork.PlayerList.Length;
-
+        int playerList = PhotonNetwork.PlayerList.Length;
+        
         // 배신자는 4명당 1명 최소 인원 4명
-        enemyCount = Mathf.Max(1, playerCount / 4);
-        playerCount = playerCount - enemyCount;
-
+        enemyCount = Mathf.Max(1, playerList / 4);
+        playerCount = playerList - enemyCount;
+        
         List<int> playerId = new List<int>();
 
         // 플레이어 ID 저장
