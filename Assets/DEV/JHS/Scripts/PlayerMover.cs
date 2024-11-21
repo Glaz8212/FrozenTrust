@@ -7,6 +7,7 @@ public class PlayerMover : MonoBehaviour
     
     private PlayerStatus status;
     private CharacterController controller;
+    [SerializeField] Animator animator;
     public float gravity = -9.8f;
     public float rotationSpeed = 360;
 
@@ -26,17 +27,23 @@ public class PlayerMover : MonoBehaviour
     {
         MovePosition();
     }
-
+    // animation ¸ðÀ½ isRunning isWalking isDead isKicking
+    // isPunching_Left isPunching_Right
     private void MovePosition()
     {
         Vector3 direction = Vector3.zero;
         direction.x = Input.GetAxisRaw("Horizontal");
         direction.z = Input.GetAxisRaw("Vertical");
 
-        if (direction == Vector3.zero) return;
+        if (direction == Vector3.zero)
+        {
+            animator.SetBool("isRunning", false);
+            return;
+        }
         else if (direction != Vector3.zero)
         {
             direction.Normalize();
+            animator.SetBool("isRunning", true);
             RotateToDirection(direction);
         }
 
