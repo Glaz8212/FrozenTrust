@@ -10083,7 +10083,7 @@ GameObject:
   - component: {fileID: 726639877173819331}
   - component: {fileID: -5842149733604578597}
   m_Layer: 0
-  m_Name: man_eskimo
+  m_Name: Player01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
