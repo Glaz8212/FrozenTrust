@@ -6,8 +6,11 @@ public class PlayerMover : MonoBehaviour
 {
     
     private PlayerStatus status;
-    public float rotationSpeed = 720;
+    private CharacterController controller;
+    public float gravity = -9.8f;
+    public float rotationSpeed = 360;
 
+    private Vector3 velocity;
     private void Awake()
     {
         Init();
@@ -16,6 +19,7 @@ public class PlayerMover : MonoBehaviour
     private void Init()
     {
         status = GetComponent<PlayerStatus>();
+        controller = GetComponent<CharacterController>();
     }
 
     private void Update()
@@ -30,13 +34,24 @@ public class PlayerMover : MonoBehaviour
         direction.z = Input.GetAxisRaw("Vertical");
 
         if (direction == Vector3.zero) return;
+        else if (direction != Vector3.zero)
+        {
+            direction.Normalize();
+            RotateToDirection(direction);
+        }
 
-        // 상하좌우 키를 동시 입력하면 대각선은 길어지기에 방향을 정규화시키는 Normalize()사용
-        direction.Normalize();
+        Vector3 move = direction * status.moveSpeed;
 
-        transform.Translate(status.moveSpeed * Time.deltaTime * direction, Space.World);
+        if (controller.isGrounded && velocity.y < 0)
+        {
+            velocity.y = -2f;
+        }
+        velocity.y += gravity * Time.deltaTime;
+        move.y = velocity.y;
 
-        RotateToDirection(direction);
+        controller.Move(move * Time.deltaTime);
+        //transform.Translate(status.moveSpeed * Time.deltaTime * direction, Space.World);
+
     }
 
     private void RotateToDirection(Vector3 direction)
