@@ -1,14 +1,15 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class GameSceneManager : MonoBehaviour
+public class GameSceneManager : MonoBehaviourPun
 {
     public static GameSceneManager Instance;
 
     public float gameTimer = 900f; // 15분 타이머
-    public TMP_Text timerText;         // 타이머 UI
+    public TMP_Text timerText;
 
     private void Awake()
     {
