@@ -16,12 +16,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     // 싱글톤 생성
     public static GameManager Instance;
 
-    public List<Player> players;    // Photon 플레이어 리스트
-    public GameState curState;  // 게임 상태
-    public int enemyCount;        // 배신자 수
-    public int playerCount;       // 생존자 수
-    public List<int> player;
-    public List<int> enemy;
+    [SerializeField] List<Player> players;    // Photon 플레이어 리스트
+    [SerializeField] GameState curState;  // 게임 상태
+    [SerializeField] int enemyCount;        // 배신자 수
+    [SerializeField] int playerCount;       // 생존자 수
+    [SerializeField] List<int> player;
+    [SerializeField] List<int> enemy;
 
 
     private void Awake()
@@ -70,6 +70,46 @@ public class GameManager : MonoBehaviourPunCallbacks
         foreach (int players in playerId)
         {
             player.Add(players);
+        }
+    }
+
+    public void CheckWin()
+    {
+        if (enemyCount <= 0)// 생존자 승리조건
+        {
+            GameStateChange(GameState.End);
+
+        }
+        else if (playerCount <= enemyCount)// 배신자 승리조건
+        {
+            GameStateChange(GameState.End);
+        }
+    }
+
+    public void GameStateChange(GameState state)
+    {
+        curState = state;
+
+        // 상태를 동기화
+        if (PhotonNetwork.IsMasterClient)
+        {
+            photonView.RPC(nameof(StateChanged), RpcTarget.All, state);
+        }
+    }
+
+    [PunRPC]
+    private void StateChanged(GameState newState)
+    {
+        curState = newState; // 새로운 상태로 업데이트
+
+        // 상태에 따라 동작 결정
+        if (newState == GameState.InGame)
+        {
+            Debug.Log("Game Started");
+        }
+        else if (newState == GameState.End)
+        {
+            Debug.Log("Game Ended");
         }
     }
 }
