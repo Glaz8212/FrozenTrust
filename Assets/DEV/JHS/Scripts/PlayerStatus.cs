@@ -181,6 +181,7 @@ public class PlayerStatus : MonoBehaviour
         {
             hunger = Mathf.Max(0, hunger - 1); // 허기 감소
             warmth = Mathf.Min(warmthMax, warmth + 4); // 온기 회복
+            Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
     }
@@ -190,6 +191,7 @@ public class PlayerStatus : MonoBehaviour
         {
             hunger = Mathf.Max(0, hunger - 5); // 허기 감소
             warmth = Mathf.Max(0, warmth - 2); // 온기 감소
+            Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
     }
@@ -199,6 +201,7 @@ public class PlayerStatus : MonoBehaviour
         {
             hunger = Mathf.Max(0, hunger - 10); // 허기 감소
             warmth = Mathf.Max(0, warmth - 10); // 온기 감소
+            Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
     }

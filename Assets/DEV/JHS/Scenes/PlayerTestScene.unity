@@ -502,6 +502,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2028312041079470350, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
+      propertyPath: hungerMax
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028312041079470350, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
+      propertyPath: warmthMax
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028312041079470350, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
+      propertyPath: playerMaxHP
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 3146506913364623788, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
       propertyPath: m_RootOrder
       value: 4
