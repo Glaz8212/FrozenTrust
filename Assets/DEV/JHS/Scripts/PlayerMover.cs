@@ -12,6 +12,7 @@ public class PlayerMover : MonoBehaviour
     public float rotationSpeed = 360;
 
     private Vector3 velocity;
+    
     private void Awake()
     {
         Init();
