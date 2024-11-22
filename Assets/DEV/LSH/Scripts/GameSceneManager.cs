@@ -24,6 +24,11 @@ public class GameSceneManager : MonoBehaviourPun
         }
     }
 
+    private void Start()
+    {
+        // MissionController = GetComponent<MissionController>();
+    }
+
     private IEnumerator GameTimerCoroutine()
     {
         while (gameTimer > 0)
