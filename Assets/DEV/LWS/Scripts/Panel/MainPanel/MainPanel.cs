@@ -9,7 +9,7 @@ using WebSocketSharp;
 
 public class MainPanel : UIBinder
 {
-    [Header("MainPanel")]
+    [Header("메인 패널")]
     [SerializeField] GameObject createRoomPanel;
     [SerializeField] Text roomNameInputField;
     [SerializeField] Text maxPlayerInputField;
