@@ -16,11 +16,12 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Update()
     {
-        if (attackTerm || !Input.GetMouseButtonDown(0))
+        if (attackTerm)
             return;
-        if (!attackTerm && Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            attackTerm = true;
+            Debug.Log("명령1");
+            attackTerm = true;            
             switch (type)
             {
                 case Type.Non:
@@ -30,7 +31,7 @@ public class PlayerAttacker : MonoBehaviour
                     break;
                 case Type.RangedWeapon:
                     break;
-            }
+            }          
         }
     }
 
@@ -40,7 +41,8 @@ public class PlayerAttacker : MonoBehaviour
         {
             attackHand = true;
             // 좌수 펀치 애니메이션 실행
-            animator.SetBool("isPunching_Left", true);
+            animator.Play("Punch_LeftHand");
+            
             // 좌측 펀치 콜라이더 활성화
             leftAttackArea.enabled = true;
         }
@@ -48,7 +50,8 @@ public class PlayerAttacker : MonoBehaviour
         {
             attackHand = false;
             // 우수 펀치 애니메이션 실행
-            animator.SetBool("isPunching_Right", true);
+            animator.Play("Punch_RightHand");
+           
             // 우측 펀치 콜라이더 활성화
             rightAttackArea.enabled = true;
         }
@@ -56,10 +59,9 @@ public class PlayerAttacker : MonoBehaviour
         StartCoroutine(EndAttack());
     }
     private IEnumerator EndAttack()
-    {
+    {        
+        Debug.Log("명령4");
         yield return new WaitForSeconds(2f); // 공격 지속 시간
-        animator.SetBool("isPunching_Left", false);
-        animator.SetBool("isPunching_Right", false);
         leftAttackArea.enabled = false;
         rightAttackArea.enabled = false;
         attackTerm = false; // 공격 쿨타임 해제
