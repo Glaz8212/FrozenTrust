@@ -8116,6 +8116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponDamage: 100
+  weaponCollider: {fileID: 35042537836598066}
 --- !u!65 &35042537836598066
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10206,7 +10207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  attackterm: 0
+  attackTerm: 0
   leftAttackArea: {fileID: 35042537836598066}
   rightAttackArea: {fileID: 1582225174899720728}
   animator: {fileID: 4348890797106946645}
@@ -15535,6 +15536,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponDamage: 100
+  weaponCollider: {fileID: 1582225174899720728}
 --- !u!65 &1582225174899720728
 BoxCollider:
   m_ObjectHideFlags: 0
