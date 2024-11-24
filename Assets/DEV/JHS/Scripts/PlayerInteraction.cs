@@ -13,6 +13,8 @@ public class PlayerInteraction : MonoBehaviour
     // private 스크립트명 함수명;
     // 상호작용 상태 판정
     private bool isInteracting = false;
+    // 콜라이더 충돌 판정
+    private bool isCollider = false;
     private void Update()
     {
         // E 키 입력 처리
@@ -22,10 +24,9 @@ public class PlayerInteraction : MonoBehaviour
             
             // 상호작용 함수 호출
         }
-        // E 키에서 손을 뗐을 때 상태 초기화로 되어있는데
         // 상호작용한 오브젝트에서 상호작용이 끝났을때 false값을 설정 한걸 가져와야됨
         // 그 값이 false라면을 else if 조건에 넣어줘야됨 
-        else if (Input.GetKeyUp(KeyCode.E))
+        else if (isCollider == false) // || 또는 상호작용 창을 닫았을때 
         {
             isInteracting = false; 
         }
@@ -33,11 +34,13 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnCollisionStay(Collision collision)
     {
-       // 충돌했을떄 상호작용 가능한 오브젝트인지 확인
+        // 충돌했을떄 상호작용 가능한 오브젝트인지 확인
+        isCollider = true;
     }
 
     private void OnCollisionExit(Collision collision)
     {
         // 충돌이 종료되면 상호작용 상태 초기화 해줌
+        isCollider = false;
     }
 }
