@@ -3,16 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LoobyScene : MonoBehaviourPunCallbacks
-{/*
+public class LobbyScene : MonoBehaviourPunCallbacks
+{
     public enum Panel { Login, Menu, Lobby, Room }
 
-    [SerializeField] LoginPanel loginPanel;
+    [SerializeField] LogInPanel loginPanel;
     [SerializeField] MainPanel menuPanel;
     [SerializeField] RoomPanel roomPanel;
     [SerializeField] LobbyPanel lobbyPanel;
-
-    [SerializeField] MatchmakingManager matchmakingManager;
 
     private void Start()
     {
@@ -41,22 +39,11 @@ public class LoobyScene : MonoBehaviourPunCallbacks
         }
     }
 
-    private void SetActivePanel(Panel panel)
+    public void SetActivePanel(Panel panel)
     {
         loginPanel.gameObject.SetActive(panel == Panel.Login);
         menuPanel.gameObject.SetActive(panel == Panel.Menu);
         roomPanel.gameObject.SetActive(panel == Panel.Room);
         lobbyPanel.gameObject.SetActive(panel == Panel.Lobby);
     }
-
-    public void JoinRandomRoom()
-    {
-        matchmakingManager.JoinRandomRoom();
-    }
-
-    public void CreateRoom(string roomName)
-    {
-        matchmakingManager.CreateRoom(roomName);
-    }
-    */
 }

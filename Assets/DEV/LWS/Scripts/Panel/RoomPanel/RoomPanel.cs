@@ -1,7 +1,8 @@
 using Photon.Pun;
 using Photon.Pun.UtilityScripts;
 using Photon.Realtime;
-using System.Collections;
+using ExitGames.Client.Photon;
+using PhotonHashtable = ExitGames.Client.Photon.Hashtable;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
