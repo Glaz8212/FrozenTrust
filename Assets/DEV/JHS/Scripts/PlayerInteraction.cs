@@ -39,7 +39,7 @@ public class PlayerInteraction : MonoBehaviour
                 case Type.Misson:
                     if (missionController != null)
                     {
-                        //missionController.MissionBoxOpen();
+                        missionController.MissionBoxOpen();
                     }
                     else
                     {
