@@ -1,34 +1,32 @@
 using ExitGames.Client.Photon;
-using System.Collections.Generic;
-using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class MatchmakingManager : MonoBehaviourPunCallbacks
 {
-    /*
-
+    [SerializeField] LobbyScene lobbyScene;
     [SerializeField] LobbyPanel lobbyPanel; // 방 리스트 관리 UI
     [SerializeField] RoomPanel roomPanel;  // 방 내부 UI
 
-    // 방 생성
-    public void CreateRoom(string roomName)
+    public override void OnConnectedToMaster()
     {
-        RoomOptions options = new RoomOptions { MaxPlayers = 8 };
-        PhotonNetwork.CreateRoom(roomName, options);
+        Debug.Log("접속에 성공했다!");
+        lobbyScene.SetActivePanel(LobbyScene.Panel.Menu);
     }
 
-    // 랜덤 매칭
-    public void JoinRandomRoom()
+    public override void OnDisconnected(DisconnectCause cause)
     {
-        PhotonNetwork.JoinRandomRoom();
+        Debug.Log($"접속이 끊겼다. cause : {cause}");
+        lobbyScene.SetActivePanel(LobbyScene.Panel.Login);
     }
 
     // 방 입장 시 호출
     public override void OnJoinedRoom()
     {
         Debug.Log("방 입장 성공");
-        roomPanel.UpdateRoomUI(); // 방 내부 UI 갱신
+        lobbyScene.SetActivePanel(LobbyScene.Panel.Room);
     }
 
     // 방에서 플레이어 입장 처리
@@ -51,16 +49,22 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         roomPanel.UpdatePlayerProperty(targetPlayer, changedProps); // UI 갱신
     }
 
+    public override void OnLeftRoom()
+    {
+        lobbyScene.SetActivePanel(LobbyScene.Panel.Menu);
+    }
+
     // 로비 입장
     public override void OnJoinedLobby()
     {
         Debug.Log("로비 입장 성공");
-        lobbyPanel.ClearRoomEntries();
+        lobbyScene.SetActivePanel(LobbyScene.Panel.Lobby);
     }
     public override void OnLeftLobby()
     {
         Debug.Log("로비 퇴장 성공");
         lobbyPanel.ClearRoomEntries();
+        lobbyScene.SetActivePanel(LobbyScene.Panel.Menu);
     }
 
     // 방 리스트 업데이트
@@ -69,14 +73,4 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
         Debug.Log("방 리스트 업데이트");
         lobbyPanel.UpdateRoomList(roomList); // UI 갱신
     }
-
-    // 랜덤 매칭 실패 시 방 생성
-    public override void OnJoinRandomFailed(short returnCode, string message)
-    {
-        Debug.LogWarning($"랜덤 매칭 실패: {message}");
-        CreateRoom($"Room_{Random.Range(1, 1000)}");
-    }
-
-    // 로비 퇴장
-    */
 }
