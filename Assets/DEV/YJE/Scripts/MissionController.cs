@@ -7,6 +7,36 @@ public class MissionController : MonoBehaviour
     public bool Is2Clear = false;
     public bool IsEndingClear = false;
 
+    public bool IsUIOpen;
+    // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 - public
+
+    public void Update()
+    {
+        if (playerInteraction.isInteracting)
+        {
+            MissionBoxOpen();
+        }
+        else
+        {
+            MissionBoxClose();
+        }
+    }
+
+    private void MissionBoxOpen()
+    {
+        Debug.Log("미션상자 열기");
+        IsUIOpen = true;
+        // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 = ture; - return값
+    }
+    private void MissionBoxClose()
+    {
+        Debug.Log("미션상자 닫기");
+        IsUIOpen = false;
+        // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 = false; - return값
+    }
+
+
+    // TODO: UI와의 버튼으로 구현하게 될 예정
     /// <summary>
     /// Mission1의 클리어 여부를 확인하는 함수
     /// </summary>
