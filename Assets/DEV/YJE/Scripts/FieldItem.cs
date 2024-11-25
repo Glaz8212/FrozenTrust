@@ -6,7 +6,7 @@ using UnityEngine;
 
 // 인벤토리 구현 연구 영상
 // https://youtu.be/74vxsqQsFHE?si=kpKFlGl9cDvYJsY4
-public class FieldItem : MonoBehaviour
+/*public class FieldItem : MonoBehaviour
 {
     public Item item;
     public SpriteRenderer image;
@@ -28,5 +28,5 @@ public class FieldItem : MonoBehaviour
     {
         return item;
     }
-
 }
+*/

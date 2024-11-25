@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class ItemObj : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public ItemPool returnPool;
+    [SerializeField] List<ItemObj> itemPool;
+
+    [SerializeField] public List<ItemObj> woodItemPool;
+    [SerializeField] public List<ItemObj> oreItemPool;
+    [SerializeField] public List<ItemObj> fruitItemPool;
+    [SerializeField] public List<ItemObj> meatItemPool;
+
+    List<ItemObj> returnPoolList;
+    ItemObj returnObj;
+
+    private void OnEnable()
     {
         
     }
-
-    // Update is called once per frame
-    void Update()
+    public void ReturnFire(ItemObj returnObj, List<ItemObj> itemPool)
     {
-        
+        Debug.Log("회수시작");
+        returnPool.RetrunItemPool(returnObj, itemPool);
     }
 }
