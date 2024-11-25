@@ -26,7 +26,10 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        MovePosition();
+        if (status.playerDie == false)
+        {
+            MovePosition();
+        }        
     }
     // animation ¸ðÀ½ isRunning isWalking isDead isKicking
     // isPunching_Left isPunching_Right
