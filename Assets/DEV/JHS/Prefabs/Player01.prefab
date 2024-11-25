@@ -8077,7 +8077,7 @@ GameObject:
   - component: {fileID: 35042537836598066}
   m_Layer: 0
   m_Name: Wrist_L
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -10178,6 +10178,7 @@ MonoBehaviour:
   hunger: 0
   warmthMax: 500
   warmth: 0
+  playerDie: 0
   ishungry: 0
   iscold: 0
 --- !u!114 &5530357631646817779
@@ -10224,6 +10225,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01c8239f808afaa498d4e7699eb8636e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  type: 0
+  isInteracting: 0
+  missionController: {fileID: 0}
+  boxController: {fileID: 0}
+  itemController: {fileID: 0}
 --- !u!143 &726639877173819331
 CharacterController:
   m_ObjectHideFlags: 0
@@ -15510,7 +15516,7 @@ GameObject:
   - component: {fileID: 1582225174899720728}
   m_Layer: 0
   m_Name: Wrist_R
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

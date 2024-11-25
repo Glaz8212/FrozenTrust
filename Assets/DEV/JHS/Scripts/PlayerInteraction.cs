@@ -20,13 +20,13 @@ public class PlayerInteraction : MonoBehaviour
     private bool isCollider = false;
 
     public MissionController missionController;
-    public BoxController BoxController;
+    public BoxController boxController;
     public ItemController itemController;
 
     private void Update()
     {
         // E 키 입력 처리
-        if (Input.GetKeyDown(KeyCode.E) && !isInteracting && isCollider == true) //&& 불러온 상호작용 함수 != null )
+        if (Input.GetKeyDown(KeyCode.E) && !isInteracting && isCollider)
         {
             isInteracting = true; // 상호작용 중 상태로 변경
 
@@ -34,62 +34,77 @@ public class PlayerInteraction : MonoBehaviour
             switch (type)
             {
                 case Type.Idle:
+                    Debug.Log("상호작용 가능한 상태가 아닙니다.");
                     break;
                 case Type.Misson:
-                    Misson();
+                    if (missionController != null)
+                    {
+                        //missionController.MissionBoxOpen();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("MissionController가 설정되지 않았습니다.");
+                    }
                     break;
                 case Type.ItemBox:
-                    ItemBox();
+                    if (boxController != null)
+                    {
+                        boxController.BoxOpen();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("BoxController가 설정되지 않았습니다.");
+                    }
                     break;
                 case Type.Item:
-                    Item();
+                    if (itemController != null)
+                    {
+                        itemController.SaveItem();
+                    }
+                    else
+                    {
+                        Debug.LogWarning("ItemController가 설정되지 않았습니다.");
+                    }
                     break;
             }
         }
         // 상호작용한 오브젝트에서 상호작용이 끝났을때 false값을 설정 한걸 가져와야됨
         // 그 값이 false라면을 else if 조건에 넣어줘야됨 
-        else if (isCollider == false || missionController.IsUIOpen == false || BoxController.IsUIOpen == false) // || 또는 상호작용 창을 닫았을때 
+        else if (!isCollider || (missionController != null && !missionController.IsUIOpen) || (boxController != null && !boxController.IsUIOpen))
         {
             isInteracting = false;
         }
     }
 
-    private void Misson()
-    {
-        // missionController.MissionBoxOpen();
-    }
-
-    private void ItemBox()
-    {
-        BoxController.BoxOpen();
-    }
-
-    private void Item()
-    {
-        itemController.SaveItem();
-    }
    
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Misson1") || other.CompareTag("Misson2") || other.CompareTag("Misson1"))
+        if (other.CompareTag("Mission1") || other.CompareTag("Mission2") || other.CompareTag("Ending"))
         {
             missionController = other.GetComponent<MissionController>();
-            type = Type.Misson;
+            if (missionController != null)
+            {
+                type = Type.Misson;
+            }
         }
         else if (other.CompareTag("ItemBox"))
         {
-            BoxController = other.GetComponent<BoxController>();
+            boxController = other.GetComponent<BoxController>();
             
             type = Type.ItemBox;
         }
         else if (other.CompareTag("Item"))
         {
             itemController = other.GetComponent<ItemController>();
-            type = Type.Item;
+            if (itemController != null)
+            {
+                type = Type.Item;
+            }
         }
         else
         {
             Debug.Log("상호작용 할수있는 오브젝트가 아닙니다");
+            type = Type.Idle;
         }
 
         isCollider = true;
@@ -97,7 +112,21 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        // 충돌이 종료되면 상호작용 상태 초기화 해줌
-        isCollider = false;
+        if (other.GetComponent<MissionController>() == missionController)
+        {
+            missionController = null;
+        }
+        else if (other.GetComponent<BoxController>() == boxController)
+        {
+            boxController = null;
+        }
+        else if (other.GetComponent<ItemController>() == itemController)
+        {
+            itemController = null;
+        }
+
+        type = Type.Idle;
+        isCollider = false; // 충돌 상태 해제
+        isInteracting = false; // 상호작용 상태 초기화
     }
 }
