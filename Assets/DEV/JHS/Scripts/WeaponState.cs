@@ -5,9 +5,8 @@ using UnityEngine;
 public class WeaponState : MonoBehaviour
 {
     // 데미지
-    [SerializeField] float weaponDamage;
+    [SerializeField] int weaponDamage;
 
-    private float Damageturn;
     private PlayerAttacker playerAttacker;
     [SerializeField] BoxCollider weaponCollider;
 
@@ -38,14 +37,23 @@ public class WeaponState : MonoBehaviour
             {
                 Debug.LogWarning("충돌한 객체에 PlayerStatus 스크립트가 없습니다.");
             }
-            // 부모로 있는 콜라이더는 제외해야됨 추가바람@@
             isHit = true;
         }
         else if (other.CompareTag("Resource"))
         {
+            ResourceController resourceController = other.GetComponent<ResourceController>();
+            if (resourceController != null)
+            {
+                // TakeHP 함수 호출로 데미지 적용
+                resourceController.TakeDamage(weaponDamage);
+                Debug.Log($"데미지 {weaponDamage}만큼 공격");
+            }
+            else
+            {
+                Debug.LogWarning("충돌한 객체에 ResourceController 스크립트가 없습니다.");
+            }
             // 오브젝트 공격 판정
             isHit = true;
-            Debug.Log("자원 충돌 처리");
         }
     }
 }

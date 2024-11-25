@@ -29,6 +29,7 @@ public class PlayerStatus : MonoBehaviour
     public float warmth; // 현재 온기
     // 캐릭터 상태
     PlayerState state = PlayerState.Idle;
+    public bool playerDie = false;
     // 주변 환경
     SurroundingEnvironment environment = SurroundingEnvironment.Warm;
     // 허기가 부족할 경우 : 20퍼 이하로 내려갔을 경우 => 최대체력 70퍼 감소
@@ -143,7 +144,9 @@ public class PlayerStatus : MonoBehaviour
     }
     private void Die()
     {
-        // 사망
+        // 사망 조작X 
+        playerDie = true;
+        // 사망 애니메이션 고정 
         Debug.Log("사망쓰");
     }
 
