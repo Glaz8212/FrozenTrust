@@ -12,7 +12,7 @@ public class PlayerInteraction : MonoBehaviour
     // 상호작용 할 수 있는 오브젝트에 들어간 상호작용 스크립트 
     // private 스크립트명 함수명;
     // 상호작용 상태 판정
-    private bool isInteracting = false;
+    public bool isInteracting = false;
     // 콜라이더 충돌 판정
     private bool isCollider = false;
     private void Update()
