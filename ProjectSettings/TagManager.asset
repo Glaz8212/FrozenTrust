@@ -12,6 +12,10 @@ TagManager:
   - Mission2
   - Ending
   - Monster
+  - Wood
+  - Ore
+  - Fruit
+  - Meat
   layers:
   - Default
   - TransparentFX
