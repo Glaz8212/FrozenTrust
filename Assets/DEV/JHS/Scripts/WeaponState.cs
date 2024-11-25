@@ -7,33 +7,45 @@ public class WeaponState : MonoBehaviour
     // 데미지
     [SerializeField] float weaponDamage;
 
+    private float Damageturn;
     private PlayerAttacker playerAttacker;
+    [SerializeField] BoxCollider weaponCollider;
 
-    private void Awake()
+    private bool isHit = false;
+
+    private void Update()
     {
-        Init();
+        if (weaponCollider.enabled == false)
+            isHit = false ;
     }
 
-    private void Init()
-    {
-        playerAttacker = GetComponent<PlayerAttacker>();
-    }
-    /*
     private void OnTriggerEnter(Collider other)
     {
-        if (playerAttacker.attackTerm == true)
+        if (isHit) return;
+
+        // 활성화된 공격 판정에 적이 들어오면 데미지를 적용 // 부모 플레이어 제외
+        if (other.CompareTag("Player") && other.gameObject != transform.root.gameObject)
         {
-            // 활성화된 공격 판정에 적이 들어오면 데미지를 적용
-            if (other.CompareTag("Player"))
+            //충돌한 플레이어의 스크립트에 있는 공격 함수 가져오기
+            PlayerStatus playerStatus = other.GetComponent<PlayerStatus>();
+            if (playerStatus != null)
             {
-                //충돌한 플레이어의 스크립트에 있는 공격 함수 가져오기
-
+                // TakeHP 함수 호출로 데미지 적용
+                playerStatus.TakeHP(weaponDamage);
+                Debug.Log($"데미지 {weaponDamage}만큼 공격");
             }
-            else if (other.CompareTag("Resource"))
+            else
             {
-                // 오브젝트 공격 판정
-
+                Debug.LogWarning("충돌한 객체에 PlayerStatus 스크립트가 없습니다.");
             }
+            // 부모로 있는 콜라이더는 제외해야됨 추가바람@@
+            isHit = true;
         }
-    }*/
+        else if (other.CompareTag("Resource"))
+        {
+            // 오브젝트 공격 판정
+            isHit = true;
+            Debug.Log("자원 충돌 처리");
+        }
+    }
 }
