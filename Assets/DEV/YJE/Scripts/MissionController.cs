@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class MissionController : MonoBehaviour
 {
+    [SerializeField] PlayerInteraction playerInteraction;
     public bool Is1Clear = false;
     public bool Is2Clear = false;
     public bool IsEndingClear = false;
