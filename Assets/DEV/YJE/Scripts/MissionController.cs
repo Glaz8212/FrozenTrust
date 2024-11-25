@@ -12,23 +12,19 @@ public class MissionController : MonoBehaviour
 
     public void Update()
     {
-        if (playerInteraction.isInteracting)
-        {
-            MissionBoxOpen();
-        }
-        else
+        if (!playerInteraction.isInteracting)
         {
             MissionBoxClose();
         }
     }
 
-    private void MissionBoxOpen()
+    public void MissionBoxOpen()
     {
         Debug.Log("미션상자 열기");
         IsUIOpen = true;
         // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 = ture; - return값
     }
-    private void MissionBoxClose()
+    public void MissionBoxClose()
     {
         Debug.Log("미션상자 닫기");
         IsUIOpen = false;

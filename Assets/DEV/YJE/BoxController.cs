@@ -2,8 +2,16 @@ using UnityEngine;
 
 public class BoxController : MonoBehaviour
 {
-
+    [SerializeField] PlayerInteraction playerInteraction;
     public bool IsUIOpen;
+
+    public void Update()
+    {
+        if (!playerInteraction.isInteracting)
+        {
+            BoxClose();
+        }
+    }
 
     // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 - public
     public void BoxOpen()
