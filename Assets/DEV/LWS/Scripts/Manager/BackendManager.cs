@@ -49,16 +49,17 @@ public class BackendManager : MonoBehaviour
             if (task.Result == DependencyStatus.Available)
             {
                 // 의존성 확인 및 문제 없을 경우 초기화
+                Debug.Log("파이어베이스 의존성 체크 성공 !");
+
                 app = FirebaseApp.DefaultInstance;
                 auth = FirebaseAuth.DefaultInstance;
                 database = FirebaseDatabase.DefaultInstance;
-
-                Debug.Log("파이어베이스 의존성 체크 성공 !");
             }
             else
             {
                 // 문제 발생의 경우 로그와 함께 에러 처리
                 Debug.LogError($"{task.Result} : 파이어베이스 의존성 체크 실패");
+
                 app = null;
                 auth = null;
                 database = null;

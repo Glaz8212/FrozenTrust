@@ -20,10 +20,15 @@ public class SignUpPanel : MonoBehaviour
         string confirm = passwordConfirmField.text;
 
         if (email.IsNullOrEmpty())
+        {
+            Debug.Log("이메일 미입력");
             return;
-
+        }
         if (password != confirm)
+        {
+            Debug.Log("비밀번호 불일치");
             return;
+        }
 
         BackendManager.Auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
         {

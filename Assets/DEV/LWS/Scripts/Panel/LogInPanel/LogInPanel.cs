@@ -41,13 +41,14 @@ public class LogInPanel : UIBinder
         BackendManager.Auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled || task.IsFaulted)
-            { 
+            {
+                Debug.Log("유저 로그인 실패");
                 errorPanel.SetActive(true);
                 return;
             }
 
             AuthResult result = task.Result;
-            Debug.Log($"User signed in successfully: {result.User.DisplayName} ({result.User.UserId})");
+            Debug.Log($"유저 로그인 성공");
 
             CheckUserInfo();
         });

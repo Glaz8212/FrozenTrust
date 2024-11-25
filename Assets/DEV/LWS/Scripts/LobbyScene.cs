@@ -33,10 +33,12 @@ public class LobbyScene : MonoBehaviourPunCallbacks
         {
             SetActivePanel(Panel.Menu);
         }
+        /*
         else
         {
             SetActivePanel(Panel.Login);
         }
+        */
     }
 
     public void SetActivePanel(Panel panel)
