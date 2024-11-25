@@ -1,25 +1,21 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemObj : MonoBehaviour
 {
     public ItemPool returnPool;
-    [SerializeField] List<ItemObj> itemPool;
 
-    [SerializeField] public List<ItemObj> woodItemPool;
-    [SerializeField] public List<ItemObj> oreItemPool;
-    [SerializeField] public List<ItemObj> fruitItemPool;
-    [SerializeField] public List<ItemObj> meatItemPool;
-
-    List<ItemObj> returnPoolList;
-    ItemObj returnObj;
+    public List<ItemObj> returnPoolList;
+    public ItemObj returnObj;
 
     private void OnEnable()
     {
-        
+        returnObj = GameObject.Find("SM_Env_Tree_02_Snow").GetComponent<ResourceController>().spawnItem;
+        returnPoolList = GameObject.Find("SM_Env_Tree_02_Snow").GetComponent<ResourceController>().spawnItemPool;
+
     }
-    public void ReturnFire(ItemObj returnObj, List<ItemObj> itemPool)
+
+    public void ReturnItem(ItemObj returnObj, List<ItemObj> itemPool)
     {
         Debug.Log("회수시작");
         returnPool.RetrunItemPool(returnObj, itemPool);

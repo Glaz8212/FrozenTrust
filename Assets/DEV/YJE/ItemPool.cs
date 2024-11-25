@@ -18,14 +18,13 @@ public class ItemPool : MonoBehaviour
             item.transform.parent = transform;
             itemPool.Add(item);
         }
-        itemPos = gameObject.transform.GetComponentInParent<ResourceController>().startItem;
+        // itemPos = gameObject.transform.GetComponentInParent<ResourceController>().startItem;
     }
 
     public ItemObj GetItemPool(Vector3 pos, Quaternion rotation, List<ItemObj> items)
     {
         if(items.Count > 0)
         {
-
         ItemObj showItem = items[items.Count - 1];
         showItem.transform.position = pos;
         showItem.transform.rotation = rotation;
