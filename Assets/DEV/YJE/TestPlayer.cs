@@ -20,7 +20,6 @@ public class TestPlayer : MonoBehaviour
             }
         }
 
-
         // 아이템과 트리거 발생 시
         if (other.gameObject.tag == "Item")
         {
