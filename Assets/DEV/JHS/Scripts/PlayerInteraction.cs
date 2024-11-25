@@ -18,27 +18,30 @@ public class PlayerInteraction : MonoBehaviour
     private void Update()
     {
         // E 키 입력 처리
-        if (Input.GetKeyDown(KeyCode.E)&& !isInteracting) //&& 불러온 상호작용 함수 != null )
+        if (Input.GetKeyDown(KeyCode.E) && !isInteracting && isCollider == true) //&& 불러온 상호작용 함수 != null )
         {
             isInteracting = true; // 상호작용 중 상태로 변경
             
             // 상호작용 함수 호출
+
         }
         // 상호작용한 오브젝트에서 상호작용이 끝났을때 false값을 설정 한걸 가져와야됨
         // 그 값이 false라면을 else if 조건에 넣어줘야됨 
         else if (isCollider == false) // || 또는 상호작용 창을 닫았을때 
         {
-            isInteracting = false; 
+            isInteracting = false;
         }
     }
 
-    private void OnCollisionStay(Collision collision)
+   
+    private void OnTriggerStay(Collider other)
     {
+        //if (other.CompareTag("Misson1"))
         // 충돌했을떄 상호작용 가능한 오브젝트인지 확인
         isCollider = true;
     }
 
-    private void OnCollisionExit(Collision collision)
+    private void OnTriggerExit(Collider other)
     {
         // 충돌이 종료되면 상호작용 상태 초기화 해줌
         isCollider = false;
