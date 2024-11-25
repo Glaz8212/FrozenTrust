@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private void Start()
+    /*private void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -73,23 +73,24 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             survivor.Add(players);
         }
-    }
+    }*/
 
     public void CheckWin()
     {
         // 배에 올라탔을 때 호출 함수
         if (traitorCount <= 0)// 생존자 승리조건
         {
-            GameStateChange(GameState.End);
-
+            //GameStateChange(GameState.End);
+            Debug.Log("승리");
         }
         else if (survivorCount <= traitorCount)// 배신자 승리조건
         {
-            GameStateChange(GameState.End);
+            //GameStateChange(GameState.End);
+            Debug.Log("패배");
         }
     }
 
-    public void GameStateChange(GameState state)
+    /*public void GameStateChange(GameState state)
     {
         curState = state;
 
@@ -114,5 +115,5 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("Game Ended");
         }
-    }
+    }*/
 }
