@@ -12,12 +12,14 @@ public abstract class Animal : MonoBehaviourPun
     [SerializeField] protected float maxHp;
     protected float curHp;
 
-    [SerializeField] public float Damage;
-    protected float damage
+    [SerializeField] protected float damage;
+    public float Damage
     {
-        get { return Damage; }
-        set { Damage = value; }
+        get { return damage; }
+        set { damage = value; }
     }
+
+    protected Animator animator;
 
     // 현재 상태
     protected AnimalState curState;
@@ -25,6 +27,7 @@ public abstract class Animal : MonoBehaviourPun
     protected virtual void Start()
     {
         curHp = maxHp;
+        animator = GetComponent<Animator>();
         SetState(new IdleState(this));
     }
 
@@ -60,14 +63,26 @@ public abstract class Animal : MonoBehaviourPun
             curState = new AttackState(this);
     }
 
+    [PunRPC]
+    private void SyncHealth(float updatedHp)
+    {
+        curHp = updatedHp;
+    }
+
+    public void PlayAnimation(string name)
+    {
+        animator.Play(name);
+    }
+
     public void TakeDamage(float damage)
     {
         // 마스터 클라이언트가 체력 관리
-
         if (!PhotonNetwork.IsMasterClient)
             return;
 
         curHp -= damage;
+        photonView.RPC("SyncHealth", RpcTarget.Others, curHp);
+
         if (curHp <= 0)
         {
             Die();
@@ -76,7 +91,14 @@ public abstract class Animal : MonoBehaviourPun
 
     protected virtual void Die()
     {
+        if (!PhotonNetwork.IsMasterClient)
+            return;
+
+        PlayAnimation("Die");
+
         // TODO: 고기 드랍
+        
+        
         PhotonNetwork.Destroy(gameObject);
     }
 

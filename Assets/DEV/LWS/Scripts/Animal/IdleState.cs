@@ -8,6 +8,7 @@ public class IdleState : AnimalState
 
     public override void Enter()
     {
+        animal.PlayAnimation("Idle");
         Debug.Log($"{animal.name} : Idle ป๓ลย");
     }
 

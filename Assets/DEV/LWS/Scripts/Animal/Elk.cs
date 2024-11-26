@@ -16,6 +16,8 @@ public class Elk : Animal
         {
             currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
         }
+
+        PlayAnimation("Move");
     }
 
     public override GameObject DetectPlayer()

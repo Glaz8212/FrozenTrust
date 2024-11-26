@@ -20,6 +20,7 @@ public class Wolf : Animal
         }
 
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+        PlayAnimation("Move");
     }
 
     public override GameObject DetectPlayer()

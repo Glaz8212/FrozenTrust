@@ -11,6 +11,10 @@ public class AttackState : AnimalState
     {
         targetPlayer = animal.DetectPlayer();
         Debug.Log($"{animal.name} : Attack ป๓ลย");
+        if (targetPlayer != null)
+        {
+            animal.PlayAnimation("Attack");
+        }
     }
 
     public override void Update()
