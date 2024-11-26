@@ -5,6 +5,14 @@ public class BoxController : MonoBehaviour
     [SerializeField] PlayerInteraction playerInteraction;
     public bool IsUIOpen;
 
+    private void OnTriggerStay(Collider other)
+    {
+        if(other.gameObject.tag == "Player")
+        {
+            playerInteraction = other.GetComponent<PlayerInteraction>();
+        }
+    }
+
     public void Update()
     {
         if (!playerInteraction.isInteracting)
