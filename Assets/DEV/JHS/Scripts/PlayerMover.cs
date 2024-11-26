@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
-public class PlayerMover : MonoBehaviour
+public class PlayerMover : MonoBehaviourPun, IPunObservable
 {
     
     private PlayerStatus status;
@@ -12,7 +13,9 @@ public class PlayerMover : MonoBehaviour
     public float rotationSpeed = 360;
 
     private Vector3 velocity;
-    
+    private Vector3 netPosition;
+    private Quaternion netRotation;
+
     private void Awake()
     {
         Init();
@@ -26,10 +29,17 @@ public class PlayerMover : MonoBehaviour
 
     private void Update()
     {
-        if (status.playerDie == false)
+        if (photonView.IsMine)
         {
-            MovePosition();
-        }        
+            if (status.playerDie == false)
+            {
+                MovePosition();
+            }
+        }
+        else
+        {
+            SmoothSync();
+        }
     }
     // animation ¸ðÀ½ isRunning isWalking isDead isKicking
     // isPunching_Left isPunching_Right
@@ -44,8 +54,8 @@ public class PlayerMover : MonoBehaviour
             animator.SetBool("isRunning", false);
             return;
         }
-        else if (direction != Vector3.zero)
-        {
+        else
+        { 
             direction.Normalize();
             animator.SetBool("isRunning", true);
             RotateToDirection(direction);
@@ -62,12 +72,29 @@ public class PlayerMover : MonoBehaviour
 
         controller.Move(move * Time.deltaTime);
         //transform.Translate(status.moveSpeed * Time.deltaTime * direction, Space.World);
-
     }
 
     private void RotateToDirection(Vector3 direction)
     {
         Quaternion targetRotation = Quaternion.LookRotation(direction, Vector3.up);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+    }
+    private void SmoothSync()
+    {
+        transform.position = Vector3.Lerp(transform.position, netPosition, Time.deltaTime * 10);
+        transform.rotation = Quaternion.Lerp(transform.rotation, netRotation, Time.deltaTime * 10);
+    }
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+        }
+        else
+        {
+            netPosition = (Vector3)stream.ReceiveNext();
+            netRotation = (Quaternion)stream.ReceiveNext();
+        }
     }
 }

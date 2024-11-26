@@ -21,8 +21,13 @@ public class PlayerInteraction : MonoBehaviour
 
     public MissionController missionController;
     public BoxController boxController;
-    public ItemController itemController;
+    public ItemTester itemTester;
+    public PlayerInventory playerInventory;
 
+    private void Awake()
+    {
+        playerInventory = GetComponent<PlayerInventory>();
+    }
     private void Update()
     {
         // E 키 입력 처리
@@ -39,7 +44,7 @@ public class PlayerInteraction : MonoBehaviour
                 case Type.Misson:
                     if (missionController != null)
                     {
-                        //missionController.MissionBoxOpen();
+                        missionController.MissionBoxOpen();
                     }
                     else
                     {
@@ -57,9 +62,10 @@ public class PlayerInteraction : MonoBehaviour
                     }
                     break;
                 case Type.Item:
-                    if (itemController != null)
+                    if (itemTester != null)
                     {
-                        itemController.SaveItem();
+                        // ItemTester 의 변수들을 플레이어인벤토리 AddItem로 실행
+                        playerInventory.AddItem(itemTester.itemName, itemTester.itemSprite, itemTester.itemCount);
                     }
                     else
                     {
@@ -95,8 +101,8 @@ public class PlayerInteraction : MonoBehaviour
         }
         else if (other.CompareTag("Item"))
         {
-            itemController = other.GetComponent<ItemController>();
-            if (itemController != null)
+            itemTester = other.GetComponent<ItemTester>();
+            if (itemTester != null)
             {
                 type = Type.Item;
             }
@@ -120,9 +126,9 @@ public class PlayerInteraction : MonoBehaviour
         {
             boxController = null;
         }
-        else if (other.GetComponent<ItemController>() == itemController)
+        else if (other.GetComponent<ItemController>() == itemTester)
         {
-            itemController = null;
+            itemTester = null;
         }
 
         type = Type.Idle;

@@ -1,8 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttacker : MonoBehaviour
+public class PlayerAttacker : MonoBehaviourPun
 {
     // 맨손, 근거리, 원거리
     public enum Type { Non, CloserWeapon, RangedWeapon }
@@ -16,11 +17,10 @@ public class PlayerAttacker : MonoBehaviour
 
     private void Update()
     {
-        if (attackTerm)
+        if (!photonView.IsMine || attackTerm)
             return;
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("명령1");
             attackTerm = true;            
             switch (type)
             {
@@ -28,8 +28,10 @@ public class PlayerAttacker : MonoBehaviour
                     Non();
                     break;
                 case Type.CloserWeapon:
+                    // 근접공격 패턴 구현 필요
                     break;
                 case Type.RangedWeapon:
+                    // 원거리 넣을꺼면 여기
                     break;
             }          
         }
@@ -42,9 +44,10 @@ public class PlayerAttacker : MonoBehaviour
             attackHand = true;
             // 좌수 펀치 애니메이션 실행
             animator.Play("Punch_LeftHand");
-            
+
             // 좌측 펀치 콜라이더 활성화
-            leftAttackArea.enabled = true;
+            //leftAttackArea.enabled = true;
+            //photonView.RPC("ActivateAttackArea", RpcTarget.All, true);
         }
         else if (attackHand)
         {
@@ -53,18 +56,39 @@ public class PlayerAttacker : MonoBehaviour
             animator.Play("Punch_RightHand");
            
             // 우측 펀치 콜라이더 활성화
-            rightAttackArea.enabled = true;
+            //rightAttackArea.enabled = true;
+            //photonView.RPC("ActivateAttackArea", RpcTarget.All, false);
         }
 
         StartCoroutine(EndAttack());
     }
     private IEnumerator EndAttack()
     {        
-        Debug.Log("명령4");
         yield return new WaitForSeconds(2f); // 공격 지속 시간
+        //leftAttackArea.enabled = false;
+        //rightAttackArea.enabled = false;
+        photonView.RPC("DeactivateAttackArea", RpcTarget.All);
+        attackTerm = false; // 공격 쿨타임 해제
+    }
+    /*
+    [PunRPC]
+    private void ActivateAttackArea(bool isLeft)
+    {
+        if (isLeft)
+        {
+            leftAttackArea.enabled = true;
+        }
+        else
+        {
+            rightAttackArea.enabled = true;
+        }
+    }
+
+    [PunRPC]
+    private void DeactivateAttackArea()
+    {
         leftAttackArea.enabled = false;
         rightAttackArea.enabled = false;
-        attackTerm = false; // 공격 쿨타임 해제
     }
 
     public void CloserWeapon()
@@ -74,5 +98,5 @@ public class PlayerAttacker : MonoBehaviour
     public void RangedWeapon()
     {
         // 원거리 애니메이션 실행
-    }  
+    }  */
 }
