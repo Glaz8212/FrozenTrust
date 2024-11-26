@@ -7,7 +7,7 @@ public class PlayerInventory : MonoBehaviourPun
 {
     public List<ItemData> inventory = new List<ItemData>(); // 로컬 인벤토리 데이터
     [SerializeField] RectTransform itemContent; // 프리팹이 생성 될 위치
-    public GameObject itemPrefab; // 아이템 프리팹
+    [SerializeField] GameObject itemPrefab; // 아이템 프리팹
 
     // 아이템 추가
     public void AddItem(string itemName, Sprite sprite, int quantity)
@@ -38,6 +38,42 @@ public class PlayerInventory : MonoBehaviourPun
         }
     }
 
+    public bool RemoveItem(string itemName, int itemCount)
+    {
+        ItemData playerItem = null;
+        foreach (ItemData item in inventory)
+        {
+            // 같은 아이템 존재시 삭제를 위해 대입하고 종료
+            if (item.itemData.itemName == itemName)
+            {
+                playerItem = item;
+                break;
+            }
+        }
+
+        // 인벤에 아이템이 있을 시 1개 제거
+        if (playerItem != null)
+        {
+            playerItem.itemData.itemCount -= itemCount;
+
+            if (playerItem.itemData.itemCount <= 0)
+            {
+                // 수량이 0 이하일 경우 제거
+                inventory.Remove(playerItem);
+                // UI 제거
+                Destroy(playerItem.itemPrefab.gameObject); 
+            }
+            else
+            {
+                UpdateItem(playerItem);
+            }
+            // 제거 성공
+            return true;
+        }
+        // 제거 실패
+        return false;
+    }
+
     // 아이템 생성
     private void CreateItemUI(ItemData item)
     {
@@ -48,12 +84,12 @@ public class PlayerInventory : MonoBehaviourPun
         ItemPrefab itemUI = newItem.GetComponent<ItemPrefab>();
         itemUI.SetItemUI(item.itemData.itemSprite, item.itemData.itemName, item.itemData.itemCount);
 
-        // UI 객체를 item에 연결
+        // UI 객체를 연결
         item.itemPrefab = itemUI;
     }
 
     // 아이템 업데이트
-    private void UpdateItem(ItemData item)
+    public void UpdateItem(ItemData item)
     {
         if (item.itemPrefab != null)
         {
@@ -62,11 +98,14 @@ public class PlayerInventory : MonoBehaviourPun
     }
 }
 
-// 아이템과 UI 요소를 함께 관리하는 클래스
+// 아이템과 UI 요소를 관리하는 클래스
+[System.Serializable]
 public class ItemData
 {
-    public ItemTester itemData; // 아이템 데이터
-    public ItemPrefab itemPrefab; // 아이템 UI 요소
+    // 아이템 데이터
+    public ItemTester itemData;
+    // 아이템 UI 요소
+    public ItemPrefab itemPrefab;
 
     public ItemData(ItemTester item)
     {
