@@ -7,6 +7,7 @@ using UnityEngine;
 public class GameSceneManager : MonoBehaviourPun
 {
     public static GameSceneManager Instance;
+    public MissionController missionController;
 
     public float gameTimer = 900f; // 15분 타이머
     public TMP_Text timerText;
@@ -26,7 +27,20 @@ public class GameSceneManager : MonoBehaviourPun
 
     private void Start()
     {
-        //MissionController = GetComponent<MissionController>();
+        missionController = GetComponent<MissionController>();
+    }
+
+    private void Update()
+    {
+        if (missionController.IsEndingClear == true)
+        {
+            GameManager.Instance.CheckWin(true);
+        }
+
+        if (false)// player = deathplayer
+        {
+            GameManager.Instance.CheckWin(false);
+        }
     }
 
     private IEnumerator GameTimerCoroutine()

@@ -14,4 +14,11 @@ public class ItemTester : MonoBehaviour
         itemSprite = sprite;
         itemCount = count;
     }
+
+    public void interaction(PlayerInventory playerInventory)
+    {
+        playerInventory.AddItem(itemName, itemSprite, itemCount);
+
+        Destroy(gameObject);
+    }
 }

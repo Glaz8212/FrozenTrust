@@ -75,15 +75,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }*/
 
-    public void CheckWin()
+    public void CheckWin(bool checkwin)
     {
         // 배에 올라탔을 때 호출 함수
-        if (traitorCount <= 0)// 생존자 승리조건
+        if (checkwin == true)// 생존자 승리조건
         {
             //GameStateChange(GameState.End);
             Debug.Log("승리");
         }
-        else if (survivorCount <= traitorCount)// 배신자 승리조건
+        else if (checkwin == false)// 배신자 승리조건
         {
             //GameStateChange(GameState.End);
             Debug.Log("패배");
