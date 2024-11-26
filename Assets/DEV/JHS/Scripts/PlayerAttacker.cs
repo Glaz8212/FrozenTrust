@@ -47,7 +47,7 @@ public class PlayerAttacker : MonoBehaviourPun
 
             // 좌측 펀치 콜라이더 활성화
             //leftAttackArea.enabled = true;
-            //photonView.RPC("ActivateAttackArea", RpcTarget.All, true);
+            photonView.RPC("ActivateAttackArea", RpcTarget.All, true);
         }
         else if (attackHand)
         {
@@ -57,7 +57,7 @@ public class PlayerAttacker : MonoBehaviourPun
            
             // 우측 펀치 콜라이더 활성화
             //rightAttackArea.enabled = true;
-            //photonView.RPC("ActivateAttackArea", RpcTarget.All, false);
+            photonView.RPC("ActivateAttackArea", RpcTarget.All, false);
         }
 
         StartCoroutine(EndAttack());
@@ -70,7 +70,7 @@ public class PlayerAttacker : MonoBehaviourPun
         photonView.RPC("DeactivateAttackArea", RpcTarget.All);
         attackTerm = false; // 공격 쿨타임 해제
     }
-    /*
+    
     [PunRPC]
     private void ActivateAttackArea(bool isLeft)
     {
@@ -98,5 +98,5 @@ public class PlayerAttacker : MonoBehaviourPun
     public void RangedWeapon()
     {
         // 원거리 애니메이션 실행
-    }  */
+    }  
 }
