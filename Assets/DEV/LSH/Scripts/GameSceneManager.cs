@@ -23,7 +23,21 @@ public class GameSceneManager : MonoBehaviourPun
         {
             Destroy(gameObject);
         }
+
+        StartCoroutine(StartDelayRoutine());
     }
+
+    IEnumerator StartDelayRoutine()
+    {
+        yield return new WaitForSeconds(1f); // 네트워크 준비에 필요한 시간 살짝 주기
+        PlayerSpawn();
+    }
+
+    private void PlayerSpawn()
+        {
+            Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+            PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
+        }
 
     private void Start()
     {
