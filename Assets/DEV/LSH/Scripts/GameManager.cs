@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Tilemaps.Tilemap;
 
 public class GameManager : MonoBehaviourPunCallbacks
 {
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] int survivorCount;       // 생존자 수
     [SerializeField] List<int> survivor;
     [SerializeField] List<int> traitor;
+    private int playerRole;
 
     private void Awake()
     {
@@ -36,7 +38,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    /*private void Start()
+    private void Start()
     {
         if (PhotonNetwork.IsMasterClient)
         {
@@ -47,11 +49,11 @@ public class GameManager : MonoBehaviourPunCallbacks
     public void PlayerEnemyReRoll()
     {
         int playerList = PhotonNetwork.PlayerList.Length;
-        
+
         // 배신자는 4명당 1명 최소 인원 4명
         traitorCount = Mathf.Max(1, playerList / 4);
         survivorCount = playerList - traitorCount;
-        
+
         List<int> playerId = new List<int>();
 
         // 플레이어 ID 저장
@@ -61,9 +63,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // 랜덤으로 배신자 역할 배정
-        for (int i = 0; i < traitorCount; i++)
+        for (int i = 1; i < traitorCount; i++)
         {
-            int rand = Random.Range(0, survivorCount);
+            int rand = Random.Range(0, playerId.Count);
             traitor.Add(playerId[rand]);
             playerId.RemoveAt(rand);
         }
@@ -73,7 +75,39 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             survivor.Add(players);
         }
-    }*/
+
+        // 모든 클라이언트에 역할 동기화
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            int role;
+
+            if (traitor.Contains(player.ActorNumber))
+            {
+                role = 1; // 배신자
+            }
+            else
+            {
+                role = 0; // 생존자
+            }
+
+            photonView.RPC(nameof(SynchRoles), player, role);
+        }
+    }
+
+    [PunRPC]
+    private void SynchRoles(int role)
+    {
+        playerRole = role;
+
+        if (role == 1)
+        {
+            Debug.Log("배신자!");
+        }
+        else
+        {
+            Debug.Log("생존자!");
+        }
+    }
 
     public void CheckWin(bool checkwin)
     {
@@ -90,7 +124,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    /*public void GameStateChange(GameState state)
+    public void GameStateChange(GameState state)
     {
         curState = state;
 
@@ -115,5 +149,5 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("Game Ended");
         }
-    }*/
+    }
 }

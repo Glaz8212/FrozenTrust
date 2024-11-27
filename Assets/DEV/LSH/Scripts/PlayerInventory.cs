@@ -31,8 +31,9 @@ public class PlayerInventory : MonoBehaviourPun
         else
         {
             // 새 아이템 추가
-            ItemTester newItem = new ItemTester(itemName, sprite, quantity);
-            ItemData newItemData = new ItemData(newItem);
+            //Item newItem = new Item(itemName, sprite, quantity);
+            //ItemData newItemData = new ItemData(newItem);
+            ItemData newItemData = new ItemData(new Item(itemName, sprite, quantity));
             inventory.Add(newItemData);
             CreateItemUI(newItemData);
         }
@@ -103,11 +104,11 @@ public class PlayerInventory : MonoBehaviourPun
 public class ItemData
 {
     // 아이템 데이터
-    public ItemTester itemData;
+    public Item itemData;
     // 아이템 UI 요소
     public ItemPrefab itemPrefab;
 
-    public ItemData(ItemTester item)
+    public ItemData(Item item)
     {
         this.itemData = item;
     }
