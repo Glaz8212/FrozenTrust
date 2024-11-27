@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class PlayerAttacker : MonoBehaviourPun
 {
@@ -10,31 +11,45 @@ public class PlayerAttacker : MonoBehaviourPun
     public Type type = Type.Non;
     public bool attackTerm = false; // 공속
     private bool attackHand = false; // 좌우 펀치 공격 판정
+    private PlayerStatus status;
     [SerializeField] BoxCollider leftAttackArea; // 맨손 공격 판정 // 무기 든거는 무기 오브젝트에다가 추가. 휘두르는 모션만 구현
     [SerializeField] BoxCollider rightAttackArea;
 
     [SerializeField] Animator animator;
 
+    private void Awake()
+    {
+        Init();
+    }
+
+    private void Init()
+    {
+        status = GetComponent<PlayerStatus>();
+    }
+
     private void Update()
     {
         if (!photonView.IsMine || attackTerm)
             return;
-        if (Input.GetMouseButtonDown(0))
+        if (status.playerDie == false)
         {
-            attackTerm = true;            
-            switch (type)
+            if (Input.GetMouseButtonDown(0))
             {
-                case Type.Non:
-                    Non();
-                    break;
-                case Type.CloserWeapon:
-                    // 근접공격 패턴 구현 필요
-                    break;
-                case Type.RangedWeapon:
-                    // 원거리 넣을꺼면 여기
-                    break;
-            }          
-        }
+                attackTerm = true;
+                switch (type)
+                {
+                    case Type.Non:
+                        Non();
+                        break;
+                    case Type.CloserWeapon:
+                        // 근접공격 패턴 구현 필요
+                        break;
+                    case Type.RangedWeapon:
+                        // 원거리 넣을꺼면 여기
+                        break;
+                }
+            }
+        }       
     }
 
     public void Non()

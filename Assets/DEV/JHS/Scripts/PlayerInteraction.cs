@@ -23,15 +23,17 @@ public class PlayerInteraction : MonoBehaviour
     public BoxController boxController;
     public Item item;
     public PlayerInventory playerInventory;
+    private PlayerStatus status;
 
     private void Awake()
     {
+        status = GetComponent<PlayerStatus>();
         playerInventory = GetComponent<PlayerInventory>();
     }
     private void Update()
     {
         // E 키 입력 처리
-        if (Input.GetKeyDown(KeyCode.E) && !isInteracting && isCollider)
+        if (Input.GetKeyDown(KeyCode.E) && !isInteracting && isCollider && status.playerDie == false)
         {
             isInteracting = true; // 상호작용 중 상태로 변경
 
