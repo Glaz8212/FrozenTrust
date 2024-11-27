@@ -31,9 +31,8 @@ public class PlayerInventory : MonoBehaviourPun
         else
         {
             // 새 아이템 추가
-            //Item newItem = new Item(itemName, sprite, quantity);
-            //ItemData newItemData = new ItemData(newItem);
-            ItemData newItemData = new ItemData(new Item(itemName, sprite, quantity));
+            Item newItem = new Item(itemName, sprite, quantity);
+            ItemData newItemData = new ItemData(newItem);
             inventory.Add(newItemData);
             CreateItemUI(newItemData);
         }

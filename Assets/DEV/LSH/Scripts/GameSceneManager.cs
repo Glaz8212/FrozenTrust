@@ -8,6 +8,8 @@ public class GameSceneManager : MonoBehaviourPun
 {
     public static GameSceneManager Instance;
     public MissionController missionController;
+    public GameObject nowPlayer;
+
 
     public float gameTimer = 900f; // 15분 타이머
     public TMP_Text timerText;
@@ -36,7 +38,7 @@ public class GameSceneManager : MonoBehaviourPun
     private void PlayerSpawn()
         {
             Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
-            PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
+            nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
         }
 
     private void Start()

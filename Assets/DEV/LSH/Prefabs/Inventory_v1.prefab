@@ -2157,7 +2157,7 @@ GameObject:
   - component: {fileID: 4433711025551355829}
   - component: {fileID: 4435720582230144711}
   - component: {fileID: 4543125417450602901}
-  - component: {fileID: 4511422558861173728}
+  - component: {fileID: 375552992295828716}
   m_Layer: 5
   m_Name: Inventory_v1
   m_TagString: Untagged
@@ -2226,7 +2226,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4511422558861173728
+--- !u!114 &375552992295828716
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
