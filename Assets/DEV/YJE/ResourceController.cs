@@ -8,7 +8,7 @@ public class ResourceController : MonoBehaviourPun
     public int curHp;
 
     public Vector3 startPos; // 처음 스폰 위치를 기억
-    private Vector3 itemSpawnPos; // 아이템 스폰 위치
+    public Vector3 itemSpawnPos; // 아이템 스폰 위치
     private float range;
     [SerializeField] int second; // 리스폰 시간
 
@@ -19,10 +19,10 @@ public class ResourceController : MonoBehaviourPun
         curHp = maxHp;
         startPos = transform.position;
         resourceName = gameObject.name;
-        range = Random.Range(-2f, 2f);
-        itemSpawnPos = new Vector3(startPos.x + range,
-                                    startPos.y + 0.5f,
-                                    startPos.z + range);
+        /* range = Random.Range(-1.2f, 1.2f);
+         itemSpawnPos = new Vector3(Random.onUnitSphere.x * range + startPos.x,
+                            startPos.y + 0.5f,
+                            Random.onUnitSphere.z * range + startPos.z); */
     }
     /* TODO : 아이템의 생성위치와 자원 오브젝트의 위치가 겹치지 않도록 설정할 필요가 있음
      private void CheckRespawnPos()
@@ -57,7 +57,18 @@ public class ResourceController : MonoBehaviourPun
 
     private void Die()
     {
-        StartCoroutine(DieRoutine());
+        if (!photonView.IsMine)
+        {
+            return;
+        }
+        else
+        {
+            range = Random.Range(1.5f, 2f);
+            itemSpawnPos = new Vector3(Random.onUnitSphere.x * range + startPos.x,
+                               startPos.y + 0.5f,
+                               Random.onUnitSphere.z * range + startPos.z);
+            StartCoroutine(DieRoutine());
+        }
     }
 
     IEnumerator DieRoutine()
@@ -69,7 +80,7 @@ public class ResourceController : MonoBehaviourPun
                 PhotonNetwork.Instantiate("YJE/Wood", itemSpawnPos, Quaternion.identity);
                 break;
             case "R_Rock":
-                PhotonNetwork.Instantiate("YJE/Rock", itemSpawnPos, Quaternion.identity);
+                PhotonNetwork.Instantiate("YJE/Ore", itemSpawnPos, Quaternion.identity);
                 break;
             case "R_Grass":
                 PhotonNetwork.Instantiate("YJE/Fruit", itemSpawnPos, Quaternion.identity);

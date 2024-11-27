@@ -10,6 +10,14 @@ public class MissionController : MonoBehaviour
     public bool IsUIOpen;
     // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 - public
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            playerInteraction = other.GetComponent<PlayerInteraction>();
+        }
+    }
+
     public void Update()
     {
         if (!playerInteraction.isInteracting)

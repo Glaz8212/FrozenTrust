@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7245028349710011455}
   - component: {fileID: 7245028349710011454}
   m_Layer: 0
-  m_Name: Rock
+  m_Name: Ore
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
