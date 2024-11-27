@@ -42,6 +42,10 @@ public class GameSceneManager : MonoBehaviourPun
     private void Start()
     {
         missionController = GetComponent<MissionController>();
+        if (PhotonNetwork.IsMasterClient)
+        {
+            StartCoroutine(GameTimerCoroutine());
+        }
     }
 
     private void Update()

@@ -21,7 +21,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public MissionController missionController;
     public BoxController boxController;
-    public ItemTester itemTester;
+    public Item itemTester;
     public PlayerInventory playerInventory;
 
     private void Awake()
@@ -101,7 +101,7 @@ public class PlayerInteraction : MonoBehaviour
         }
         else if (other.CompareTag("Item"))
         {
-            itemTester = other.GetComponent<ItemTester>();
+            itemTester = other.GetComponent<Item>();
             if (itemTester != null)
             {
                 type = Type.Item;
