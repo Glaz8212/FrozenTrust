@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 150408435}
   - component: {fileID: 150408434}
+  - component: {fileID: 150408436}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -171,6 +172,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &150408436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 150408433}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  observableSearch: 2
+  ObservedComponents: []
+  sceneViewId: 10
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
 --- !u!135 &155875972
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -683,6 +706,7 @@ MonoBehaviour:
   maxHp: 10
   curHp: 0
   startPos: {x: 0, y: 0, z: 0}
+  itemSpawnPos: {x: 0, y: 0, z: 0}
   second: 10
 --- !u!114 &807894326
 MonoBehaviour:
@@ -813,7 +837,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e73e07d6756d5004e8de110fa3ec0d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInteraction: {fileID: 6922139774940341382}
+  playerInteraction: {fileID: 0}
   IsUIOpen: 0
 --- !u!1 &963194225
 GameObject:
@@ -912,7 +936,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3306741558148940536, guid: 1596c1acf915dac449eb7d0125b9ee22, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.436646
+      value: 9.37
       objectReference: {fileID: 0}
     - target: {fileID: 3306741558148940536, guid: 1596c1acf915dac449eb7d0125b9ee22, type: 3}
       propertyPath: m_LocalPosition.y
@@ -920,7 +944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3306741558148940536, guid: 1596c1acf915dac449eb7d0125b9ee22, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -21.244598
+      value: -2.97
       objectReference: {fileID: 0}
     - target: {fileID: 3306741558148940536, guid: 1596c1acf915dac449eb7d0125b9ee22, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1512,7 +1536,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b24aed07094b7e498af733a9030e8e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerInteraction: {fileID: 6922139774940341382}
+  playerInteraction: {fileID: 0}
   Is1Clear: 0
   Is2Clear: 0
   IsEndingClear: 0
@@ -2090,6 +2114,7 @@ MonoBehaviour:
   maxHp: 10
   curHp: 0
   startPos: {x: 0, y: 0, z: 0}
+  itemSpawnPos: {x: 0, y: 0, z: 0}
   second: 10
 --- !u!114 &64152966226563792
 MonoBehaviour:
@@ -2202,6 +2227,7 @@ MonoBehaviour:
   maxHp: 10
   curHp: 0
   startPos: {x: 0, y: 0, z: 0}
+  itemSpawnPos: {x: 0, y: 0, z: 0}
   second: 10
 --- !u!114 &64841096134682226
 MonoBehaviour:
