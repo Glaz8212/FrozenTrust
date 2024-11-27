@@ -321,6 +321,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2028312041079470350, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 795075670}
     - target: {fileID: 3146506913364623788, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -385,8 +389,25 @@ PrefabInstance:
       propertyPath: sceneViewId
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4731461519204964037, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
+      propertyPath: observableSearch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731461519204964037, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
+      propertyPath: ObservedComponents.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4731461519204964037, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
+      propertyPath: ObservedComponents.Array.data[3]
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
+--- !u!95 &795075670 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4348890797106946645, guid: 39d2e0e21a56e6a40915d5dd4d2c2343, type: 3}
+  m_PrefabInstance: {fileID: 795075669}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
