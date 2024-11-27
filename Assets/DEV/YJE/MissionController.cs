@@ -1,30 +1,15 @@
 using UnityEngine;
 
+/// <summary>
+/// TODO: MissionBox들의 UI관리 필요
+/// </summary>
 public class MissionController : MonoBehaviour
 {
-    [SerializeField] PlayerInteraction playerInteraction;
     public bool Is1Clear = false;
     public bool Is2Clear = false;
     public bool IsEndingClear = false;
 
     public bool IsUIOpen;
-    // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 - public
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.gameObject.tag == "Player")
-        {
-            playerInteraction = other.GetComponent<PlayerInteraction>();
-        }
-    }
-
-    public void Update()
-    {
-        if (!playerInteraction.isInteracting)
-        {
-            MissionBoxClose();
-        }
-    }
 
     public void MissionBoxOpen()
     {

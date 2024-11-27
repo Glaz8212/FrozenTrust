@@ -69,6 +69,6 @@ public class TestGameScene : MonoBehaviourPunCallbacks
     {
         //플레이어를 생성할 랜덤한 위치
         Vector3 randomPos = new Vector3(Random.Range(-3f, 3f), 0, Random.Range(-3f, 3f));
-        PhotonNetwork.Instantiate("YJE/TesterPlayer", randomPos, Quaternion.identity);
+        PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
     }
 }

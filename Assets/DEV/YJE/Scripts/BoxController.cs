@@ -1,25 +1,11 @@
 using UnityEngine;
 
+/// <summary>
+/// TODO: ItemBox들의 UI관리 필요
+/// </summary>
 public class BoxController : MonoBehaviour
 {
-    [SerializeField] PlayerInteraction playerInteraction;
     public bool IsUIOpen;
-
-    private void OnTriggerStay(Collider other)
-    {
-        if(other.gameObject.tag == "Player")
-        {
-            playerInteraction = other.GetComponent<PlayerInteraction>();
-        }
-    }
-
-    public void Update()
-    {
-        if (!playerInteraction.isInteracting)
-        {
-            BoxClose();
-        }
-    }
 
     // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 - public
     public void BoxOpen()
