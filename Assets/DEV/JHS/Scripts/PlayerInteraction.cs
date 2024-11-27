@@ -21,7 +21,7 @@ public class PlayerInteraction : MonoBehaviour
 
     public MissionController missionController;
     public BoxController boxController;
-    public Item itemTester;
+    public Item item;
     public PlayerInventory playerInventory;
 
     private void Awake()
@@ -62,14 +62,14 @@ public class PlayerInteraction : MonoBehaviour
                     }
                     break;
                 case Type.Item:
-                    if (itemTester != null)
+                    if (item != null)
                     {
                         // 아이템 테스터의 interaction에 playerInventory를 넣어 실행
-                        itemTester.interaction(playerInventory);                      
+                        item.interaction(playerInventory);
                     }
                     else
                     {
-                        Debug.LogWarning("ItemController가 설정되지 않았습니다.");
+                        Debug.LogWarning("item이 설정되지 않았습니다.");
                     }
                     break;
             }
@@ -78,6 +78,10 @@ public class PlayerInteraction : MonoBehaviour
         // 그 값이 false라면을 else if 조건에 넣어줘야됨 
         else if (!isCollider || (missionController != null && !missionController.IsUIOpen) || (boxController != null && !boxController.IsUIOpen))
         {
+            if (boxController != null)
+            {
+                boxController.BoxOpen();
+            }
             isInteracting = false;
         }
     }
@@ -96,13 +100,15 @@ public class PlayerInteraction : MonoBehaviour
         else if (other.CompareTag("ItemBox"))
         {
             boxController = other.GetComponent<BoxController>();
-            
-            type = Type.ItemBox;
+            if (boxController != null)
+            {
+                type = Type.ItemBox;
+            }
         }
         else if (other.CompareTag("Item"))
         {
-            itemTester = other.GetComponent<Item>();
-            if (itemTester != null)
+            item = other.GetComponent<Item>();
+            if (item != null)
             {
                 type = Type.Item;
             }
@@ -126,9 +132,9 @@ public class PlayerInteraction : MonoBehaviour
         {
             boxController = null;
         }
-        else if (other.GetComponent<ItemController>() == itemTester)
+        else if (other.GetComponent<ItemController>() == item)
         {
-            itemTester = null;
+            item = null;
         }
 
         type = Type.Idle;
