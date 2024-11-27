@@ -18,6 +18,7 @@ public class PlayerEntry : MonoBehaviour
         if (player.IsMasterClient)
         {
             nameText.text = $"Master\n{player.NickName}";
+            Debug.Log($"Master{player.NickName}");
         }
         else
         {
