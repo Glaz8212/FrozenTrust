@@ -23,9 +23,9 @@ public class InvenTester : MonoBehaviour
         }
 
         // R키로 아이템 삭제
-        if (Input.GetKeyDown(KeyCode.R) && playerInventory.inventory.Count > 0)
+        /*if (Input.GetKeyDown(KeyCode.R) && playerInventory.inventory.Count > 0)
         {
             playerInventory.RemoveItem("Wood", 1);
-        }
+        }*/
     }
 }
