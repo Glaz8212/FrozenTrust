@@ -19,23 +19,8 @@ public class ResourceController : MonoBehaviourPun
         curHp = maxHp;
         startPos = transform.position;
         resourceName = gameObject.name;
-        /* range = Random.Range(-1.2f, 1.2f);
-         itemSpawnPos = new Vector3(Random.onUnitSphere.x * range + startPos.x,
-                            startPos.y + 0.5f,
-                            Random.onUnitSphere.z * range + startPos.z); */
     }
-    /* TODO : 아이템의 생성위치와 자원 오브젝트의 위치가 겹치지 않도록 설정할 필요가 있음
-     private void CheckRespawnPos()
-    {
-        while(itemSpawnPos == startPos)
-        {
-            range = Random.Range(-2f, 2f);
-            itemSpawnPos = new Vector3(startPos.x + range,
-                                        startPos.y + 0.5f,
-                                        startPos.z + range);
-        }
-
-    }*/
+  
     /// <summary>
     /// Player와 Resource의 상호작용 함수 - 삭제 시 주의 요망
     /// Resource의 사망상태를 처리

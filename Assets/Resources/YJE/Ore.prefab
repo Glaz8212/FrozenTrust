@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 7236489791004198097}
   - component: {fileID: 7245028349710011455}
   - component: {fileID: 7245028349710011454}
+  - component: {fileID: 69346932404222253}
   m_Layer: 0
   m_Name: Ore
   m_TagString: Item
@@ -170,3 +171,18 @@ MonoBehaviour:
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
   m_UseLocal: 1
+--- !u!114 &69346932404222253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7236489791004079092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c4be0cde7f16f438542560eaae0611, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemName: Ore
+  itemSprite: {fileID: 21300000, guid: 4c0304db686647848ba5e61b9c6061fb, type: 3}
+  itemCount: 1
