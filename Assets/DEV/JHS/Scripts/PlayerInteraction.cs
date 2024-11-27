@@ -64,8 +64,8 @@ public class PlayerInteraction : MonoBehaviour
                 case Type.Item:
                     if (itemTester != null)
                     {
-                        // ItemTester 의 변수들을 플레이어인벤토리 AddItem로 실행
-                        playerInventory.AddItem(itemTester.itemName, itemTester.itemSprite, itemTester.itemCount);
+                        // 아이템 테스터의 interaction에 playerInventory를 넣어 실행
+                        itemTester.interaction(playerInventory);                      
                     }
                     else
                     {
