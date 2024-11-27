@@ -1,3 +1,4 @@
+using Cinemachine;
 using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
@@ -11,6 +12,7 @@ using UnityEngine;
 public class TestGameScene : MonoBehaviourPunCallbacks
 {
     public const string RoomName = "TestRoom";
+    public GameObject nowPlayer;
 
     /// <summary>
     /// 게임 시작하자마자 연결을 세팅
@@ -69,6 +71,6 @@ public class TestGameScene : MonoBehaviourPunCallbacks
     {
         //플레이어를 생성할 랜덤한 위치
         Vector3 randomPos = new Vector3(Random.Range(-3f, 3f), 0, Random.Range(-3f, 3f));
-        PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
+        nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
     }
 }
