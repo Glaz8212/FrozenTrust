@@ -10,14 +10,20 @@ public class Elk : Animal
     public override void OnIdleUpdate(IdleState state)
     {
         Vector3 target = patrolPoints[currentPointIndex];
+        Vector3 dir = target - transform.position;
+
+        RotateTowardsDirection(dir);
+        
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
+
+
 
         if (Vector3.Distance(transform.position, target) < 0.1f)
         {
             currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
         }
 
-        PlayAnimation("Move");
+        PlayMoveAnimation();
     }
 
     public override GameObject DetectPlayer()

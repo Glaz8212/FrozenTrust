@@ -8,7 +8,7 @@ public class IdleState : AnimalState
 
     public override void Enter()
     {
-        animal.PlayAnimation("Idle");
+        animal.PlayIdleAnimation();
         Debug.Log($"{animal.name} : Idle ป๓ลย");
     }
 
@@ -19,6 +19,7 @@ public class IdleState : AnimalState
         GameObject detectedPlayer = animal.DetectPlayer();
         if (detectedPlayer != null)
         {
+            animal.RotateTowardsTarget(detectedPlayer.transform.position);
             animal.SetState(new AttackState(animal));
         }
     }
