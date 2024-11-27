@@ -5,6 +5,7 @@ using UnityEngine;
 public class AttackState : AnimalState
 {
     private GameObject targetPlayer;
+    private bool isAttacking = false;
     public AttackState(Animal animal) : base(animal) { }
 
     public override void Enter()
@@ -13,7 +14,8 @@ public class AttackState : AnimalState
         Debug.Log($"{animal.name} : Attack 상태");
         if (targetPlayer != null)
         {
-            animal.PlayAnimation("Attack");
+            animal.PlayAttackAnimation();
+            animal.StartCoroutine(AttackRoutine());
         }
     }
 
@@ -21,17 +23,34 @@ public class AttackState : AnimalState
     {
         if (targetPlayer == null)
             return;
+        
+        animal.RotateTowardsTarget(targetPlayer.transform.position);
 
         float distance = Vector3.Distance(animal.transform.position, targetPlayer.transform.position);
 
-        if (distance < 2f)
+        if (distance > 5f)
         {
-            targetPlayer.GetComponent<PlayerStatus>()?.TakeHP(animal.Damage);
+            animal.SetState(new IdleState(animal));
+            return;
         }
     }
 
     public override void Exit()
     {
-        Debug.Log($"{animal.name} : Attack 상태 종료");
+        animal.PlayIdleAnimation();
+    }
+
+    private IEnumerator AttackRoutine()
+    {
+        isAttacking = true;
+        while (isAttacking)
+        {
+            if (targetPlayer != null)
+            {
+                targetPlayer.GetComponent<PlayerStatus>()?.TakeHP(animal.Damage);
+            }
+
+            yield return new WaitForSeconds(1f);
+        }
     }
 }

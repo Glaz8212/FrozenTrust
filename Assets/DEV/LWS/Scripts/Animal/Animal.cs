@@ -69,9 +69,25 @@ public abstract class Animal : MonoBehaviourPun
         curHp = updatedHp;
     }
 
-    public void PlayAnimation(string name)
+    public void PlayIdleAnimation()
     {
-        animator.Play(name);
+        animator.SetBool("isMoving", false);
+        animator.SetBool("isAttacking", false);
+    }
+
+    public void PlayMoveAnimation()
+    {
+        animator.SetBool("isMoving", true);
+    }
+
+    public void PlayAttackAnimation()
+    {
+        animator.SetBool("isAttacking", true);
+    }
+
+    public void PlayDieAnimation()
+    {
+        animator.SetBool("isDead", true);
     }
 
     public void TakeDamage(float damage)
@@ -88,13 +104,31 @@ public abstract class Animal : MonoBehaviourPun
             Die();
         }
     }
+    public void RotateTowardsTarget(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        if (direction.magnitude > 0.1f)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f);
+        }
+    }
+
+    public void RotateTowardsDirection(Vector3 direction)
+    {
+        if (direction.sqrMagnitude > 0.01f) // 방향 벡터가 0이 아니면
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // 5f는 회전 속도
+        }
+    }
 
     protected virtual void Die()
     {
         if (!PhotonNetwork.IsMasterClient)
             return;
 
-        PlayAnimation("Die");
+        PlayDieAnimation();
 
         // TODO: 고기 드랍
         
