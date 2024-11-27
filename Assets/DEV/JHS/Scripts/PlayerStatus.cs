@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -27,6 +28,7 @@ public class PlayerStatus : MonoBehaviour
     public float hunger; // 현재 허기
     [SerializeField] public float warmthMax; // 최대 온기 500
     public float warmth; // 현재 온기
+    [SerializeField] Animator animator;
     // 캐릭터 상태
     PlayerState state = PlayerState.Idle;
     public bool playerDie = false;
@@ -53,6 +55,8 @@ public class PlayerStatus : MonoBehaviour
 
     private void Update()
     {
+        if (playerDie) return;
+
         switch (state)
         {
             case PlayerState.Idle:
@@ -144,10 +148,11 @@ public class PlayerStatus : MonoBehaviour
     }
     private void Die()
     {
+        if (playerDie) return;
         // 사망 조작X 
         playerDie = true;
-        // 사망 애니메이션 고정 
-        Debug.Log("사망쓰");
+        animator.SetBool("isDead", true); // 사망 애니메이션 재생
+        Debug.Log("플레이어가 사망했습니다.");
     }
 
     // ----------------환경 요소 ------------------
