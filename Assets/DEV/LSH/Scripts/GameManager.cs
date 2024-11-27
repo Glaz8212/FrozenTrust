@@ -63,11 +63,13 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
 
         // 랜덤으로 배신자 역할 배정
-        for (int i = 1; i < traitorCount; i++)
+        for (int i = 0; i < traitorCount; i++)
         {
+            Debug.Log("반복문 실행");
             int rand = Random.Range(0, playerId.Count);
             traitor.Add(playerId[rand]);
             playerId.RemoveAt(rand);
+            Debug.Log($"배신자는 : {traitor[0]}");
         }
 
         // 나머지 플레이어를 생존자로 설정
@@ -76,6 +78,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             survivor.Add(players);
         }
 
+        Debug.Log("RPC시작전");
         // 모든 클라이언트에 역할 동기화
         foreach (Player player in PhotonNetwork.PlayerList)
         {
@@ -90,7 +93,9 @@ public class GameManager : MonoBehaviourPunCallbacks
                 role = 0; // 생존자
             }
 
-            photonView.RPC(nameof(SynchRoles), player, role);
+            
+            photonView.RPC(nameof(SynchRoles), RpcTarget.All, role);
+            Debug.Log("RPC시작후");
         }
     }
 
