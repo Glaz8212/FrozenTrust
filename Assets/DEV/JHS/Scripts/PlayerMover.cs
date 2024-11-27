@@ -25,6 +25,8 @@ public class PlayerMover : MonoBehaviourPun, IPunObservable
     {
         status = GetComponent<PlayerStatus>();
         controller = GetComponent<CharacterController>();
+        netPosition = transform.position;
+        netRotation = transform.rotation;
     }
 
     private void Update()
@@ -81,18 +83,29 @@ public class PlayerMover : MonoBehaviourPun, IPunObservable
     }
     private void SmoothSync()
     {
-        transform.position = Vector3.Lerp(transform.position, netPosition, Time.deltaTime * 10);
-        transform.rotation = Quaternion.Lerp(transform.rotation, netRotation, Time.deltaTime * 10);
+        // 동기화 타이머를 기반으로 위치 및 회전 보간
+        float syncRate = Time.deltaTime * 10;
+        transform.position = Vector3.Lerp(transform.position, netPosition, syncRate);
+        transform.rotation = Quaternion.Lerp(transform.rotation, netRotation, syncRate);
+
+        // 애니메이션 동기화
+        if (animator != null)
+        {
+            bool isRunning = Vector3.Distance(transform.position, netPosition) > 0.1f; // 이동 판단
+            animator.SetBool("isRunning", isRunning);
+        }
     }
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
         {
+            // 내 데이터 전송
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
         }
         else
         {
+            // 다른 플레이어 데이터 수신
             netPosition = (Vector3)stream.ReceiveNext();
             netRotation = (Quaternion)stream.ReceiveNext();
         }
