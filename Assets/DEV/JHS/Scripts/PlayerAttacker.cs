@@ -39,26 +39,10 @@ public class PlayerAttacker : MonoBehaviourPun
 
     public void Non()
     {
-        if (!attackHand)
-        {
-            attackHand = true;
-            // 좌수 펀치 애니메이션 실행
-            animator.Play("Punch_LeftHand");
+        attackHand = !attackHand;
 
-            // 좌측 펀치 콜라이더 활성화
-            //leftAttackArea.enabled = true;
-            photonView.RPC("ActivateAttackArea", RpcTarget.All, true);
-        }
-        else if (attackHand)
-        {
-            attackHand = false;
-            // 우수 펀치 애니메이션 실행
-            animator.Play("Punch_RightHand");
-           
-            // 우측 펀치 콜라이더 활성화
-            //rightAttackArea.enabled = true;
-            photonView.RPC("ActivateAttackArea", RpcTarget.All, false);
-        }
+        // 공격 애니메이션 및 콜라이더 활성화를 RPC로 동기화
+        photonView.RPC("ExecuteAttack", RpcTarget.All, attackHand);
 
         StartCoroutine(EndAttack());
     }
@@ -70,16 +54,20 @@ public class PlayerAttacker : MonoBehaviourPun
         photonView.RPC("DeactivateAttackArea", RpcTarget.All);
         attackTerm = false; // 공격 쿨타임 해제
     }
-    
+
     [PunRPC]
-    private void ActivateAttackArea(bool isLeft)
+    private void ExecuteAttack(bool isLeftHand)
     {
-        if (isLeft)
+        if (isLeftHand)
         {
+            // 좌측 펀치 애니메이션 실행
+            animator.Play("Punch_LeftHand");
             leftAttackArea.enabled = true;
         }
         else
         {
+            // 우측 펀치 애니메이션 실행
+            animator.Play("Punch_RightHand");
             rightAttackArea.enabled = true;
         }
     }

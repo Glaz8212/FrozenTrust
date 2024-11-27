@@ -78,7 +78,10 @@ public class PlayerInteraction : MonoBehaviour
         // 그 값이 false라면을 else if 조건에 넣어줘야됨 
         else if (!isCollider || (missionController != null && !missionController.IsUIOpen) || (boxController != null && !boxController.IsUIOpen))
         {
-            boxController.BoxClose();
+            if (boxController != null)
+            {
+                boxController.BoxOpen();
+            }
             isInteracting = false;
         }
     }
