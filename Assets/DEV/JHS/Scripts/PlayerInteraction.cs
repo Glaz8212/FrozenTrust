@@ -28,7 +28,21 @@ public class PlayerInteraction : MonoBehaviour
     private void Awake()
     {
         status = GetComponent<PlayerStatus>();
-        playerInventory = GetComponent<PlayerInventory>();
+        // Inventory 오브젝트를 찾아 PlayerInventory 할당
+        if (playerInventory == null)
+        {
+            GameObject inventoryObject = GameObject.Find("Inventory");
+            if (inventoryObject != null)
+            {
+                playerInventory = inventoryObject.GetComponent<PlayerInventory>();
+            }
+
+            // Inventory 오브젝트를 찾을 수 없는 경우 경고 출력
+            if (playerInventory == null)
+            {
+                Debug.LogError("Inventory 오브젝트에서 PlayerInventory를 찾을 수 없습니다!");
+            }
+        }
     }
     private void Update()
     {
