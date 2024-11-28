@@ -19,7 +19,7 @@ public class PlayerInteraction : MonoBehaviour
     // 콜라이더 충돌 판정
     private bool isCollider = false;
 
-    public MissionBoxController missionController;
+    public MissionBox missionController;
     public BoxController boxController;
     public Item item;
     public PlayerInventory playerInventory;
@@ -93,7 +93,7 @@ public class PlayerInteraction : MonoBehaviour
     {
         if (other.CompareTag("Mission1") || other.CompareTag("Mission2") || other.CompareTag("Ending"))
         {
-            missionController = other.GetComponent<MissionBoxController>();
+            missionController = other.GetComponent<MissionBox>();
             if (missionController != null)
             {
                 type = Type.Misson;
@@ -126,7 +126,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<MissionBoxController>() == missionController)
+        if (other.GetComponent<MissionBox>() == missionController)
         {
             missionController = null;
         }
