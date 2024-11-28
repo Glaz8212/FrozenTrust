@@ -1,8 +1,10 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class GameSceneManager : MonoBehaviourPun
 {
@@ -13,6 +15,8 @@ public class GameSceneManager : MonoBehaviourPun
 
     public float gameTimer = 900f; // 15분 타이머
     public TMP_Text timerText;
+
+    public UnityEvent OnPlayerSpawned = new UnityEvent();
 
     private void Awake()
     {
@@ -36,10 +40,12 @@ public class GameSceneManager : MonoBehaviourPun
     }
 
     private void PlayerSpawn()
-        {
-            Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
-            nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
-        }
+    {
+        Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+        nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
+
+        OnPlayerSpawned?.Invoke();
+    }
 
     private void Start()
     {
@@ -51,7 +57,7 @@ public class GameSceneManager : MonoBehaviourPun
 
     private void Update()
     {
-        if (missionController.IsEndingClear == true)
+        /*if (missionController.IsEndingClear == true)
         {
             GameManager.Instance.CheckWin(true);
         }
@@ -59,7 +65,7 @@ public class GameSceneManager : MonoBehaviourPun
         if (false)// player = deathplayer
         {
             GameManager.Instance.CheckWin(false);
-        }
+        }*/
     }
 
     private IEnumerator GameTimerCoroutine()
