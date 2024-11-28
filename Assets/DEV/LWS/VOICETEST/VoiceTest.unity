@@ -369,7 +369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1332342830}
   - component: {fileID: 1332342829}
-  - component: {fileID: 1332342828}
+  - component: {fileID: 1332342831}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -377,14 +377,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &1332342828
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1332342827}
-  m_Enabled: 1
 --- !u!20 &1332342829
 Camera:
   m_ObjectHideFlags: 0
@@ -443,6 +435,14 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!81 &1332342831
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1332342827}
+  m_Enabled: 1
 --- !u!1 &1628522909
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +480,7 @@ MonoBehaviour:
   statsResetInterval: 1000
   speakerPrefab: {fileID: 506112846129718866, guid: 9dddcdc3ae90c3549ba514d608a883e3, type: 3}
   primaryRecorder: {fileID: 1628522911}
-  usePrimaryRecorder: 1
+  usePrimaryRecorder: 0
   cppCompatibilityMode: 0
   Settings:
     AppIdRealtime: 
@@ -589,7 +589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a86f533fd9917dd4da8601e9eb542c96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LogLevel: 2
+  LogLevel: 3
 --- !u!4 &1827398231
 Transform:
   m_ObjectHideFlags: 0
