@@ -10372,6 +10372,7 @@ MonoBehaviour:
   warmth: 0
   animator: {fileID: 4348890797106946645}
   playerDie: 0
+  environment: 0
   ishungry: 0
   iscold: 0
 --- !u!114 &5530357631646817779
