@@ -10298,7 +10298,6 @@ GameObject:
   - component: {fileID: 5530357631646817779}
   - component: {fileID: 8025356950594823445}
   - component: {fileID: 6985346774223031066}
-  - component: {fileID: 4683840196533843142}
   - component: {fileID: 726639877173819331}
   - component: {fileID: -5842149733604578597}
   - component: {fileID: 4731461519204964037}
@@ -10425,20 +10424,6 @@ MonoBehaviour:
   boxController: {fileID: 0}
   item: {fileID: 0}
   playerInventory: {fileID: 0}
---- !u!114 &4683840196533843142
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4012065884261472461}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c973db9734b36640bd667cb416bd10e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  nameText: {fileID: 0}
-  nameOffset: {x: 0, y: 0, z: 0}
 --- !u!143 &726639877173819331
 CharacterController:
   m_ObjectHideFlags: 0
