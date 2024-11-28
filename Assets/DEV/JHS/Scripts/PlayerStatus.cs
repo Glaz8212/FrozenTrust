@@ -6,7 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SocialPlatforms;
 
-public class PlayerStatus : MonoBehaviour
+public class PlayerStatus : MonoBehaviourPun
 {
     enum PlayerState
     {
@@ -150,10 +150,19 @@ public class PlayerStatus : MonoBehaviour
     private void Die()
     {
         if (playerDie) return;
-        // 사망 조작X 
+
         playerDie = true;
-        animator.SetBool("isDead", true); // 사망 애니메이션 재생
+
+        // 네트워크 RPC 호출
+        photonView.RPC("PlayDeathAnimation", RpcTarget.All);
+
         Debug.Log("플레이어가 사망했습니다.");
+    }
+    [PunRPC]
+    private void PlayDeathAnimation()
+    {
+        // 모든 클라이언트에서 애니메이션 재생
+        animator.SetBool("isDead", true);
     }
 
     // ----------------환경 요소 ------------------
