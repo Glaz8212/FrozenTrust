@@ -50,7 +50,7 @@ public abstract class Animal : MonoBehaviourPun
         curState?.Enter();
 
         // 상태 동기화
-        photonView.RPC("SyncState", RpcTarget.Others, state.GetType().Name);
+        photonView.RPC("SyncState", RpcTarget.All, state.GetType().Name);
     }
 
     [PunRPC]
