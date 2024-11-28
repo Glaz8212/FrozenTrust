@@ -58,6 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsUIOpen: 0
+  UI_ItemBox: {fileID: 0}
 --- !u!23 &6040862440342617507
 MeshRenderer:
   m_ObjectHideFlags: 0
