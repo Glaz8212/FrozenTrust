@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Elk : Animal
 {
@@ -29,5 +30,11 @@ public class Elk : Animal
     public override GameObject DetectPlayer()
     {
         return null;
+    }
+
+    [PunRPC]
+    public override void SyncState(string state)
+    {
+        base.SyncState(state);
     }
 }

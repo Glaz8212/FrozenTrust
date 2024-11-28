@@ -54,7 +54,7 @@ public abstract class Animal : MonoBehaviourPun
     }
 
     [PunRPC]
-    private void SyncState(string state)
+    public virtual void SyncState(string state)
     {
         // 동기화된 상태 설정
         if (state == nameof(IdleState))
