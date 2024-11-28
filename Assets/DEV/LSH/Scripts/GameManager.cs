@@ -36,14 +36,16 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Destroy(gameObject);
         }
-    }
 
-    private void Start()
-    {
         if (PhotonNetwork.IsMasterClient)
         {
             PlayerEnemyReRoll();
         }
+    }
+
+    private void Start()
+    {
+        
     }
 
     public void PlayerEnemyReRoll()
