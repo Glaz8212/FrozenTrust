@@ -79,11 +79,7 @@ public class PlayerInteraction : MonoBehaviour
         // 상호작용한 오브젝트에서 상호작용이 끝났을때 false값을 설정 한걸 가져와야됨
         // 그 값이 false라면을 else if 조건에 넣어줘야됨 
         else if (!isCollider || (missionController != null && !missionController.IsUIOpen) || (boxController != null && !boxController.IsUIOpen))
-        {
-            if (boxController != null)
-            {
-                boxController.BoxClose();
-            }
+        {              
             isInteracting = false;
         }
     }
@@ -132,6 +128,7 @@ public class PlayerInteraction : MonoBehaviour
         }
         else if (other.GetComponent<BoxController>() == boxController)
         {
+            boxController.BoxClose();
             boxController = null;
         }
         else if (other.GetComponent<ItemController>() == item)
