@@ -3,15 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
-{
-    // Mission이나 ItemBox 콜라이더와 충돌 하였을때 
-    // e 버튼을 클릭하면 그 콜라이더가 있는 오브젝트의 함수를 가져와 상호작용
-    // 여러 콜라이더가 겹칠때 하나의 콜라이더랑만 상호작용
-    // false값이 와야지만 다른 오브젝트와 상호작용
-
-    // 상호작용 할 수 있는 오브젝트에 들어간 상호작용 스크립트 
-    // private 스크립트명 함수명;
-
+{ 
     public enum Type { Idle, Misson, ItemBox, Item }
     public Type type = Type.Idle;
     // 상호작용 상태 판정

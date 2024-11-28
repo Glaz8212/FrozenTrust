@@ -16,14 +16,7 @@ public class NamePrint : MonoBehaviourPunCallbacks
 
     private void Start()
     {
-        // 로컬플레이어 일때만 작동
-        if (photonView.IsMine)
-        {
-            LocalPlayerName();
-        }
-
-        // 닉네임 텍스트를 업데이트
-        UpdateName();
+        StartCoroutine(DelayedUpdateName(2f));
     }
 
     // 닉네임 위치 고정 
@@ -61,6 +54,16 @@ public class NamePrint : MonoBehaviourPunCallbacks
         {
             nameText.text = "Unknown";
         }
+    }
+    private IEnumerator DelayedUpdateName(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (photonView.IsMine)
+        {
+            LocalPlayerName();
+        }
+
+        UpdateName();
     }
 }
 
