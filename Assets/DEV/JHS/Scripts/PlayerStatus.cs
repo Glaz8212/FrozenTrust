@@ -33,7 +33,7 @@ public class PlayerStatus : MonoBehaviourPun
     PlayerState state = PlayerState.Idle;
     public bool playerDie = false;
     // 주변 환경
-    public SurroundingEnvironment environment = SurroundingEnvironment.Warm;
+    public SurroundingEnvironment environment = SurroundingEnvironment.Cold;
     // 허기가 부족할 경우 : 20퍼 이하로 내려갔을 경우 => 최대체력 70퍼 감소
     // 음식을 먹어서 회복 가능
     // 온기가 부족할 경우 : 20퍼 이하로 내려갔을 경우 => 이동속도 감소 절반으로 
@@ -79,17 +79,6 @@ public class PlayerStatus : MonoBehaviourPun
                 break;
             case PlayerState.Die:
                 Die();
-                break;
-        }
-
-        // 상태에 따른 디버프 넣어줘야함
-        switch(environment)
-        {
-            case SurroundingEnvironment.Warm:
-                break;
-            case SurroundingEnvironment.Cold:
-                break;
-            case SurroundingEnvironment.VeryCold:
                 break;
         }
     }
