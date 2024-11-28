@@ -82,6 +82,7 @@ public class PlayerStatus : MonoBehaviour
                 break;
         }
 
+        // 상태에 따른 디버프 넣어줘야함
         switch(environment)
         {
             case SurroundingEnvironment.Warm:
