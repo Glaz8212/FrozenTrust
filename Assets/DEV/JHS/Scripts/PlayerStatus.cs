@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -46,6 +47,7 @@ public class PlayerStatus : MonoBehaviourPun
     public bool iscold = false;
     private void Start()
     {
+        environment = SurroundingEnvironment.Cold;
         playerHP = playerMaxHP;
         playerReducedHP = playerMaxHP;
         hunger = hungerMax;
