@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] int survivorCount;       // 생존자 수
     [SerializeField] List<int> survivor;
     [SerializeField] List<int> traitor;
-    private int playerRole;
+    public int playerRole;
 
     private void Awake()
     {
@@ -78,7 +78,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             survivor.Add(players);
         }
 
-        Debug.Log("RPC시작전");
         // 모든 클라이언트에 역할 동기화
         foreach (Player player in PhotonNetwork.PlayerList)
         {
@@ -94,23 +93,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             }
 
             
-            photonView.RPC(nameof(SynchRoles), RpcTarget.All, role);
-            Debug.Log("RPC시작후");
+            photonView.RPC(nameof(SynchRoles), RpcTarget.All, role, player.ActorNumber);
         }
     }
 
     [PunRPC]
-    private void SynchRoles(int role)
+    private void SynchRoles(int role, int actorNumber)
     {
-        playerRole = role;
-
-        if (role == 1)
+        if (PhotonNetwork.LocalPlayer.ActorNumber == actorNumber)
         {
-            Debug.Log("배신자!");
-        }
-        else
-        {
-            Debug.Log("생존자!");
+            playerRole = role;
+            Debug.Log($"내 역할은 {(playerRole == 1 ? "배신자" : "생존자")}입니다.");
         }
     }
 
