@@ -18,8 +18,11 @@ public class PlayerInventory : MonoBehaviourPun
             // 같은 아이템 존재시 종료
             if (item.itemData.itemName == itemName)
             {
-                playerItem = item;
-                break; 
+                if(item.itemData.itemCount < 4)
+                {
+                    playerItem = item;
+                    break;
+                }               
             }
         }
         if (playerItem != null)
@@ -28,13 +31,17 @@ public class PlayerInventory : MonoBehaviourPun
             playerItem.itemData.itemCount += quantity;
             UpdateItem(playerItem);
         }
-        else
+        else if(inventory.Count <= 4)
         {
             // 새 아이템 추가
             Item newItem = new Item(itemName, sprite, quantity);
             ItemData newItemData = new ItemData(newItem);
             inventory.Add(newItemData);
-            CreateItemUI(newItemData);
+            //CreateItemUI(newItemData);
+        }
+        else
+        {
+            Debug.Log("인벤토리가 가득 찼습니다.");
         }
     }
 

@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager Instance;
+    /*public static UIManager Instance;
 
     private void Awake()
     {
@@ -17,5 +18,9 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
+    }*/
+
+    [SerializeField] private Image hpBar;
+    [SerializeField] private Image hungerBar;
+    [SerializeField] private Image heatBar;
 }
