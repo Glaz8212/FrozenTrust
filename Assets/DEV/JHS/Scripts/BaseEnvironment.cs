@@ -21,6 +21,10 @@ public class BaseEnvironment : MonoBehaviour
                     playerStatus.ChangeEnvironment(SurroundingEnvironment.Cold);
                 }
             }
+            else
+            {
+                Debug.Log("거점 환경을 바꾸기 위한 플레이어를 받아오지 못했습니다.");
+            }
         }
     }
 }
