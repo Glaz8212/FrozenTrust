@@ -8,7 +8,7 @@ using UnityEngine.SocialPlatforms;
 
 public class PlayerStatus : MonoBehaviourPun
 {
-    enum PlayerState
+    public enum PlayerState
     {
         Idle, LackHunger, LackWarmth, NonWarmth, LackEverything, LackVeryBad, Die
     }
