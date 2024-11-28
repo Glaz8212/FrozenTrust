@@ -72,9 +72,11 @@ public class PlayerInteraction : MonoBehaviour
                 case Type.Item:
                     if (item != null)
                     {
-                        isInteracting = false;
                         // 아이템 테스터의 interaction에 playerInventory를 넣어 실행
                         item.interaction(playerInventory);
+                        type = Type.Idle;
+                        isCollider = false;
+                        isInteracting = false;
                     }
                     else
                     {
