@@ -33,7 +33,7 @@ public class PlayerStatus : MonoBehaviourPun
     PlayerState state = PlayerState.Idle;
     public bool playerDie = false;
     // 주변 환경
-    public SurroundingEnvironment environment = SurroundingEnvironment.Warm;
+    public SurroundingEnvironment environment = SurroundingEnvironment.Cold;
     // 허기가 부족할 경우 : 20퍼 이하로 내려갔을 경우 => 최대체력 70퍼 감소
     // 음식을 먹어서 회복 가능
     // 온기가 부족할 경우 : 20퍼 이하로 내려갔을 경우 => 이동속도 감소 절반으로 
@@ -82,16 +82,7 @@ public class PlayerStatus : MonoBehaviourPun
                 break;
         }
 
-        // 상태에 따른 디버프 넣어줘야함
-        switch(environment)
-        {
-            case SurroundingEnvironment.Warm:
-                break;
-            case SurroundingEnvironment.Cold:
-                break;
-            case SurroundingEnvironment.VeryCold:
-                break;
-        }
+        // 플레이어 상태 판단 필요
     }
     // 일반 상태, 허기 부족, 온기 부족, 온기 없음, 허기온기 부족, 허기 부족 온기 없음, 사망
     private void Idle()
@@ -197,8 +188,8 @@ public class PlayerStatus : MonoBehaviourPun
     {
         while (true)
         {
-            hunger = Mathf.Max(0, hunger - 1); // 허기 감소
-            warmth = Mathf.Min(warmthMax, warmth + 4); // 온기 회복
+            TakeHunger(1f); // 허기 1 감소
+            HealWarmth(4f); // 온기 4 회복
             Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
@@ -207,8 +198,8 @@ public class PlayerStatus : MonoBehaviourPun
     {
         while (true)
         {
-            hunger = Mathf.Max(0, hunger - 5); // 허기 감소
-            warmth = Mathf.Max(0, warmth - 2); // 온기 감소
+            TakeHunger(5f); // 허기 5 감소
+            TakeWarmth(2f); // 온기 2 감소
             Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
@@ -217,8 +208,8 @@ public class PlayerStatus : MonoBehaviourPun
     {
         while (true)
         {
-            hunger = Mathf.Max(0, hunger - 10); // 허기 감소
-            warmth = Mathf.Max(0, warmth - 10); // 온기 감소
+            TakeHunger(10f); // 허기 감소
+            TakeWarmth(10f); // 온기 감소
             Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
