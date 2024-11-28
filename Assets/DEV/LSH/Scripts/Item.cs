@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class Item : MonoBehaviour
     {
         playerInventory.AddItem(itemName, itemSprite, itemCount);
 
-        Destroy(gameObject);
+        PhotonNetwork.Destroy(gameObject);
+        // Destroy(gameObject);
     }
 }
