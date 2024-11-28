@@ -11,6 +11,7 @@ public class PlayerInteraction : MonoBehaviour
     // 콜라이더 충돌 판정
     private Collider currentCollider;
 
+    // 스크립트 값 불러오기 위한 변수들
     public MissionBox missionController;
     public BoxController boxController;
     public Item item;
@@ -54,17 +55,21 @@ public class PlayerInteraction : MonoBehaviour
                     missionController?.MissionBoxOpen();
                     break;
                 case Type.ItemBox:
+                    //boxController값의 BoxOpen실행
                     boxController?.BoxOpen();
                     break;
                 case Type.Item:
+                    // item의 interaction에 인벤토리의 playerInventory값을 넣어 실행
                     item?.interaction(playerInventory);
+                    // 값 초기화
                     ResetInteraction();
                     break;
             }
         }
-        // 상호작용한 오브젝트에서 상호작용이 끝났을때 false값을 설정 한걸 가져와야됨
+        // missionController이나 boxController에 값이 있을때 ui를 껐다면 모든 값 초기화
         if (missionController != null && !missionController.IsUIOpen || boxController != null && !boxController.IsUIOpen)
         {
+            // 모든 값 초기화
             ResetInteraction();
         }
     }
@@ -75,22 +80,26 @@ public class PlayerInteraction : MonoBehaviour
         // 콜라이더에 값이 들어가 있으면 리턴
         if (currentCollider != null) return;
 
+        // currentCollider에 충돌한 other값 삽입
         currentCollider = other;
 
         if (other.CompareTag("Mission1") || other.CompareTag("Mission2") || other.CompareTag("Ending"))
         {
+            // missionController에 other값의 MissionBox 불러오기
             missionController = other.GetComponent<MissionBox>();
             // 삼항 연산자 사용 : 변수 = 조건문 ? 조건문이 참일 때 값 : 조건문이 거짓일 때 값
             type = missionController != null ? Type.Mission : Type.Idle;
         }
         else if (other.CompareTag("ItemBox"))
         {
+            // boxController에 other의 BoxController 불러오기
             boxController = other.GetComponent<BoxController>();
             // 타입이 boxController에 값이 있다면 ItemBox 아니면 Idle
             type = boxController != null ? Type.ItemBox : Type.Idle;
         }
         else if (other.CompareTag("Item"))
         {
+            // item에 other의 Item 불러오기
             item = other.GetComponent<Item>();
             // 타입이 item에 값이 있으면 Item 없으면 Idle
             type = item != null ? Type.Item : Type.Idle;
@@ -117,11 +126,12 @@ public class PlayerInteraction : MonoBehaviour
             {
                 boxController.BoxClose();
             }
-
+            // 값 리셋
             ResetInteraction();
         }
     }
 
+    // 모든 값 리셋
     private void ResetInteraction()
     {
         type = Type.Idle;
