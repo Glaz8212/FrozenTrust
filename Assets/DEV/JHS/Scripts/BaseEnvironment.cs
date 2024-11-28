@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static PlayerStatus;
 
-public class LodgeEnvironment : MonoBehaviour
+public class BaseEnvironment : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
