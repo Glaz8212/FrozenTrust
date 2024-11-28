@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -35,5 +36,11 @@ public class Wolf : Animal
                 return hit.gameObject;
         }
         return null;
+    }
+
+    [PunRPC]
+    public override void SyncState(string state)
+    {
+        base.SyncState(state);
     }
 }
