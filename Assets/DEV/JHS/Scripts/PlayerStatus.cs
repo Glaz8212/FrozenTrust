@@ -81,6 +81,8 @@ public class PlayerStatus : MonoBehaviourPun
                 Die();
                 break;
         }
+
+        // 플레이어 상태 판단 필요
     }
     // 일반 상태, 허기 부족, 온기 부족, 온기 없음, 허기온기 부족, 허기 부족 온기 없음, 사망
     private void Idle()
@@ -186,8 +188,8 @@ public class PlayerStatus : MonoBehaviourPun
     {
         while (true)
         {
-            hunger = Mathf.Max(0, hunger - 1); // 허기 감소
-            warmth = Mathf.Min(warmthMax, warmth + 4); // 온기 회복
+            TakeHunger(1f); // 허기 1 감소
+            HealWarmth(4f); // 온기 4 회복
             Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
@@ -196,8 +198,8 @@ public class PlayerStatus : MonoBehaviourPun
     {
         while (true)
         {
-            hunger = Mathf.Max(0, hunger - 5); // 허기 감소
-            warmth = Mathf.Max(0, warmth - 2); // 온기 감소
+            TakeHunger(5f); // 허기 5 감소
+            TakeWarmth(2f); // 온기 2 감소
             Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
@@ -206,8 +208,8 @@ public class PlayerStatus : MonoBehaviourPun
     {
         while (true)
         {
-            hunger = Mathf.Max(0, hunger - 10); // 허기 감소
-            warmth = Mathf.Max(0, warmth - 10); // 온기 감소
+            TakeHunger(10f); // 허기 감소
+            TakeWarmth(10f); // 온기 감소
             Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
