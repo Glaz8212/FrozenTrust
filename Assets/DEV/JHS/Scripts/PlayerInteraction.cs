@@ -82,7 +82,7 @@ public class PlayerInteraction : MonoBehaviour
         {
             if (boxController != null)
             {
-                boxController.BoxOpen();
+                boxController.BoxClose();
             }
             isInteracting = false;
         }
