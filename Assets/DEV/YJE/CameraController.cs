@@ -7,18 +7,17 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviourPunCallbacks
 {
-    public CinemachineVirtualCamera cinemachineVirtualCamera; // 시네머신 카메라
+    private CinemachineVirtualCamera cinemachineVirtualCamera;
     private GameSceneManager gameSceneManager;
+    public GameObject nowPlayer;
 
     private void Awake()
     {
         cinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
+        gameSceneManager = GameObject.Find("GameSceneManager").GetComponent<GameSceneManager>();
     }
 
-    /// <summary>
-    /// 방에 입장 시 실행
-    /// </summary>
-    public override void OnJoinedRoom()
+    private void Start()
     {
         StartCoroutine(StartDelayRoutine());
     }
@@ -30,12 +29,13 @@ public class CameraController : MonoBehaviourPunCallbacks
     IEnumerator StartDelayRoutine()
     {
         // 네트워크 준비에 필요한 시간 설정
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(3f);
         SetCam();
     }
 
     private void SetCam()
     {
-        cinemachineVirtualCamera.LookAt = gameSceneManager.nowPlayer.transform;
+        nowPlayer = gameSceneManager.nowPlayer;
+        cinemachineVirtualCamera.LookAt = nowPlayer.transform;
     }
 }
