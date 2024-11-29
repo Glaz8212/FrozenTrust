@@ -45,8 +45,17 @@ public class UIManager : MonoBehaviour
 
     private void UIUpdate()
     {
-        hpBar.text = $"{playerStatus.playerHP}/{playerStatus.playerMaxHP}";
-        hpBarfill.fillAmount = (float)playerStatus.playerHP / playerStatus.playerMaxHP;
+        if (playerStatus.state == PlayerStatus.PlayerState.LackWarmth)
+        {
+            hpBar.text = $"{playerStatus.playerHP}/{playerStatus.playerReducedHP}";
+            hpBarfill.fillAmount = (float)playerStatus.playerHP / playerStatus.playerReducedHP;
+        }
+        else
+        {
+            hpBar.text = $"{playerStatus.playerHP}/{playerStatus.playerMaxHP}";
+            hpBarfill.fillAmount = (float)playerStatus.playerHP / playerStatus.playerMaxHP;
+        }
+
 
         hungerBar.text = $"{playerStatus.hunger}/{playerStatus.hungerMax}";
         hungerBarfill.fillAmount = (float)playerStatus.hunger / playerStatus.hungerMax;
