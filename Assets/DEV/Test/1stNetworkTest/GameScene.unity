@@ -4984,6 +4984,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ItemBox
       objectReference: {fileID: 0}
+    - target: {fileID: 8004096990619366308, guid: 9a8319f1afedfd246bb0ce7fd8464e2d, type: 3}
+      propertyPath: sceneViewId
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a8319f1afedfd246bb0ce7fd8464e2d, type: 3}
 --- !u!1001 &793204713
@@ -7909,6 +7913,9 @@ MonoBehaviour:
   nowPlayer: {fileID: 0}
   gameTimer: 900
   timerText: {fileID: 0}
+  OnPlayerSpawned:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!4 &1237649348
 Transform:
   m_ObjectHideFlags: 0

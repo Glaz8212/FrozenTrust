@@ -12956,6 +12956,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2435641824327099235, guid: 9a8319f1afedfd246bb0ce7fd8464e2d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2435641824327099235, guid: 9a8319f1afedfd246bb0ce7fd8464e2d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436303155832660073, guid: 9a8319f1afedfd246bb0ce7fd8464e2d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6847343957435461001, guid: 9a8319f1afedfd246bb0ce7fd8464e2d, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -13003,6 +13015,10 @@ PrefabInstance:
     - target: {fileID: 6847343957435659073, guid: 9a8319f1afedfd246bb0ce7fd8464e2d, type: 3}
       propertyPath: m_Name
       value: ItemBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 8004096990619366308, guid: 9a8319f1afedfd246bb0ce7fd8464e2d, type: 3}
+      propertyPath: sceneViewId
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9a8319f1afedfd246bb0ce7fd8464e2d, type: 3}
