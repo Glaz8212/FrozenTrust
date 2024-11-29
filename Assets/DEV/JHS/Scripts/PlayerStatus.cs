@@ -31,7 +31,7 @@ public class PlayerStatus : MonoBehaviourPun
     public float warmth; // 현재 온기
     [SerializeField] Animator animator;
     // 캐릭터 상태
-    PlayerState state = PlayerState.Idle;
+    public PlayerState state = PlayerState.Idle;
     public bool playerDie = false;
     // 주변 환경
     public SurroundingEnvironment environment = SurroundingEnvironment.Cold;
