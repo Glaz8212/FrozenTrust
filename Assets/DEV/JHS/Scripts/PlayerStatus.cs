@@ -262,7 +262,7 @@ public class PlayerStatus : MonoBehaviourPun
         while (true)
         {
             TakeHunger(2f); // 허기 2 감소
-            TakeWarmth(1f); // 온기 1 감소
+            TakeWarmth(2f); // 온기 2 감소
             Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
