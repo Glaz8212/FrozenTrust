@@ -3,6 +3,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using static UnityEngine.Tilemaps.Tilemap;
 
 public class GameManager : MonoBehaviourPunCallbacks
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] List<int> traitor;
     public int playerRole;
 
+
     private void Awake()
     {
         if (Instance == null)
@@ -41,11 +43,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             PlayerEnemyReRoll();
         }
-    }
-
-    private void Start()
-    {
-        
     }
 
     public void PlayerEnemyReRoll()
