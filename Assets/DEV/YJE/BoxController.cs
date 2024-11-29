@@ -1,12 +1,15 @@
+using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
 /// TODO: ItemBox들의 UI관리 필요
 /// </summary>
-public class BoxController : MonoBehaviour
+public class BoxController : MonoBehaviourPun
 {
     public bool IsUIOpen;
     [SerializeField] GameObject UI_ItemBox;
+    private GameSceneManager gameSceneManager;
 
     // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 - public
     public void BoxOpen()
@@ -26,6 +29,9 @@ public class BoxController : MonoBehaviour
         // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 = false; - return값
 
     }
+
+
+
 
     /*
     [SerializeField] PlayerInteraction playerInteraction;

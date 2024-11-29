@@ -47,6 +47,8 @@ MonoBehaviour:
   - SyncState
   - UpdateTimerUI
   - PlayDeathAnimation
+  - AddBox
+  - SubBox
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
