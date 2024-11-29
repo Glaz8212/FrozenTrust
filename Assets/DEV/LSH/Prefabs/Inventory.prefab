@@ -93,7 +93,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventory: []
   itemContent: {fileID: 3105923167085834079}
-  itemPrefab: {fileID: 1418874672919742190, guid: 4af15538eb4f86f4c911b1ff900928e4, type: 3}
+  itemPrefab: {fileID: 4987704419904730852, guid: a4dd7ee6102610f46aa890da83970731, type: 3}
 --- !u!1 &3105923167085834076
 GameObject:
   m_ObjectHideFlags: 0
