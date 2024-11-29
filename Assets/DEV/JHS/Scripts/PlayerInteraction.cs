@@ -61,19 +61,13 @@ public class PlayerInteraction : MonoBehaviour
                 case Type.Item:
                     if(playerInventory.inventory.Count < 4)
                     {
-                        item?.interaction(playerInventory);
+                        item?.interaction(playerInventory);                        
                         ResetInteraction();
                     }                    
                     // 아이템의 값이 3개라면 
                     // item의 interaction에 인벤토리의 playerInventory값을 넣어 실행                    
                     break;
             }
-        }
-        // missionController이나 boxController에 값이 있을때 ui를 껐다면 모든 값 초기화
-        if (missionController != null && !missionController.IsUIOpen || boxController != null && !boxController.IsUIOpen)
-        {
-            // 모든 값 초기화
-            ResetInteraction();
         }
     }
 
@@ -138,7 +132,7 @@ public class PlayerInteraction : MonoBehaviour
     }
 
     // 모든 값 리셋
-    private void ResetInteraction()
+    public void ResetInteraction()
     {
         type = Type.Idle;
         currentCollider = null;
