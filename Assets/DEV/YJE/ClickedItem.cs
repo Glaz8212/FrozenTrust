@@ -83,10 +83,42 @@ public class ClickedItem : MonoBehaviourPun
         Debug.Log("버튼 클릭");
         nowClicked = EventSystem.current.currentSelectedGameObject;
         nowItemUI = nowClicked.GetComponent<ItemPrefab>();
+        Debug.Log("선택된 아이템으로 ItemData 생성");
+        ItemData curItem = FindItem(nowItemUI.itemNameText.text);
+        Debug.Log("개인 Inventory에 추가");
+        playerInventory.AddItem(curItem.itemData.itemName, curItem.itemData.itemSprite, curItem.itemData.itemCount);
 
         // 무조건 플레이어와 접촉하여 아이템 박스가 열려있는 상태이므로
         Debug.Log("ItemBox에 공공의 함수로 제거");
-        Debug.Log("개인 Inventory에 추가");
+        photonView.RPC("SubBox", RpcTarget.All, nowItemUI.itemNameText.text);
 
+        Debug.Log("아이템삭제");
+        PhotonNetwork.Destroy(curItem.itemData.gameObject);
+    }
+
+    private ItemData FindItem(string itemName)
+    {
+        ItemData itemData = null;
+        // 관련 아이템을 생성 -> 삽입 -> 삭제
+        switch (itemName)
+        {
+            case "Wood":
+                Item woodItem = PhotonNetwork.Instantiate("YJE/Wood", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
+                itemData = new ItemData(woodItem);
+                return itemData;
+            case "Ore":
+                Debug.Log("광석을 만들기");
+                Item oreItem = PhotonNetwork.Instantiate("YJE/Ore", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
+                itemData = new ItemData(oreItem);
+                return itemData;
+            case "Fruit":
+                Debug.Log("열매를 만들기");
+                Item fruitItem = PhotonNetwork.Instantiate("YJE/Fruit", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
+                itemData = new ItemData(fruitItem);
+                return itemData;
+            default:
+                break;
+        }
+        return null;
     }
 }
