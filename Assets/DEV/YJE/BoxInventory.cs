@@ -9,11 +9,70 @@ public class BoxInventory : MonoBehaviourPun
     [SerializeField] GameObject itemPrefab; // 아이템 프리팹
     [SerializeField] int size; // 박스 사이즈
     GameSceneManager gameSceneManager;
+
+    [SerializeField] ItemData woodItemData;
+    [SerializeField] ItemData oreItemData;
+    [SerializeField] ItemData fruitItemData;
+
     private void Awake()
     {
         gameSceneManager = GameObject.Find("GameSceneManager").GetComponent<GameSceneManager>();
     }
 
+    /// <summary>
+    /// 네트워크 동기함수로 AddBox() 생성
+    /// </summary>
+    /// <param name="itemName"></param>
+    [PunRPC]
+    public void AddBox(string itemName)
+    {
+        ItemData curItem = null;
+        foreach (ItemData item in inventory)
+        {
+            // 같은 종류의 아이템을 추가하려는 경우
+            if (item.itemData.itemName == itemName)
+            {
+                if (item.itemData.itemCount < 4)
+                {
+                    curItem = item;
+                    break;
+                }
+            }
+        }
+        if (curItem != null) // 현재 아이템이 없으면
+        {
+            curItem.itemData.itemCount += 1;
+            UpdateItem(curItem);
+        }
+        else if (inventory.Count <= size) // 아이템 박스 사이즈 보다 용량이 적은 경우
+        {
+            // 관련 아이템을 생성 -> 삽입 -> 삭제
+            switch (itemName)
+            {
+                case "Wood":
+                    curItem = woodItemData;
+                    break;
+                case "Ore":
+                    Debug.Log("광석을 만들기");
+                    curItem = oreItemData;
+                    break;
+                case "Fruit":
+                    Debug.Log("열매를 만들기");
+                    curItem = fruitItemData;
+                    break;
+                default:
+                    break;
+            }
+            inventory.Add(curItem); // 아이템 추가
+            CreateItemUI(curItem); // 아이템 UI 추가
+        }
+        else // 인벤토리가 가득 찬 경우
+        {
+            return;
+        }
+    }
+
+    /*
     /// <summary>
     /// 네트워크 동기함수로 AddBox() 생성
     /// </summary>
@@ -72,6 +131,7 @@ public class BoxInventory : MonoBehaviourPun
             return;
         }
     }
+    */
     /// <summary>
     /// 네트워크 동기함수로 SubBox() 생성
     /// </summary>
