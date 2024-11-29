@@ -21,7 +21,7 @@ public class Elk : Animal, IPunObservable
         RotateTowards(target);
 
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        PlayMoveAnimation();
+        photonView.RPC(nameof(PlayMoveAnimation), RpcTarget.All);
 
         if (Vector3.Distance(transform.position, target) < 0.1f)
         {
