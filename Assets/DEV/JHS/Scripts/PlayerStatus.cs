@@ -45,6 +45,8 @@ public class PlayerStatus : MonoBehaviourPun
     public bool ishungry = false;
     // 추위 디버프
     public bool iscold = false;
+
+    private Coroutine healthTackCoroutine;
     private void Start()
     {
         environment = SurroundingEnvironment.Cold;
@@ -57,7 +59,9 @@ public class PlayerStatus : MonoBehaviourPun
 
     private void Update()
     {
-        if (playerDie) return;
+        if (!photonView.IsMine || playerDie) return;
+
+        CheckState();
 
         switch (state)
         {
@@ -120,7 +124,10 @@ public class PlayerStatus : MonoBehaviourPun
             HPBuff(); // 허기는 충분하므로 최대 체력 복구
 
         // 체력 감소 코드 추가 바람
-
+        if (healthTackCoroutine == null)
+        {
+            healthTackCoroutine = StartCoroutine(HealthTackTime());
+        }
     }
     private void LackEverything()
     {
@@ -158,6 +165,60 @@ public class PlayerStatus : MonoBehaviourPun
         animator.SetBool("isDead", true);
     }
 
+    private IEnumerator HealthTackTime()
+    {
+        while (state == PlayerState.NonWarmth || state == PlayerState.LackVeryBad) // 상태가 NonWarmth, LackVeryBad일 때만 체력을 감소
+        {
+            TakeHP(1); // 체력을 1씩 감소
+            yield return new WaitForSeconds(1f); // 1초 대기
+        }
+
+        // Coroutine 종료 시 null로 초기화
+        healthTackCoroutine = null;
+    }
+    private void ChangeState(PlayerState newState)
+    {
+        if ((state == PlayerState.NonWarmth || state == PlayerState.LackVeryBad) && healthTackCoroutine != null)
+        {
+            StopCoroutine(healthTackCoroutine);
+            healthTackCoroutine = null;
+        }
+
+        state = newState;
+    }
+    // 변경되는 상태 확인
+    private void CheckState()
+    {
+        if (playerDie)
+        {
+            ChangeState(PlayerState.Die);
+            return;
+        }
+
+        // 허기와 온기를 검사하여 상태 변경
+        if (hunger <= hungerMax * 0.2f && warmth <= warmthMax * 0.2f)
+        {
+            if (warmth <= 0)
+                ChangeState(PlayerState.LackVeryBad); // 허기 부족 + 온기 없음
+            else
+                ChangeState(PlayerState.LackEverything); // 허기 부족 + 온기 부족
+        }
+        else if (warmth <= warmthMax * 0.2f)
+        {
+            if (warmth <= 0)
+                ChangeState(PlayerState.NonWarmth); // 온기 없음
+            else
+                ChangeState(PlayerState.LackWarmth); // 온기 부족
+        }
+        else if (hunger <= hungerMax * 0.2f)
+        {
+            ChangeState(PlayerState.LackHunger); // 허기 부족
+        }
+        else
+        {
+            ChangeState(PlayerState.Idle); // 정상 상태
+        }
+    }
     // ----------------환경 요소 ------------------
     private void StartEnvironmentEffect()
     {
@@ -200,8 +261,8 @@ public class PlayerStatus : MonoBehaviourPun
     {
         while (true)
         {
-            TakeHunger(5f); // 허기 5 감소
-            TakeWarmth(2f); // 온기 2 감소
+            TakeHunger(2f); // 허기 2 감소
+            TakeWarmth(1f); // 온기 1 감소
             Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
@@ -210,8 +271,8 @@ public class PlayerStatus : MonoBehaviourPun
     {
         while (true)
         {
-            TakeHunger(10f); // 허기 감소
-            TakeWarmth(10f); // 온기 감소
+            TakeHunger(5f); // 허기 5 감소
+            TakeWarmth(5f); // 온기 5 감소
             Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
@@ -293,6 +354,8 @@ public class PlayerStatus : MonoBehaviourPun
             hunger = 0;
         Debug.Log($"현재 허기 : {hunger}");
         // 허기가 최대허기의 20퍼 이하로 내려갈 경우
+        // CheckState()가 Update에서 이미 하고있기에 주석처리
+        /*
         if (hunger <= hungerMax/5)
         {
             // 만약 NonWarmth상태 였다면 LackVeryBad
@@ -302,7 +365,7 @@ public class PlayerStatus : MonoBehaviourPun
                 state = PlayerState.LackEverything;
             else if (state == PlayerState.Idle)
                 state = PlayerState.LackHunger;
-        }
+        }*/
     }
     // 허기 증가
     public void HealHunger(float heal)
@@ -315,6 +378,8 @@ public class PlayerStatus : MonoBehaviourPun
         }
         Debug.Log($"현재 허기 : {hunger}");
         // 허기가 최대허기의 20퍼 초과일 경우
+        // CheckState()가 Update에서 이미 하고있기에 주석처리
+        /*
         if (hunger > hungerMax / 5)
         {
             if (state == PlayerState.LackVeryBad)
@@ -323,7 +388,7 @@ public class PlayerStatus : MonoBehaviourPun
                 state = PlayerState.LackWarmth;
             else if (state == PlayerState.LackHunger)
                 state = PlayerState.Idle;
-        }
+        }*/
     }
     // 온기 저하
     public void TakeWarmth(float damage)
@@ -331,6 +396,8 @@ public class PlayerStatus : MonoBehaviourPun
         warmth -= damage;
         Debug.Log($"현재 온기 : {warmth}");
         // 온기 20퍼 이하면 
+        // CheckState()가 Update에서 이미 하고있기에 주석처리
+        /*
         if (warmth <= 0)
         {
             warmth = 0;
@@ -350,7 +417,7 @@ public class PlayerStatus : MonoBehaviourPun
             }
             else
                 state = PlayerState.LackWarmth;
-        }
+        }*/
     }
 
     // 온기 증가
@@ -364,7 +431,8 @@ public class PlayerStatus : MonoBehaviourPun
         }
         Debug.Log($"현재 온기 : {warmth}");
         // 온기 20퍼 이하면 온기 부족 온기가 20 퍼 이상일 경우 부족 해결
-
+        // CheckState()가 Update에서 이미 하고있기에 주석처리
+        /*
         // 온기가 0보다 크거나 같고 최대 온기의 20퍼 보다 작거나 같을때
         if (warmth > 0 && warmth <= warmthMax / 5)
         {
@@ -390,6 +458,6 @@ public class PlayerStatus : MonoBehaviourPun
             // 온기 부족 온기없음 일때 정상으로 변경
             else if (state == PlayerState.NonWarmth || state == PlayerState.LackWarmth)
                 state = PlayerState.Idle;
-        }
+        }*/
     }
 }
