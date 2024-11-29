@@ -10420,6 +10420,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   isInteracting: 0
+  currentCollider: {fileID: 0}
   missionController: {fileID: 0}
   boxController: {fileID: 0}
   item: {fileID: 0}
