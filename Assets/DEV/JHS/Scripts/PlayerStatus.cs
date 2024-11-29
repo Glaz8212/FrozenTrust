@@ -342,10 +342,7 @@ public class PlayerStatus : MonoBehaviourPun
             playerHP = 0;
             // 보스의 체력이 0 이하가 되면 상태를 Die로 변경
             state = PlayerState.Die;
-        }
-           
-        Debug.Log($"현재 체력 : {playerHP}");
-        
+        }               
     }
     // 체력 회복
     public void HealHP(float heal)
@@ -356,7 +353,6 @@ public class PlayerStatus : MonoBehaviourPun
         {
             playerHP = playerReducedHP;
         }
-        Debug.Log($"현재 체력 : {playerHP}");
     }
     // 허기 저하
     public void TakeHunger(float damage)
@@ -364,7 +360,6 @@ public class PlayerStatus : MonoBehaviourPun
         hunger -= damage;
         if (hunger < 0)
             hunger = 0;
-        Debug.Log($"현재 허기 : {hunger}");
         // 허기가 최대허기의 20퍼 이하로 내려갈 경우
         // CheckState()가 Update에서 이미 하고있기에 주석처리
         /*
@@ -388,7 +383,6 @@ public class PlayerStatus : MonoBehaviourPun
         {
             hunger = hungerMax;
         }
-        Debug.Log($"현재 허기 : {hunger}");
         // 허기가 최대허기의 20퍼 초과일 경우
         // CheckState()가 Update에서 이미 하고있기에 주석처리
         /*
@@ -408,7 +402,6 @@ public class PlayerStatus : MonoBehaviourPun
         warmth -= damage;
         if (warmth < 0)
             warmth = 0;
-        Debug.Log($"현재 온기 : {warmth}");
         // 온기 20퍼 이하면 
         // CheckState()가 Update에서 이미 하고있기에 주석처리
         /*
@@ -443,7 +436,6 @@ public class PlayerStatus : MonoBehaviourPun
         {
             warmth = warmthMax;
         }
-        Debug.Log($"현재 온기 : {warmth}");
         // 온기 20퍼 이하면 온기 부족 온기가 20 퍼 이상일 경우 부족 해결
         // CheckState()가 Update에서 이미 하고있기에 주석처리
         /*

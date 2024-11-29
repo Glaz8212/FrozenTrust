@@ -7,7 +7,7 @@ using UnityEngine.InputSystem.XR;
 public class PlayerAttacker : MonoBehaviourPun
 {
     // 맨손, 근거리, 원거리
-    public enum Type { Non, CloserWeapon, RangedWeapon }
+    public enum Type { Non, CloserWeapon, RangedWeapon, TwoHandedWeapon }
     public Type type = Type.Non;
     public bool attackTerm = false; // 공속
     private bool attackHand = false; // 좌우 펀치 공격 판정
@@ -16,7 +16,7 @@ public class PlayerAttacker : MonoBehaviourPun
     [SerializeField] BoxCollider rightAttackArea;
 
     [SerializeField] Animator animator;
-
+        
     private void Awake()
     {
         Init();
@@ -42,16 +42,30 @@ public class PlayerAttacker : MonoBehaviourPun
                         Non();
                         break;
                     case Type.CloserWeapon:
-                        // 근접공격 패턴 구현 필요
+                        // 근접 한손 공격 패턴 구현 필요
+                        break;
+                    case Type.TwoHandedWeapon:
+                        // 근접 두손 공격 패턴 구현 필요
                         break;
                     case Type.RangedWeapon:
                         // 원거리 넣을꺼면 여기
                         break;
                 }
             }
-        }       
+        }
     }
-
+    // 무기 장착
+    public void InstallationWeapon(Type types)
+    {        
+        type = types;
+        Debug.Log($"{type}으로 변경");
+    }
+    // 무기 해제
+    public void ReleaseWeapon()
+    {      
+        type = Type.Non;
+        Debug.Log($"{type}으로 변경");
+    }
     public void Non()
     {
         attackHand = !attackHand;
@@ -69,7 +83,18 @@ public class PlayerAttacker : MonoBehaviourPun
         photonView.RPC("DeactivateAttackArea", RpcTarget.All);
         attackTerm = false; // 공격 쿨타임 해제
     }
-
+    public void CloserWeapon()
+    {
+        // 근거리 애니메이션 실행
+    }
+    public void TwoHandedWeapon()
+    {
+        // 근거리 애니메이션 실행
+    }
+    public void RangedWeapon()
+    {
+        // 원거리 애니메이션 실행
+    }
     [PunRPC]
     private void ExecuteAttack(bool isLeftHand)
     {
@@ -94,12 +119,5 @@ public class PlayerAttacker : MonoBehaviourPun
         rightAttackArea.enabled = false;
     }
 
-    public void CloserWeapon()
-    {
-        // 근거리 애니메이션 실행
-    }
-    public void RangedWeapon()
-    {
-        // 원거리 애니메이션 실행
-    }  
+     
 }
