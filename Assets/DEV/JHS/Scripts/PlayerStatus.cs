@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -145,12 +146,13 @@ public class PlayerStatus : MonoBehaviourPun
         if (!iscold)
             SpeedDebuff(); // 온기 없음으로 이동속도 감소
         // 체력 감소 코드 추가 바람
-
+        if (healthTackCoroutine == null)
+        {
+            healthTackCoroutine = StartCoroutine(HealthTackTime());
+        }
     }
     private void Die()
     {
-        if (playerDie) return;
-
         playerDie = true;
 
         // 네트워크 RPC 호출
@@ -176,15 +178,22 @@ public class PlayerStatus : MonoBehaviourPun
         // Coroutine 종료 시 null로 초기화
         healthTackCoroutine = null;
     }
-    private void ChangeState(PlayerState newState)
+    private void DamageStopState(PlayerState newState)
     {
-        if ((state == PlayerState.NonWarmth || state == PlayerState.LackVeryBad) && healthTackCoroutine != null)
+        if ((newState != PlayerState.NonWarmth && newState != PlayerState.LackVeryBad) && healthTackCoroutine != null)
         {
             StopCoroutine(healthTackCoroutine);
             healthTackCoroutine = null;
         }
-
-        state = newState;
+    }
+    private void ChangeState(PlayerState newState)
+    {
+        DamageStopState(newState);
+        if (state != newState)
+        {
+            Debug.Log($"상태 변경: {state} -> {newState}");
+            state = newState;
+        }
     }
     // 변경되는 상태 확인
     private void CheckState()
@@ -262,7 +271,7 @@ public class PlayerStatus : MonoBehaviourPun
         while (true)
         {
             TakeHunger(2f); // 허기 2 감소
-            TakeWarmth(1f); // 온기 1 감소
+            TakeWarmth(2f); // 온기 2 감소
             Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
@@ -328,12 +337,12 @@ public class PlayerStatus : MonoBehaviourPun
     public void TakeHP(float damage)
     {
         playerHP -= damage;
-        Debug.Log($"현재 체력 : {playerHP}");
-        // 보스의 체력이 0 이하가 되면 상태를 Die로 변경
         if (playerHP <= 0)
         {
+            playerHP = 0;
+            // 보스의 체력이 0 이하가 되면 상태를 Die로 변경
             state = PlayerState.Die;
-        }
+        }               
     }
     // 체력 회복
     public void HealHP(float heal)
@@ -344,15 +353,13 @@ public class PlayerStatus : MonoBehaviourPun
         {
             playerHP = playerReducedHP;
         }
-        Debug.Log($"현재 체력 : {playerHP}");
     }
     // 허기 저하
     public void TakeHunger(float damage)
     {
         hunger -= damage;
-        if (hunger <= 0)
+        if (hunger < 0)
             hunger = 0;
-        Debug.Log($"현재 허기 : {hunger}");
         // 허기가 최대허기의 20퍼 이하로 내려갈 경우
         // CheckState()가 Update에서 이미 하고있기에 주석처리
         /*
@@ -376,7 +383,6 @@ public class PlayerStatus : MonoBehaviourPun
         {
             hunger = hungerMax;
         }
-        Debug.Log($"현재 허기 : {hunger}");
         // 허기가 최대허기의 20퍼 초과일 경우
         // CheckState()가 Update에서 이미 하고있기에 주석처리
         /*
@@ -394,7 +400,8 @@ public class PlayerStatus : MonoBehaviourPun
     public void TakeWarmth(float damage)
     {
         warmth -= damage;
-        Debug.Log($"현재 온기 : {warmth}");
+        if (warmth < 0)
+            warmth = 0;
         // 온기 20퍼 이하면 
         // CheckState()가 Update에서 이미 하고있기에 주석처리
         /*
@@ -429,7 +436,6 @@ public class PlayerStatus : MonoBehaviourPun
         {
             warmth = warmthMax;
         }
-        Debug.Log($"현재 온기 : {warmth}");
         // 온기 20퍼 이하면 온기 부족 온기가 20 퍼 이상일 경우 부족 해결
         // CheckState()가 Update에서 이미 하고있기에 주석처리
         /*
