@@ -46,7 +46,7 @@ public abstract class Animal : MonoBehaviourPun, IPunObservable
 
         if (curHp <= 0)
         {
-            Die();
+            photonView.RPC(nameof(Die), RpcTarget.All);
         }
     }
 
@@ -56,28 +56,34 @@ public abstract class Animal : MonoBehaviourPun, IPunObservable
         curHp = updatedHp;
     }
 
+
+    [PunRPC]
     protected virtual void Die()
     {
         PlayDieAnimation();
         PhotonNetwork.Destroy(gameObject);
     }
 
+    [PunRPC]
     public void PlayIdleAnimation()
     {
         animator.SetBool("isMoving", false);
         animator.SetBool("isAttacking", false);
     }
 
+    [PunRPC]
     public void PlayMoveAnimation()
     {
         animator.SetBool("isMoving", true);
     }
 
+    [PunRPC]
     public void PlayAttackAnimation()
     {
         animator.SetBool("isAttacking", true);
     }
 
+    [PunRPC]
     public void PlayDieAnimation()
     {
         animator.SetBool("isDead", true);

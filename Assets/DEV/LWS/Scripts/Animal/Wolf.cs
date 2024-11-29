@@ -14,7 +14,7 @@ public class Wolf : Animal, IPunObservable
         if (detectedPlayer != null)
         {
             RotateTowards(detectedPlayer.transform.position);
-            PlayAttackAnimation();
+            photonView.RPC(nameof(PlayAttackAnimation), RpcTarget.All);
             AttackPlayer(detectedPlayer);
         }
         else
@@ -46,7 +46,7 @@ public class Wolf : Animal, IPunObservable
 
         RotateTowards(target);
         transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
-        PlayMoveAnimation();
+        photonView.RPC(nameof(PlayMoveAnimation), RpcTarget.All);
     }
 
     private void AttackPlayer(GameObject player)

@@ -13,12 +13,13 @@ public class Bear : Animal, IPunObservable
         if (detectedPlayer != null)
         {
             RotateTowards(detectedPlayer.transform.position);
-            PlayAttackAnimation();
+            photonView.RPC(nameof(PlayAttackAnimation), RpcTarget.All);
+
             AttackPlayer(detectedPlayer);
         }
         else
         {
-            PlayIdleAnimation();
+            photonView.RPC(nameof(PlayIdleAnimation), RpcTarget.All);
         }
     }
 
