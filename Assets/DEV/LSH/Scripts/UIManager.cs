@@ -33,16 +33,7 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("없음");
             GameSceneManager.Instance.OnPlayerSpawned.AddListener(OnSpawned);
-
-        }
-        // 역할 업데이트
-        if (GameManager.Instance.playerRole == 1)
-        {
-            myRole.text = "배신자";
-        }
-        else
-        {
-            myRole.text = "생존자";
+        
         }
     }
 
@@ -66,7 +57,16 @@ public class UIManager : MonoBehaviour
 
     public void OnSpawned()
     {
-        Debug.Log("액션실행");
         playerStatus = GameSceneManager.Instance.nowPlayer.gameObject.GetComponent<PlayerStatus>();
+
+        // 역할 업데이트
+        if (GameManager.Instance.playerRole == 1)
+        {
+            myRole.text = "배신자";
+        }
+        else
+        {
+            myRole.text = "생존자";
+        }
     }
 }
