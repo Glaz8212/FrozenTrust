@@ -59,10 +59,13 @@ public class PlayerInteraction : MonoBehaviour
                     boxController?.BoxOpen();
                     break;
                 case Type.Item:
-                    // item의 interaction에 인벤토리의 playerInventory값을 넣어 실행
-                    item?.interaction(playerInventory);
-                    // 값 초기화
-                    ResetInteraction();
+                    if(playerInventory.inventory.Count < 4)
+                    {
+                        item?.interaction(playerInventory);
+                        ResetInteraction();
+                    }                    
+                    // 아이템의 값이 3개라면 
+                    // item의 interaction에 인벤토리의 playerInventory값을 넣어 실행                    
                     break;
             }
         }
