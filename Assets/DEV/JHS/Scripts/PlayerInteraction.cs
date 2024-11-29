@@ -9,7 +9,7 @@ public class PlayerInteraction : MonoBehaviour
     // 상호작용 상태 판정
     public bool isInteracting = false;
     // 콜라이더 충돌 판정
-    private Collider currentCollider;
+    public Collider currentCollider;
 
     // 스크립트 값 불러오기 위한 변수들
     public MissionBox missionController;
@@ -81,13 +81,12 @@ public class PlayerInteraction : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // 콜라이더에 값이 들어가 있으면 리턴
-        if (currentCollider != null) return;
-
-        // currentCollider에 충돌한 other값 삽입
-        currentCollider = other;
+        if (currentCollider != null) return;      
 
         if (other.CompareTag("Mission1") || other.CompareTag("Mission2") || other.CompareTag("Ending"))
         {
+            // currentCollider에 충돌한 other값 삽입
+            currentCollider = other;
             // missionController에 other값의 MissionBox 불러오기
             missionController = other.GetComponent<MissionBox>();
             // 삼항 연산자 사용 : 변수 = 조건문 ? 조건문이 참일 때 값 : 조건문이 거짓일 때 값
@@ -95,6 +94,8 @@ public class PlayerInteraction : MonoBehaviour
         }
         else if (other.CompareTag("ItemBox"))
         {
+            // currentCollider에 충돌한 other값 삽입
+            currentCollider = other;
             // boxController에 other의 BoxController 불러오기
             boxController = other.GetComponent<BoxController>();
             // 타입이 boxController에 값이 있다면 ItemBox 아니면 Idle
@@ -102,6 +103,8 @@ public class PlayerInteraction : MonoBehaviour
         }
         else if (other.CompareTag("Item"))
         {
+            // currentCollider에 충돌한 other값 삽입
+            currentCollider = other;
             // item에 other의 Item 불러오기
             item = other.GetComponent<Item>();
             // 타입이 item에 값이 있으면 Item 없으면 Idle
