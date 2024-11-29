@@ -7,7 +7,7 @@ public class ClickedItem : MonoBehaviourPun
 {
     [Header("현재 선택한 버튼 정보")]
     public GameObject nowClicked;
-    public ItemPrefab nowItemUI;
+    public ItemPrefab nowItemPrefab;
 
     [Header("참조할 스크립트")]
     public GameSceneManager gameSceneManager;
@@ -45,6 +45,46 @@ public class ClickedItem : MonoBehaviourPun
         // 현재 버튼을 클릭한 게임 오브젝트
         nowClicked = EventSystem.current.currentSelectedGameObject;
         // 오브젝트의 ItemPrefab.cs 참조
+        nowItemPrefab = nowClicked.GetComponent<ItemPrefab>();
+
+        // player와 상호작용한 BoxConroller.cs 참조
+        BoxController boxController = playerInteraction.boxController;
+        boxInventory = boxController.GetComponentInChildren<BoxInventory>();
+        PhotonView photonView = boxInventory.GetComponent<PhotonView>();
+
+        if (boxController != null) // boxController 참조가 된 경우
+        {
+            // Box의 인벤토리 UI가 닫혀있는 경우 작동 x
+            if (boxController.IsUIOpen == false)
+            {
+                return;
+            }
+            // Box의 인벤토리 UI가 열려있는 경우 추가
+            else if (boxController.IsUIOpen == true)
+            {
+                // BoxInventory.cs의 RPC함수로 AddBox실행
+                photonView.RPC("AddBox", RpcTarget.All, nowItemPrefab.itemNameText.text);
+                playerInventory.RemoveItem(nowItemPrefab.itemNameText.text, 1);
+                return;
+            }
+        }
+        else // 참조한 BoxController.cs가 없는 경우
+        {
+            return;
+        }
+    }
+
+
+    /*
+    /// <summary>
+    /// Player Inventory의 Item Prefab에서 Button을 클릭했을 때 Onclick 이벤트로 발생
+    /// - PlayerInventory에서 Item Box로 아이템 추가하는 함수
+    /// </summary>
+    public void PlayerAddBox()
+    {
+        // 현재 버튼을 클릭한 게임 오브젝트
+        nowClicked = EventSystem.current.currentSelectedGameObject;
+        // 오브젝트의 ItemPrefab.cs 참조
         nowItemUI = nowClicked.GetComponent<ItemPrefab>();
 
         // player와 상호작용한 BoxConroller.cs 참조
@@ -73,7 +113,7 @@ public class ClickedItem : MonoBehaviourPun
             return;
         }
     }
-
+   */
     /// <summary>
     /// Box에 있는 Item Prefab에서 Button을 클릭했을 때 Onclick 이벤트로 발생
     /// - Item Box에서 PlayerInventory로 아이템 추가하는 함수
@@ -82,15 +122,17 @@ public class ClickedItem : MonoBehaviourPun
     {
         Debug.Log("버튼 클릭");
         nowClicked = EventSystem.current.currentSelectedGameObject;
-        nowItemUI = nowClicked.GetComponent<ItemPrefab>();
+        nowItemPrefab = nowClicked.GetComponent<ItemPrefab>();
+
+        // TODO : ItemBox에 있는 boxInventory를 참조할것
         Debug.Log("선택된 아이템으로 ItemData 생성");
-        ItemData curItem = FindItem(nowItemUI.itemNameText.text);
+        ItemData curItem = FindItem(nowItemPrefab.itemNameText.text);
         Debug.Log("개인 Inventory에 추가");
         playerInventory.AddItem(curItem.itemData.itemName, curItem.itemData.itemSprite, curItem.itemData.itemCount);
 
         // 무조건 플레이어와 접촉하여 아이템 박스가 열려있는 상태이므로
         Debug.Log("ItemBox에 공공의 함수로 제거");
-        photonView.RPC("SubBox", RpcTarget.All, nowItemUI.itemNameText.text);
+        photonView.RPC("SubBox", RpcTarget.All, nowItemPrefab.itemNameText.text);
 
         Debug.Log("아이템삭제");
         PhotonNetwork.Destroy(curItem.itemData.gameObject);
