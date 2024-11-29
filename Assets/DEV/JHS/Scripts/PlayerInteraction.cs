@@ -1,8 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInteraction : MonoBehaviour
+public class PlayerInteraction : MonoBehaviourPun
 { 
     public enum Type { Idle, Mission, ItemBox, Item }
     public Type type = Type.Idle;
@@ -40,7 +41,7 @@ public class PlayerInteraction : MonoBehaviour
     private void Update()
     {
         // E 키 입력 처리
-        if (Input.GetKeyDown(KeyCode.E) && !isInteracting && currentCollider != null && status.playerDie == false)
+        if (photonView.IsMine && Input.GetKeyDown(KeyCode.E) && !isInteracting && currentCollider != null && status.playerDie == false)
         {
             isInteracting = true; // 상호작용 중 상태로 변경
 
@@ -74,6 +75,7 @@ public class PlayerInteraction : MonoBehaviour
    
     private void OnTriggerEnter(Collider other)
     {
+        if (!photonView.IsMine) return;
         // 콜라이더에 값이 들어가 있으면 리턴
         if (currentCollider != null) return;      
 
@@ -113,6 +115,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        // 로컬 플레이어 소유일 때만 처리
+        if (!photonView.IsMine) return;
         // 콜라이더에서 나온 값이 currentCollider 값과 같다면 실행 #땅 콜라이더가 이 값에 들어갈 경우가 있나?
         if (other == currentCollider)
         {
