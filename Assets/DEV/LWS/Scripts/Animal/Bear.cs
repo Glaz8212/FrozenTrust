@@ -3,15 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bear : Animal
+public class Bear : Animal, IPunObservable
 {
-    public float sensingRange;
-    public override void OnIdleUpdate(IdleState state)
-    {
+    [SerializeField] private float sensingRange;
 
+    protected override void UpdateBehaviour()
+    {
+        GameObject detectedPlayer = DetectPlayer();
+        if (detectedPlayer != null)
+        {
+            RotateTowards(detectedPlayer.transform.position);
+            PlayAttackAnimation();
+            AttackPlayer(detectedPlayer);
+        }
+        else
+        {
+            PlayIdleAnimation();
+        }
     }
 
-    public override GameObject DetectPlayer()
+    private GameObject DetectPlayer()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, sensingRange);
         foreach (var hit in hits)
@@ -22,9 +33,12 @@ public class Bear : Animal
         return null;
     }
 
-    [PunRPC]
-    public override void SyncState(string state)
+    private void AttackPlayer(GameObject player)
     {
-        base.SyncState(state);
+        float distance = Vector3.Distance(transform.position, player.transform.position);
+        if (distance < 2f)
+        {
+            player.GetComponent<PlayerStatus>()?.TakeHP(Damage);
+        }
     }
 }

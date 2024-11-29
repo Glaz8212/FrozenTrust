@@ -5,68 +5,61 @@ using System.Security.Cryptography.X509Certificates;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public abstract class Animal : MonoBehaviourPun
+public abstract class Animal : MonoBehaviourPun, IPunObservable
 {
-    // 동물 공통 필드
     [SerializeField] protected float speed;
     [SerializeField] protected float maxHp;
     protected float curHp;
 
     [SerializeField] protected float damage;
-    public float Damage
-    {
-        get { return damage; }
-        set { damage = value; }
-    }
+    public float Damage { get { return damage; } set { damage = value; } }
 
     protected Animator animator;
 
-    // 현재 상태
-    protected AnimalState curState;
-
+    // HP 최대로 설정, animator 초기화
     protected virtual void Start()
     {
         curHp = maxHp;
         animator = GetComponent<Animator>();
-        SetState(new IdleState(this));
     }
 
+    // 마스터 클라이언트만 행동 업데이트
     protected virtual void Update()
     {
-        // 마스터 클라이언트가 상태관리
         if (PhotonNetwork.IsMasterClient)
         {
-            curState?.Update();
+            UpdateBehaviour();
         }
     }
 
-    public void SetState(AnimalState state)
+    // 각 동물마다 구현할 추상 메서드
+    protected abstract void UpdateBehaviour();
+
+
+    public void TakeDamage(float damage)
     {
-        // 현재 상태 종료
-        curState?.Exit();
+        if (!PhotonNetwork.IsMasterClient)
+            return;
 
-        // 새 상태
-        curState = state;
-        curState?.Enter();
+        curHp -= damage;
+        photonView.RPC(nameof(SyncHealth), RpcTarget.Others, curHp);
 
-        // 상태 동기화
-        photonView.RPC("SyncState", RpcTarget.All, state.GetType().Name);
-    }
-
-    [PunRPC]
-    public virtual void SyncState(string state)
-    {
-        // 동기화된 상태 설정
-        if (state == nameof(IdleState))
-            curState = new IdleState(this);
-        else if (state == nameof(AttackState))
-            curState = new AttackState(this);
+        if (curHp <= 0)
+        {
+            Die();
+        }
     }
 
     [PunRPC]
     private void SyncHealth(float updatedHp)
     {
         curHp = updatedHp;
+    }
+
+    protected virtual void Die()
+    {
+        PlayDieAnimation();
+        PhotonNetwork.Destroy(gameObject);
     }
 
     public void PlayIdleAnimation()
@@ -90,21 +83,7 @@ public abstract class Animal : MonoBehaviourPun
         animator.SetBool("isDead", true);
     }
 
-    public void TakeDamage(float damage)
-    {
-        // 마스터 클라이언트가 체력 관리
-        if (!PhotonNetwork.IsMasterClient)
-            return;
-
-        curHp -= damage;
-        photonView.RPC("SyncHealth", RpcTarget.Others, curHp);
-
-        if (curHp <= 0)
-        {
-            Die();
-        }
-    }
-    public void RotateTowardsTarget(Vector3 targetPosition)
+    public void RotateTowards(Vector3 targetPosition)
     {
         Vector3 direction = (targetPosition - transform.position).normalized;
         if (direction.magnitude > 0.1f)
@@ -114,28 +93,20 @@ public abstract class Animal : MonoBehaviourPun
         }
     }
 
-    public void RotateTowardsDirection(Vector3 direction)
+    // 네트워크 데이터 동기화
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (direction.sqrMagnitude > 0.01f) // 방향 벡터가 0이 아니면
+        if (stream.IsWriting) // 데이터 전송
         {
-            Quaternion targetRotation = Quaternion.LookRotation(direction.normalized);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * 5f); // 5f는 회전 속도
+            stream.SendNext(transform.position);
+            stream.SendNext(transform.rotation);
+            stream.SendNext(curHp);
+        }
+        else // 데이터 수신
+        {
+            transform.position = (Vector3)stream.ReceiveNext();
+            transform.rotation = (Quaternion)stream.ReceiveNext();
+            curHp = (float)stream.ReceiveNext();
         }
     }
-
-    protected virtual void Die()
-    {
-        if (!PhotonNetwork.IsMasterClient)
-            return;
-
-        PlayDieAnimation();
-
-        // TODO: 고기 드랍
-        
-        
-        PhotonNetwork.Destroy(gameObject);
-    }
-
-    public abstract void OnIdleUpdate(IdleState state);
-    public abstract GameObject DetectPlayer();
 }
