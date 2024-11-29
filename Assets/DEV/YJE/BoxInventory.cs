@@ -1,8 +1,5 @@
-using Cinemachine;
 using Photon.Pun;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class BoxInventory : MonoBehaviourPun
@@ -69,14 +66,12 @@ public class BoxInventory : MonoBehaviourPun
     [PunRPC]
     public void AddBox(string itemName)
     {
-        Debug.Log("AddBox실행");
         ItemData curItem = null;
         foreach (ItemData item in inventory)
         {
-            // 같은 종류의 아이템
+            // 같은 종류의 아이템을 추가하려는 경우
             if (item.itemData.itemName == itemName)
             {
-                Debug.Log("이미있는 아이템");
                 if (item.itemData.itemCount < 4)
                 {
                     curItem = item;
@@ -84,40 +79,42 @@ public class BoxInventory : MonoBehaviourPun
                 }
             }
         }
-        if (curItem != null)
+        if (curItem != null) // 현재 아이템이 없으면
         {
             curItem.itemData.itemCount += 1;
             UpdateItem(curItem);
         }
-        else if (inventory.Count <= size)
+        else if (inventory.Count <= size) // 아이템 박스 사이즈 보다 용량이 적은 경우
         {
+            // 관련 아이템을 생성 -> 삽입 -> 삭제
             switch (itemName)
             {
                 case "Wood":
-                    Debug.Log("나무를 만들기");
                     Item woodItem = PhotonNetwork.Instantiate("YJE/Wood", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
                     curItem = new ItemData(woodItem);
+                    PhotonNetwork.Destroy(woodItem.gameObject);
                     break;
                 case "Ore":
                     Debug.Log("광석을 만들기");
                     Item oreItem = PhotonNetwork.Instantiate("YJE/Ore", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
                     curItem = new ItemData(oreItem);
+                    PhotonNetwork.Destroy(oreItem.gameObject);
                     break;
                 case "Fruit":
                     Debug.Log("열매를 만들기");
                     Item fruitItem = PhotonNetwork.Instantiate("YJE/Fruit", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
                     curItem = new ItemData(fruitItem);
+                    PhotonNetwork.Destroy(fruitItem.gameObject);
                     break;
                 default:
                     break;
             }
-            Debug.Log("아이템 리스트 추가");
-            inventory.Add(curItem);
-            CreateItemUI(curItem);
+            inventory.Add(curItem); // 아이템 추가
+            CreateItemUI(curItem); // 아이템 UI 추가
         }
-        else
+        else // 인벤토리가 가득 찬 경우
         {
-            Debug.Log("인벤토리가 가득 찼습니다.");
+            return;
         }
     }
     /*

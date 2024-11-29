@@ -42,39 +42,34 @@ public class ClickedItem : MonoBehaviourPun
     /// </summary>
     public void PlayerAddBox()
     {
-        Debug.Log("버튼 클릭");
+        // 현재 버튼을 클릭한 게임 오브젝트
         nowClicked = EventSystem.current.currentSelectedGameObject;
+        // 오브젝트의 ItemPrefab.cs 참조
         nowItemUI = nowClicked.GetComponent<ItemPrefab>();
-        Debug.Log($"아이템 이름 : {nowItemUI.itemNameText.text}");
-        Debug.Log($"아이템 갯수 : {nowItemUI.itemQuantityText.text}");
 
+        // player와 상호작용한 BoxConroller.cs 참조
         BoxController boxController = playerInteraction.boxController;
         boxInventory = boxController.GetComponentInChildren<BoxInventory>();
         PhotonView photonView = boxInventory.GetComponent<PhotonView>();
 
         if (boxController != null) // boxController 참조가 된 경우
         {
-            Debug.Log("BoxController를 찾았습니다.");
             // Box의 인벤토리 UI가 닫혀있는 경우 작동 x
             if (boxController.IsUIOpen == false)
             {
-                Debug.Log("박스가 오픈되지 않았습니다.");
                 return;
             }
             // Box의 인벤토리 UI가 열려있는 경우 추가
             else if (boxController.IsUIOpen == true)
             {
+                // BoxInventory.cs의 RPC함수로 AddBox실행
                 photonView.RPC("AddBox", RpcTarget.All, nowItemUI.itemNameText.text);
-                Debug.Log("ItemBox에 공공의 함수로 추가");
                 playerInventory.RemoveItem(nowItemUI.itemNameText.text, 1);
-                Debug.Log("개인 Inventory에서 제거");
                 return;
             }
-
         }
-        else
+        else // 참조한 BoxController.cs가 없는 경우
         {
-            Debug.Log("BoxController가 없습니다.");
             return;
         }
     }
