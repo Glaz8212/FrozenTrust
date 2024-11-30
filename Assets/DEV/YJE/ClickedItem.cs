@@ -43,7 +43,7 @@ public class ClickedItem : MonoBehaviourPun
     public void PlayerAddBox()
     {
         // 현재 버튼을 클릭한 게임 오브젝트
-        nowClicked = EventSystem.current.currentSelectedGameObject;
+        nowClicked = EventSystem.current.currentSelectedGameObject.gameObject;
         // 오브젝트의 ItemPrefab.cs 참조
         nowItemPrefab = nowClicked.GetComponent<ItemPrefab>();
 
@@ -121,43 +121,64 @@ public class ClickedItem : MonoBehaviourPun
     public void BoxAddPlayer()
     {
         Debug.Log("버튼 클릭");
-        nowClicked = EventSystem.current.currentSelectedGameObject;
+        // 현재 버튼을 클릭한 게임 오브젝트
+        nowClicked = EventSystem.current.currentSelectedGameObject.gameObject; ////
+        // 오브젝트의 ItemPrefab.cs 참조
         nowItemPrefab = nowClicked.GetComponent<ItemPrefab>();
+        // 상호작용한 버튼의 부모가 가진 BoxInventroy.cs 참조
+        boxInventory = nowClicked.GetComponentInParent<BoxInventory>(); ////
+        PhotonView photonView = boxInventory.GetComponent<PhotonView>();
+
+        GameObject curObject = null;
+        Item curItem = null;
+        ItemData curItemData = null;
 
         // TODO : ItemBox에 있는 boxInventory를 참조할것
-        Debug.Log("선택된 아이템으로 ItemData 생성");
-        ItemData curItem = FindItem(nowItemPrefab.itemNameText.text);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("마스터클라이언트 한사람만");
+            Debug.Log("선택된 아이템으로 ItemData 생성");
+            curObject = FindItem(nowItemPrefab.itemNameText.text);
+        }
+        curItem = curObject.GetComponent<Item>();
+        curItemData = new ItemData(curItem);
         Debug.Log("개인 Inventory에 추가");
-        playerInventory.AddItem(curItem.itemData.itemName, curItem.itemData.itemSprite, curItem.itemData.itemCount);
+        playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, curItemData.itemData.itemCount);
 
         // 무조건 플레이어와 접촉하여 아이템 박스가 열려있는 상태이므로
         Debug.Log("ItemBox에 공공의 함수로 제거");
-        photonView.RPC("SubBox", RpcTarget.All, nowItemPrefab.itemNameText.text);
+        photonView.RPC("SubBox", RpcTarget.All, curItemData.itemData.itemName);
 
-        Debug.Log("아이템삭제");
-        PhotonNetwork.Destroy(curItem.itemData.gameObject);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            Debug.Log("마스터클라이언트 한사람만");
+            Debug.Log("아이템삭제");
+            PhotonNetwork.Destroy(curObject);
+        }
     }
 
-    private ItemData FindItem(string itemName)
+    private GameObject FindItem(string itemName)
     {
-        ItemData itemData = null;
+        GameObject curObject = null;
         // 관련 아이템을 생성 -> 삽입 -> 삭제
         switch (itemName)
         {
+            // boxItem 프리팹에 PhotonView 추가 후 실행
             case "Wood":
-                Item woodItem = PhotonNetwork.Instantiate("YJE/Wood", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
-                itemData = new ItemData(woodItem);
-                return itemData;
+                Debug.Log("목재를 만들기");
+                curObject = PhotonNetwork.InstantiateRoomObject("YJE/Wood", new Vector3(0, 0, 0), Quaternion.identity);
+                //woodItemData;
+                return curObject;
             case "Ore":
                 Debug.Log("광석을 만들기");
-                Item oreItem = PhotonNetwork.Instantiate("YJE/Ore", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
-                itemData = new ItemData(oreItem);
-                return itemData;
+                curObject = PhotonNetwork.InstantiateRoomObject("YJE/Ore", new Vector3(0, 0, 0), Quaternion.identity);
+                //oreItemData;
+                return curObject;
             case "Fruit":
                 Debug.Log("열매를 만들기");
-                Item fruitItem = PhotonNetwork.Instantiate("YJE/Fruit", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
-                itemData = new ItemData(fruitItem);
-                return itemData;
+                curObject = PhotonNetwork.InstantiateRoomObject("YJE/Fruit", new Vector3(0, 0, 0), Quaternion.identity);
+                //fruitItemData;
+                return curObject;
             default:
                 break;
         }

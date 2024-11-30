@@ -91,7 +91,7 @@ GameObject:
   - component: {fileID: 8175063441667244354}
   - component: {fileID: 4481246028408084321}
   - component: {fileID: 693786083497471468}
-  - component: {fileID: 8018527885187116914}
+  - component: {fileID: 8697415939395112588}
   m_Layer: 5
   m_Name: BoxItem
   m_TagString: Untagged
@@ -266,7 +266,7 @@ MonoBehaviour:
   itemName: 
   itemSprite: {fileID: 21300000, guid: dd936a291896e3f4086c4877c374c4e6, type: 3}
   itemCount: 0
---- !u!114 &8018527885187116914
+--- !u!114 &8697415939395112588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
