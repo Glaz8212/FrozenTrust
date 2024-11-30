@@ -42,20 +42,12 @@ public abstract class Animal : MonoBehaviourPun, IPunObservable
             return;
 
         curHp -= damage;
-        photonView.RPC(nameof(SyncHealth), RpcTarget.Others, curHp);
 
         if (curHp <= 0)
         {
             photonView.RPC(nameof(Die), RpcTarget.All);
         }
     }
-
-    [PunRPC]
-    private void SyncHealth(float updatedHp)
-    {
-        curHp = updatedHp;
-    }
-
 
     [PunRPC]
     protected virtual void Die()
@@ -104,14 +96,10 @@ public abstract class Animal : MonoBehaviourPun, IPunObservable
     {
         if (stream.IsWriting) // 데이터 전송
         {
-            stream.SendNext(transform.position);
-            stream.SendNext(transform.rotation);
             stream.SendNext(curHp);
         }
         else // 데이터 수신
         {
-            transform.position = (Vector3)stream.ReceiveNext();
-            transform.rotation = (Quaternion)stream.ReceiveNext();
             curHp = (float)stream.ReceiveNext();
         }
     }
