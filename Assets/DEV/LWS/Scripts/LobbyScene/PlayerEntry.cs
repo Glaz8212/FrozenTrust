@@ -40,7 +40,7 @@ public class PlayerEntry : MonoBehaviour
     {
         readyText.text = "";
         nameText.text = "None";
-        readyButton.gameObject.SetActive(false);
+        //readyButton.gameObject.SetActive(false);
     }
 
     public void Ready()

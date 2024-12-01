@@ -8,6 +8,17 @@ public class Wolf : Animal, IPunObservable
     [SerializeField] private float sensingRange;
     private Vector3 target;
 
+    private GameObject DetectPlayer()
+    {
+        Collider[] hits = Physics.OverlapSphere(transform.position, sensingRange);
+        foreach (var hit in hits)
+        {
+            if (hit.CompareTag("Player"))
+                return hit.gameObject;
+        }
+        return null;
+    }
+
     protected override void UpdateBehaviour()
     {
         GameObject detectedPlayer = DetectPlayer();
@@ -21,16 +32,6 @@ public class Wolf : Animal, IPunObservable
         {
             MoveRandomly();
         }
-    }
-    private GameObject DetectPlayer()
-    {
-        Collider[] hits = Physics.OverlapSphere(transform.position, sensingRange);
-        foreach (var hit in hits)
-        {
-            if (hit.CompareTag("Player"))
-                return hit.gameObject;
-        }
-        return null;
     }
 
     private void MoveRandomly()
