@@ -27,7 +27,7 @@ public class TestPlayer : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E))
             {
                 Debug.Log("아이템 줍기");
-                other.gameObject.GetComponent<ItemController>().SaveItem();
+                //other.gameObject.GetComponent<ItemController>().SaveItem();
             }
         }
         // 아이템 박스와 트리거 발생 시
