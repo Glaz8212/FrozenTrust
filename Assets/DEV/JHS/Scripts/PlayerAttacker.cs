@@ -45,10 +45,10 @@ public class PlayerAttacker : MonoBehaviourPun
                         Non();
                         break;
                     case Type.CloserWeapon:
-                        // 근접 한손 공격 패턴 구현 필요
+                        CloserWeapon();
                         break;
                     case Type.TwoHandWeapon:
-                        // 근접 두손 공격 패턴 구현 필요
+                        TwoHandWeapon();                    
                         break;
                     case Type.RangedWeapon:
                         // 원거리 넣을꺼면 여기
@@ -57,13 +57,32 @@ public class PlayerAttacker : MonoBehaviourPun
             }
         }
     }
+    public void SetWeaponState(WeaponState state)
+    {
+        weaponState = state;
+
+        if (weaponState != null)
+        {
+            weaponCollider = weaponState.GetComponent<Collider>();
+            Debug.Log("WeaponState와 Collider가 설정되었습니다.");
+        }
+        else
+        {
+            Debug.LogError("WeaponState가 null입니다.");
+        }
+    }
     // 무기 장착
     public void InstallationWeapon(Type types)
-    {        
+    {
         type = types;
-        // 자식이 된 무기에서 WeaponState 스크립트 참조
-        weaponState = GetComponent<WeaponState>();
-        // weaponState 스크립트의 Collider weaponCollider에 들어간 콜라이더를 참조
+
+        if (weaponState == null)
+        {
+            Debug.LogError("WeaponState가 설정되지 않았습니다.");
+            return;
+        }
+
+        // 이미 설정된 weaponState에서 Collider 참조
         weaponCollider = weaponState.GetComponent<Collider>();
         Debug.Log($"{type}으로 변경");
     }
@@ -87,10 +106,14 @@ public class PlayerAttacker : MonoBehaviourPun
     public void CloserWeapon()
     {
         // 근거리 애니메이션 실행
+        photonView.RPC("CloserAttack", RpcTarget.All);
+        StartCoroutine(EndAttack());
     }
     public void TwoHandWeapon()
     {
         // 근거리 두손 애니메이션 실행
+        photonView.RPC("TwoHandedAttack", RpcTarget.All);
+        StartCoroutine(EndAttack());
     }
     public void RangedWeapon()
     {

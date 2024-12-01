@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class WeaponState : MonoBehaviour
 {
+    // 무기 타입 확인
+    public enum WeaponType
+    {
+        Non, OneHanded, TwoHanded
+    }
     // 데미지
     [SerializeField] int weaponDamage;
 
@@ -11,6 +16,8 @@ public class WeaponState : MonoBehaviour
     [SerializeField] Collider weaponCollider;
 
     private bool isHit = false;
+
+    [SerializeField] public WeaponType weaponType;
 
     private void Update()
     {
@@ -21,7 +28,8 @@ public class WeaponState : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (isHit) return;
-
+        // 오브젝트 공격 판정
+        isHit = true;
         // 활성화된 공격 판정에 적이 들어오면 데미지를 적용 // 부모 플레이어 제외
         if (other.CompareTag("Player") && other.gameObject != transform.root.gameObject)
         {
@@ -36,8 +44,7 @@ public class WeaponState : MonoBehaviour
             else
             {
                 Debug.LogWarning("충돌한 객체에 PlayerStatus 스크립트가 없습니다.");
-            }
-            isHit = true;
+            }            
         }
         else if (other.CompareTag("Resource"))
         {
@@ -52,8 +59,6 @@ public class WeaponState : MonoBehaviour
             {
                 Debug.LogWarning("충돌한 객체에 ResourceController 스크립트가 없습니다.");
             }
-            // 오브젝트 공격 판정
-            isHit = true;
         }
     }
 }

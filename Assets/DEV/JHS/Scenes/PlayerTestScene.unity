@@ -993,3 +993,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponDamage: 200
   weaponCollider: {fileID: 6589333416795611193}
+  weaponType: 1

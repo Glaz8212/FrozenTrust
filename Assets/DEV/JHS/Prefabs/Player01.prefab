@@ -8304,6 +8304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponDamage: 100
   weaponCollider: {fileID: 35042537836598066}
+  weaponType: 0
 --- !u!65 &35042537836598066
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10406,6 +10407,8 @@ MonoBehaviour:
   attackTerm: 0
   leftAttackArea: {fileID: 35042537836598066}
   rightAttackArea: {fileID: 1582225174899720728}
+  weaponState: {fileID: 0}
+  weaponCollider: {fileID: 0}
   animator: {fileID: 4348890797106946645}
 --- !u!114 &6985346774223031066
 MonoBehaviour:
@@ -10425,7 +10428,9 @@ MonoBehaviour:
   missionController: {fileID: 0}
   boxController: {fileID: 0}
   item: {fileID: 0}
+  weapon: {fileID: 0}
   playerInventory: {fileID: 0}
+  playerHandTransform: {fileID: 1406006453853061457}
 --- !u!143 &726639877173819331
 CharacterController:
   m_ObjectHideFlags: 0
@@ -15837,6 +15842,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponDamage: 100
   weaponCollider: {fileID: 1582225174899720728}
+  weaponType: 0
 --- !u!65 &1582225174899720728
 BoxCollider:
   m_ObjectHideFlags: 0
