@@ -89,9 +89,9 @@ public class PlayerInteraction : MonoBehaviourPun
                             weaponChild.localRotation = Quaternion.identity; // 손 기준 회전 초기화
 
                             attacker?.SetWeaponState(weaponState);
+                            weaponState.Deactivate();
                         }
                         attacker?.InstallationWeapon(PlayerAttacker.Type.CloserWeapon);
-                        Destroy(weapon.transform.root.gameObject);
                         ResetInteraction();
                     }
                     else if (weapon.weaponType == WeaponType.TwoHanded)

@@ -15,6 +15,10 @@ public class WeaponState : MonoBehaviour
     private PlayerAttacker playerAttacker;
     [SerializeField] Collider weaponCollider;
 
+    // 비활성화 할 콜라이더와 rigid
+    [SerializeField] Collider collider1;
+    [SerializeField] Collider collider2;
+    [SerializeField] Rigidbody rigidbody1;
     private bool isHit = false;
 
     [SerializeField] public WeaponType weaponType;
@@ -23,6 +27,13 @@ public class WeaponState : MonoBehaviour
     {
         if (weaponCollider.enabled == false)
             isHit = false ;
+    }
+
+    public void Deactivate()
+    {
+        rigidbody1.isKinematic = true; // 물리 비활성화
+        collider1.enabled = false; // 물리 비활성화
+        collider2.enabled = false; // 물리 비활성화
     }
 
     private void OnTriggerEnter(Collider other)
