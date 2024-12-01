@@ -8,7 +8,7 @@ public class WeaponState : MonoBehaviour
     [SerializeField] int weaponDamage;
 
     private PlayerAttacker playerAttacker;
-    [SerializeField] BoxCollider weaponCollider;
+    [SerializeField] Collider weaponCollider;
 
     private bool isHit = false;
 

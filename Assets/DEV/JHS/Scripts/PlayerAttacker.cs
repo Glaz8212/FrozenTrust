@@ -1,19 +1,22 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem.XR;
 
 public class PlayerAttacker : MonoBehaviourPun
 {
     // 맨손, 근거리, 원거리
-    public enum Type { Non, CloserWeapon, RangedWeapon, TwoHandedWeapon }
+    public enum Type { Non, CloserWeapon, RangedWeapon, TwoHandWeapon }
     public Type type = Type.Non;
     public bool attackTerm = false; // 공속
     private bool attackHand = false; // 좌우 펀치 공격 판정
     private PlayerStatus status;
     [SerializeField] BoxCollider leftAttackArea; // 맨손 공격 판정 // 무기 든거는 무기 오브젝트에다가 추가. 휘두르는 모션만 구현
     [SerializeField] BoxCollider rightAttackArea;
+    public WeaponState weaponState;
+    public Collider weaponCollider;
 
     [SerializeField] Animator animator;
         
@@ -29,7 +32,7 @@ public class PlayerAttacker : MonoBehaviourPun
 
     private void Update()
     {
-        if (!photonView.IsMine || attackTerm)
+        if (!photonView.IsMine && attackTerm)
             return;
         if (status.playerDie == false)
         {
@@ -44,7 +47,7 @@ public class PlayerAttacker : MonoBehaviourPun
                     case Type.CloserWeapon:
                         // 근접 한손 공격 패턴 구현 필요
                         break;
-                    case Type.TwoHandedWeapon:
+                    case Type.TwoHandWeapon:
                         // 근접 두손 공격 패턴 구현 필요
                         break;
                     case Type.RangedWeapon:
@@ -58,12 +61,18 @@ public class PlayerAttacker : MonoBehaviourPun
     public void InstallationWeapon(Type types)
     {        
         type = types;
+        // 자식이 된 무기에서 WeaponState 스크립트 참조
+        weaponState = GetComponent<WeaponState>();
+        // weaponState 스크립트의 Collider weaponCollider에 들어간 콜라이더를 참조
+        weaponCollider = weaponState.GetComponent<Collider>();
         Debug.Log($"{type}으로 변경");
     }
     // 무기 해제
     public void ReleaseWeapon()
     {      
         type = Type.Non;
+        weaponState = null;
+        weaponCollider = null;
         Debug.Log($"{type}으로 변경");
     }
     public void Non()
@@ -75,6 +84,18 @@ public class PlayerAttacker : MonoBehaviourPun
 
         StartCoroutine(EndAttack());
     }
+    public void CloserWeapon()
+    {
+        // 근거리 애니메이션 실행
+    }
+    public void TwoHandWeapon()
+    {
+        // 근거리 두손 애니메이션 실행
+    }
+    public void RangedWeapon()
+    {
+        // 원거리 애니메이션 실행
+    }
     private IEnumerator EndAttack()
     {        
         yield return new WaitForSeconds(2f); // 공격 지속 시간
@@ -82,19 +103,7 @@ public class PlayerAttacker : MonoBehaviourPun
         //rightAttackArea.enabled = false;
         photonView.RPC("DeactivateAttackArea", RpcTarget.All);
         attackTerm = false; // 공격 쿨타임 해제
-    }
-    public void CloserWeapon()
-    {
-        // 근거리 애니메이션 실행
-    }
-    public void TwoHandedWeapon()
-    {
-        // 근거리 애니메이션 실행
-    }
-    public void RangedWeapon()
-    {
-        // 원거리 애니메이션 실행
-    }
+    }  
     [PunRPC]
     private void ExecuteAttack(bool isLeftHand)
     {
@@ -111,12 +120,26 @@ public class PlayerAttacker : MonoBehaviourPun
             rightAttackArea.enabled = true;
         }
     }
+    [PunRPC]
+    private void CloserAttack(bool isLeftHand)
+    {
+        animator.Play("Punch_LeftHand");
+        weaponCollider.enabled = true;
+    }
+    [PunRPC]
+    private void TwoHandedAttack(bool isLeftHand)
+    {
+        animator.Play("Punch_LeftHand");
+        weaponCollider.enabled = true;
+    }
+
 
     [PunRPC]
     private void DeactivateAttackArea()
     {
         leftAttackArea.enabled = false;
         rightAttackArea.enabled = false;
+        weaponCollider.enabled = false;
     }
 
      
