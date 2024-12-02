@@ -32,9 +32,7 @@ public class PlayerAttacker : MonoBehaviourPun
 
     private void Update()
     {
-        if (!photonView.IsMine)
-            return;
-        if (attackTerm)
+        if (!photonView.IsMine || attackTerm)
             return;
         if (status.playerDie == false)
         {
