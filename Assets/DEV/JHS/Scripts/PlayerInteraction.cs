@@ -76,38 +76,44 @@ public class PlayerInteraction : MonoBehaviourPun
                     // item의 interaction에 인벤토리의 playerInventory값을 넣어 실행                    
                     break;
                 case Type.Weapon:
-                    if (weapon.weaponType == WeaponType.OneHanded)
-                    {                        
-                        // 땅에있던 아이템을 손으로 이동 시켜야됨
-                        WeaponState weaponState = weapon.GetComponentInChildren<WeaponState>();
-                        if (weaponState != null)
-                        {
-                            // WeaponState가 달린 자식 오브젝트를 손으로 이동
-                            Transform weaponChild = weaponState.transform;
-                            weaponChild.SetParent(playerHandTransform);
-                            weaponChild.localPosition = Vector3.zero; // 손 기준 위치 초기화
-                            weaponChild.localRotation = Quaternion.identity; // 손 기준 회전 초기화
-
-                            attacker?.SetWeaponState(weaponState);
-                            weaponState.Deactivate();
-                        }
-                        attacker?.InstallationWeapon(PlayerAttacker.Type.CloserWeapon);
+                    if(currentCollider == null)
+                    {
                         ResetInteraction();
                     }
-                    else if (weapon.weaponType == WeaponType.TwoHanded)
+                    else
                     {
-                        // 땅에있던 아이템을 손으로 이동 시켜야됨
-                        WeaponState weaponState = weapon.GetComponentInChildren<WeaponState>();
-                        if (weaponState != null)
+                        if (weapon.weaponType == WeaponType.OneHanded)
                         {
-                            // WeaponState가 달린 자식 오브젝트를 손으로 이동
-                            Transform weaponChild = weaponState.transform;
-                            weaponChild.SetParent(playerHandTransform);
-                            weaponChild.localPosition = Vector3.zero; // 손 기준 위치 초기화
-                            weaponChild.localRotation = Quaternion.identity; // 손 기준 회전 초기화
+                            // 땅에있던 아이템을 손으로 이동 시켜야됨
+                            WeaponState weaponState = weapon.GetComponentInChildren<WeaponState>();
+                            if (weaponState != null)
+                            {
+                                // WeaponState가 달린 자식 오브젝트를 손으로 이동
+                                Transform weaponChild = weaponState.transform;
+                                weaponChild.SetParent(playerHandTransform);
+                                weaponChild.localPosition = Vector3.zero; // 손 기준 위치 초기화
+                                weaponChild.localRotation = Quaternion.identity; // 손 기준 회전 초기화
+
+                                attacker?.SetWeaponState(weaponState);
+                                weaponState.Deactivate();
+                            }
+                            attacker?.InstallationWeapon(PlayerAttacker.Type.CloserWeapon);
                         }
-                        attacker?.InstallationWeapon(PlayerAttacker.Type.TwoHandWeapon);
-                        Destroy(weapon.transform.root.gameObject);
+                        else if (weapon.weaponType == WeaponType.TwoHanded)
+                        {
+                            // 땅에있던 아이템을 손으로 이동 시켜야됨
+                            WeaponState weaponState = weapon.GetComponentInChildren<WeaponState>();
+                            if (weaponState != null)
+                            {
+                                // WeaponState가 달린 자식 오브젝트를 손으로 이동
+                                Transform weaponChild = weaponState.transform;
+                                weaponChild.SetParent(playerHandTransform);
+                                weaponChild.localPosition = Vector3.zero; // 손 기준 위치 초기화
+                                weaponChild.localRotation = Quaternion.identity; // 손 기준 회전 초기화
+                            }
+                            attacker?.InstallationWeapon(PlayerAttacker.Type.TwoHandWeapon);
+
+                        }
                         ResetInteraction();
                     }
                     break;
