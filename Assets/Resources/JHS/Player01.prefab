@@ -221,7 +221,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.3
-  m_SlopeLimit: 20
+  m_SlopeLimit: 30
   m_StepOffset: 0.1
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
@@ -7869,7 +7869,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3323161413726655883
 RectTransform:
   m_ObjectHideFlags: 0
