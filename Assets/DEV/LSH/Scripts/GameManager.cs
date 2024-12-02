@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         int playerList = PhotonNetwork.PlayerList.Length;
 
         // 배신자는 4명당 1명 최소 인원 4명
-        traitorCount = Mathf.Max(1, playerList / 4);
+        traitorCount = Mathf.Max(2, playerList / 4);
         survivorCount = playerList - traitorCount;
 
         List<int> playerId = new List<int>();
@@ -93,7 +93,9 @@ public class GameManager : MonoBehaviourPunCallbacks
 
             
             photonView.RPC(nameof(SynchRoles), RpcTarget.All, role, player.ActorNumber);
+            
         }
+        photonView.RPC(nameof(Synchtraitor), RpcTarget.All, traitor.ToArray());
     }
 
     [PunRPC]
@@ -104,6 +106,17 @@ public class GameManager : MonoBehaviourPunCallbacks
             playerRole = role;
             Debug.Log($"내 역할은 {(playerRole == 1 ? "배신자" : "생존자")}입니다.");
         }
+    }
+
+    [PunRPC]
+    private void Synchtraitor(int[] traitorIds)
+    {
+        traitor = new List<int>(traitorIds);
+    }
+
+    public List<int> GetTraitorIds()
+    {
+        return traitor;
     }
 
     public void CheckWin(bool checkwin)
