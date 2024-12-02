@@ -32,7 +32,9 @@ public class PlayerAttacker : MonoBehaviourPun
 
     private void Update()
     {
-        if (!photonView.IsMine && attackTerm)
+        if (!photonView.IsMine)
+            return;
+        if (attackTerm)
             return;
         if (status.playerDie == false)
         {
@@ -162,7 +164,10 @@ public class PlayerAttacker : MonoBehaviourPun
     {
         leftAttackArea.enabled = false;
         rightAttackArea.enabled = false;
-        weaponCollider.enabled = false;
+        if (weaponCollider != null)
+        {
+            weaponCollider.enabled = false;
+        }
     }
 
      
