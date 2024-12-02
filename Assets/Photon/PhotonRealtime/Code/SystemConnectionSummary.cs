@@ -102,26 +102,26 @@ namespace Photon.Realtime
         ///
         /// </remarks>
         /// <param name="client"></param>
-        public SystemConnectionSummary(LoadBalancingClient client)
-        {
-            if (client != null)
-            {
-                // protocol = 3 bits! potentially adding WebRTC.
-                this.UsedProtocol = (byte)((int)client.LoadBalancingPeer.UsedProtocol & 7);
-                this.SocketErrorCode = (int)client.LoadBalancingPeer.SocketErrorCode;
-            }
-
-            this.AppQuits = ConnectionHandler.AppQuits;
-            this.AppPause = ConnectionHandler.AppPause;
-            this.AppPauseRecent = ConnectionHandler.AppPauseRecent;
-            this.AppOutOfFocus = ConnectionHandler.AppOutOfFocus;
-
-            this.AppOutOfFocusRecent = ConnectionHandler.AppOutOfFocusRecent;
-            this.NetworkReachable = ConnectionHandler.IsNetworkReachableUnity();
-
-            this.ErrorCodeFits = this.SocketErrorCode <= short.MaxValue; // socket error code <= short.Max (everything else is a problem)
-            this.ErrorCodeWinSock = true;
-        }
+        // public SystemConnectionSummary(LoadBalancingClient client)
+        // {
+        //     if (client != null)
+        //     {
+        //         // protocol = 3 bits! potentially adding WebRTC.
+        //         this.UsedProtocol = (byte)((int)client.LoadBalancingPeer.UsedProtocol & 7);
+        //         this.SocketErrorCode = (int)client.LoadBalancingPeer.SocketErrorCode;
+        //     }
+        // 
+        //     this.AppQuits = ConnectionHandler.AppQuits;
+        //     this.AppPause = ConnectionHandler.AppPause;
+        //     this.AppPauseRecent = ConnectionHandler.AppPauseRecent;
+        //     this.AppOutOfFocus = ConnectionHandler.AppOutOfFocus;
+        // 
+        //     this.AppOutOfFocusRecent = ConnectionHandler.AppOutOfFocusRecent;
+        //     this.NetworkReachable = ConnectionHandler.IsNetworkReachableUnity();
+        // 
+        //     this.ErrorCodeFits = this.SocketErrorCode <= short.MaxValue; // socket error code <= short.Max (everything else is a problem)
+        //     this.ErrorCodeWinSock = true;
+        // }
 
         /// <summary>
         /// Creates a SystemConnectionSummary instance from an int (reversing ToInt()). This can then be turned into a string again.
