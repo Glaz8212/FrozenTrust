@@ -1,6 +1,7 @@
 using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using static WeaponState;
 
@@ -18,6 +19,7 @@ public class PlayerInteraction : MonoBehaviourPun
     public BoxController boxController;
     public Item item;
     public WeaponState weapon;
+    public GameObject weaponGameObject;
     public PlayerInventory playerInventory;
     private PlayerStatus status;
     private PlayerAttacker attacker;
@@ -84,40 +86,41 @@ public class PlayerInteraction : MonoBehaviourPun
                     {
                         if (weapon.weaponType == WeaponType.OneHanded)
                         {
-                            // 땅에있던 아이템을 손으로 이동 시켜야됨
-                            WeaponState weaponState = weapon.GetComponentInChildren<WeaponState>();
-                            if (weaponState != null)
-                            {
-                                // WeaponState가 달린 자식 오브젝트를 손으로 이동
-                                Transform weaponChild = weaponState.transform;
-                                weaponChild.SetParent(playerHandTransform);
-                                weaponChild.localPosition = Vector3.zero; // 손 기준 위치 초기화
-                                weaponChild.localRotation = Quaternion.identity; // 손 기준 회전 초기화
+                            MoverWeapon();
 
-                                attacker?.SetWeaponState(weaponState);
-                                weaponState.Deactivate();
-                            }
                             attacker?.InstallationWeapon(PlayerAttacker.Type.CloserWeapon);
                         }
                         else if (weapon.weaponType == WeaponType.TwoHanded)
                         {
-                            // 땅에있던 아이템을 손으로 이동 시켜야됨
-                            WeaponState weaponState = weapon.GetComponentInChildren<WeaponState>();
-                            if (weaponState != null)
-                            {
-                                // WeaponState가 달린 자식 오브젝트를 손으로 이동
-                                Transform weaponChild = weaponState.transform;
-                                weaponChild.SetParent(playerHandTransform);
-                                weaponChild.localPosition = Vector3.zero; // 손 기준 위치 초기화
-                                weaponChild.localRotation = Quaternion.identity; // 손 기준 회전 초기화
-                            }
+                            MoverWeapon();
+
                             attacker?.InstallationWeapon(PlayerAttacker.Type.TwoHandWeapon);
                         }
                         ResetInteraction();
                     }
                     break;
             }
+        }/*
+        else if (photonView.IsMine && Input.GetKeyDown(KeyCode.Q) && status.playerDie == false && )
+        {
+
+        }*/
+    }
+
+    private void MoverWeapon()
+    {
+        weaponGameObject.transform.SetParent(playerHandTransform);
+
+        weaponGameObject.transform.localPosition = Vector3.zero;
+        weaponGameObject.transform.localRotation = Quaternion.Euler(0, -90, 0); // Y값 90도 회전
+
+        WeaponState weaponState = weapon.GetComponentInChildren<WeaponState>();
+        if (weaponState != null)
+        {
+            attacker?.SetWeaponState(weaponState);
+            weaponState.Deactivate();
         }
+        attacker?.InstallationWeapon(PlayerAttacker.Type.TwoHandWeapon);
     }
 
    
@@ -142,10 +145,12 @@ public class PlayerInteraction : MonoBehaviourPun
             Debug.Log("무기");
             // currentCollider에 충돌한 other값 삽입
             currentCollider = other;
+            // WeaponState가 아닌, 충돌한 오브젝트 자체를 weapon으로 설정
+            weaponGameObject = other.gameObject;
             // 충돌한 오브젝트의 자식에서 위치한  WeaponState를 참조
             weapon = other.GetComponentInChildren<WeaponState>();
-            Debug.Log($"{weapon}");
-            type = weapon != null ? Type.Weapon : Type.Idle;
+            Debug.Log($"{weaponGameObject}");
+            type = weaponGameObject != null ? Type.Weapon : Type.Idle;
         }
         else if (other.CompareTag("Mission1") || other.CompareTag("Mission2") || other.CompareTag("Ending"))
         {
@@ -202,6 +207,7 @@ public class PlayerInteraction : MonoBehaviourPun
         missionController = null;
         boxController = null;
         weapon = null;
+        weaponGameObject = null;
         item = null;
         isInteracting = false;
     }
