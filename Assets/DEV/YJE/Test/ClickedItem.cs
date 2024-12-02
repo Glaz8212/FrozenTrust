@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class ClickedItem : MonoBehaviourPun
-{
+{/*
     [Header("현재 선택한 버튼 정보")]
     public GameObject nowClicked;
     public ItemPrefab nowItemPrefab;
@@ -15,6 +15,10 @@ public class ClickedItem : MonoBehaviourPun
     [SerializeField] PlayerInteraction playerInteraction;
     [SerializeField] BoxController boxController;
     //[SerializeField] BoxInventory[] boxInventorylist;
+
+    // ItmeBoxList 오브젝트에 있는 BoxInventroyList.cs
+    [SerializeField] BoxInventoryList boxInventoryList;
+
     [SerializeField] BoxInventory boxInventory;
     [SerializeField] PhotonView photonView;
     [SerializeField] PlayerInventory playerInventory;
@@ -38,15 +42,17 @@ public class ClickedItem : MonoBehaviourPun
         // 박스 컨트롤러를 불러오기 위한 생성된 플레이어의 PlayerInteration.cs 참조
         playerInteraction = gameSceneManager.nowPlayer.GetComponent<PlayerInteraction>();
         playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
-        //boxInventory = new BoxInventory[10];
-        //boxInventorylist = FindObjectsByType<BoxInventory>(FindObjectsSortMode.None);
 
-        //boxInventory = GetComponents<BoxInventory>();
+        // 현재의 부모 오브젝트에 있는 BoxInventoryList.cs참조
+        boxInventoryList = gameObject.transform.GetComponentInParent<BoxInventoryList>();
+        // 현재의 BoxInventory = 참조한 BoxInventoryLsit 배열의 현재 오브젝트가 몇번째 자식오브젝트의 순서와 동일
+        // GetSibligIndex() =  현재 오브젝트가 몇번째인지 int형으로 출력
+
         /*
         // player와 상호작용한 BoxConroller.cs 참조
         boxController = playerInteraction.boxController;
         boxInventory = boxController.GetComponentInChildren<BoxInventory>();
-        photonView = boxInventory.GetComponent<PhotonView>();*/
+        photonView = boxInventory.GetComponent<PhotonView>();
     }
 
     /// <summary>
@@ -61,8 +67,11 @@ public class ClickedItem : MonoBehaviourPun
         nowItemPrefab = nowClicked.GetComponent<ItemPrefab>();
 
         // player와 상호작용한 BoxConroller.cs 참조
-        BoxController boxController = playerInteraction.boxController;
-        boxInventory = boxController.GetComponentInChildren<BoxInventory>();
+        boxController = playerInteraction.boxController;
+        // boxInventory = boxController.GetComponentInChildren<BoxInventory>();
+        Debug.Log(gameObject.name);
+        Debug.LogError(transform.GetSiblingIndex());
+        boxInventory = boxInventoryList.boxInventorylist[transform.GetSiblingIndex()];
         PhotonView photonView = boxInventory.GetComponent<PhotonView>();
 
         if (boxController != null) // boxController 참조가 된 경우
@@ -133,7 +142,7 @@ public class ClickedItem : MonoBehaviourPun
             return;
         }
     }
-   */
+   
     /// <summary>
     /// Box에 있는 Item Prefab에서 Button을 클릭했을 때 Onclick 이벤트로 발생
     /// - Item Box에서 PlayerInventory로 아이템 추가하는 함수
@@ -147,7 +156,7 @@ public class ClickedItem : MonoBehaviourPun
         nowItemPrefab = nowClicked.GetComponent<ItemPrefab>();
 
         // 상호작용한 버튼의 부모가 가진 BoxInventroy.cs 참조
-        boxInventory = nowClicked.GetComponentInParent<BoxInventory>(); ////
+        // boxInventory = nowClicked.GetComponentInParent<BoxInventory>(); ////
         PhotonView photonView = boxInventory.GetComponent<PhotonView>();
 
         GameObject curObject = boxInventory.MakeItemObject(nowItemPrefab.itemNameText.text);
@@ -162,7 +171,7 @@ public class ClickedItem : MonoBehaviourPun
                     Debug.Log("선택된 아이템으로 ItemData 생성");
                     curObject = FindItem(nowItemPrefab.itemNameText.text);
                 }
-        */
+        
 
         Debug.Log("개인 Inventory에 추가");
         playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, curItemData.itemData.itemCount);
@@ -178,7 +187,7 @@ public class ClickedItem : MonoBehaviourPun
                     Debug.Log("아이템삭제");
                     PhotonNetwork.Destroy(curObject);
                 }
-        */
+        
     }
     /*
     private GameObject FindItem(string itemName)
