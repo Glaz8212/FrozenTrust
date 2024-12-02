@@ -206,6 +206,7 @@ MonoBehaviour:
   boxController: {fileID: 0}
   item: {fileID: 0}
   weapon: {fileID: 0}
+  weaponGameObject: {fileID: 0}
   playerInventory: {fileID: 0}
   playerHandTransform: {fileID: 2743104306908230684}
 --- !u!143 &4577872327376519822

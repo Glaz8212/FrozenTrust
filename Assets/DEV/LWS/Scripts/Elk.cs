@@ -1,8 +1,7 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Photon.Pun;
-using UnityEngine.InputSystem.XR;
 
 public class Elk : MonoBehaviourPun, IPunObservable
 {
@@ -44,11 +43,11 @@ public class Elk : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        if (photonView.IsMine)
+        if (PhotonNetwork.IsMasterClient)
         {
-            if (curHp >= 0)
+            if (curHp > 0)
                 Idle();
-            else
+            else if (!animator.GetBool("isDead")) 
                 Die();
         }
         else
@@ -60,23 +59,24 @@ public class Elk : MonoBehaviourPun, IPunObservable
     private void Idle()
     {
         Vector3 direction = Vector3.zero;
-        
+
         // 순회 지점의 포지션을 타겟으로 설정
         Vector3 target = patrolPoints[currentPatrolIndex].position;
-        direction = (target - transform.position).normalized;
 
-        // 순회 지점의 포지션으로 이동, 회전
-        transform.position = Vector3.MoveTowards(transform.position, target, 2f * Time.deltaTime);
-        RotateToDirection(direction);
+        // 목표 지점에 도달하지 않은 경우에만 이동 및 회전 처리
+        if (Vector3.Distance(transform.position, target) >= 0.5f)
+        {
+            direction = (target - transform.position).normalized;
+            transform.position = Vector3.MoveTowards(transform.position, target, 2f * Time.deltaTime);
+            RotateToDirection(direction);
 
-        // 도착 시 다음 순회지점을 타겟으로 설정
-        if (Vector3.Distance(transform.position, target) < 0.5f)
+            // 애니메이션을 isRunning으로 설정
+            // animator.SetBool("isRunning", true);
+        }
+        else
         {
             currentPatrolIndex = (currentPatrolIndex + 1) % patrolPoints.Length;
         }
-
-        // 애니메이션을 isRunning으로 설정
-        animator.SetBool("isRunning", true);
     }
 
     // 타겟방향으로 회전
@@ -106,7 +106,7 @@ public class Elk : MonoBehaviourPun, IPunObservable
         if (!PhotonNetwork.IsMasterClient)
             return;
 
-        curHp -= maxHp;
+        maxHp -= damage;
 
         if (curHp <= 0)
         {
@@ -114,16 +114,9 @@ public class Elk : MonoBehaviourPun, IPunObservable
         }
     }
 
-    // 사망 애니메이션 출력 bool 트루로 설정
-    [PunRPC]
-    private void DieAnimation()
-    {
-        animator.SetBool("isDead", true);
-    }
-
     private void Die()
     {
-        photonView.RPC("DieAnimation", RpcTarget.All);
+        animator.SetBool("isDead", true);
         StartCoroutine(DeathRoutine());
     }
 
@@ -150,12 +143,20 @@ public class Elk : MonoBehaviourPun, IPunObservable
             // 내 데이터 전송
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
+
+            // 애니메이션 동기화
+            stream.SendNext(animator.GetBool("isDead"));
+            stream.SendNext(animator.GetBool("isRunning"));
         }
         else
         {
             // 다른 플레이어 데이터 수신
             netPosition = (Vector3)stream.ReceiveNext();
             netRotation = (Quaternion)stream.ReceiveNext();
+
+            // 애니메이션 상태 수신
+            animator.SetBool("isDead", (bool)stream.ReceiveNext());
+            animator.SetBool("isRunning", (bool)stream.ReceiveNext());
         }
     }
 }
