@@ -942,7 +942,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2568926195595399503}
-  - component: {fileID: 2568926195595399502}
   m_Layer: 5
   m_Name: PlayerStatusBar
   m_TagString: Untagged
@@ -980,26 +979,6 @@ RectTransform:
   m_AnchoredPosition: {x: 50, y: -50}
   m_SizeDelta: {x: 300, y: 92}
   m_Pivot: {x: 0, y: 1}
---- !u!114 &2568926195595399502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2358557112309773239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14d3872f04c070945b4e913738b57f7f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hpBar: {fileID: 2391312629183953453}
-  hungerBar: {fileID: 2390747154210376713}
-  heatBar: {fileID: 2357798698143769981}
-  myRole: {fileID: 0}
-  hpBarfill: {fileID: 2390948569961377985}
-  hungerBarfill: {fileID: 2391083108934261315}
-  heatBarfill: {fileID: 2357798697108661406}
-  playerStatus: {fileID: 0}
 --- !u!1 &2358587022297753477
 GameObject:
   m_ObjectHideFlags: 0

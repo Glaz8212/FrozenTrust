@@ -1,4 +1,5 @@
 using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -12,6 +13,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text hungerBar;
     [SerializeField] private Text heatBar;
     [SerializeField] private Text myRole;
+    [SerializeField] private Text traitorText;
 
     [SerializeField] private Image hpBarfill;
     [SerializeField] private Image hungerBarfill;
@@ -31,9 +33,7 @@ public class UIManager : MonoBehaviour
     {
         if (GameSceneManager.Instance != null)
         {
-            Debug.Log("없음");
             GameSceneManager.Instance.OnPlayerSpawned.AddListener(OnSpawned);
-        
         }
     }
 
@@ -45,21 +45,25 @@ public class UIManager : MonoBehaviour
 
     private void UIUpdate()
     {
-        if (playerStatus.state == PlayerStatus.PlayerState.LackWarmth)
+        // 플레이어 허기 상태일 때 최대체력 UI업데이트
+        if (playerStatus.state == PlayerStatus.PlayerState.LackHunger)
         {
+            // 허기 상태
             hpBar.text = $"{playerStatus.playerHP}/{playerStatus.playerReducedHP}";
             hpBarfill.fillAmount = (float)playerStatus.playerHP / playerStatus.playerReducedHP;
         }
         else
         {
+            // 일반 상태
             hpBar.text = $"{playerStatus.playerHP}/{playerStatus.playerMaxHP}";
             hpBarfill.fillAmount = (float)playerStatus.playerHP / playerStatus.playerMaxHP;
         }
 
-
+        // 허기
         hungerBar.text = $"{playerStatus.hunger}/{playerStatus.hungerMax}";
         hungerBarfill.fillAmount = (float)playerStatus.hunger / playerStatus.hungerMax;
 
+        // 온기
         heatBar.text = $"{playerStatus.warmth}/{playerStatus.warmthMax}";
         heatBarfill.fillAmount = (float)playerStatus.warmth / playerStatus.warmthMax;
     }
@@ -72,6 +76,20 @@ public class UIManager : MonoBehaviour
         if (GameManager.Instance.playerRole == 1)
         {
             myRole.text = "배신자";
+            List<int> traitorIds = GameManager.Instance.GetTraitorIds();
+            for (int i = 0; i < traitorIds.Count; i++)
+            {
+                int PlayerId = traitorIds[i];
+
+                foreach (Player player in PhotonNetwork.PlayerList)
+                {
+                    if (player.ActorNumber == PlayerId)
+                    {
+                        string traitorName = player.NickName;
+                        traitorText.text += $"배신자\n{traitorName}\n";
+                    }
+                }
+            }
         }
         else
         {
