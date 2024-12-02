@@ -77,5 +77,19 @@ public class WeaponState : MonoBehaviour
                 Debug.LogWarning("충돌한 객체에 ResourceController 스크립트가 없습니다.");
             }
         }
+        else if (other.CompareTag("Animal"))
+        {
+            Elk animals = other.GetComponent<Elk>();
+            if (animals != null)
+            { 
+                // TakeHP 함수 호출로 데미지 적용
+                animals.TakeDamage(weaponDamage);
+                Debug.Log($"데미지 {weaponDamage}만큼 공격");
+            }
+            else
+            {
+                Debug.LogWarning("충돌한 객체에 ResourceController 스크립트가 없습니다.");
+            }
+        }
     }
 }
