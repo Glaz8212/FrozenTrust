@@ -58,6 +58,7 @@ MonoBehaviour:
   - CloserAttack
   - TwoHandedAttack
   - Synchtraitor
+  - DieAnimation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -17,7 +17,7 @@ public class PlayerEntry : MonoBehaviour
     {
         if (player.IsMasterClient)
         {
-            nameText.text = $"Master\n{player.NickName}";
+            nameText.text = player.NickName;
             Debug.Log($"Master{player.NickName}");
         }
         else
@@ -40,7 +40,7 @@ public class PlayerEntry : MonoBehaviour
     {
         readyText.text = "";
         nameText.text = "None";
-        //readyButton.gameObject.SetActive(false);
+        readyButton.gameObject.SetActive(false);
     }
 
     public void Ready()
