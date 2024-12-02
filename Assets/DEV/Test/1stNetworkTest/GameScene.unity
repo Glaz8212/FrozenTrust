@@ -9264,6 +9264,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1393619061 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7215266476176428519, guid: 6906131585ea1ea40a37d70138c64cac, type: 3}
+  m_PrefabInstance: {fileID: 1393619058}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e38cfb3c0da2e49bb5fd8a6bf015d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1405716244 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 184458, guid: bba9610331c8e5040a9ed5720d33f7c5, type: 3}
@@ -12508,10 +12519,26 @@ PrefabInstance:
       propertyPath: itemController
       value: 
       objectReference: {fileID: 1763004728}
+    - target: {fileID: 3948864161501508575, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}
+      propertyPath: playerInventory
+      value: 
+      objectReference: {fileID: 1393619061}
+    - target: {fileID: 4709821442663531562, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.000015258789
+      objectReference: {fileID: 0}
+    - target: {fileID: 4710477411969533728, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5133764998164130276, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}
       propertyPath: itemController
       value: 
       objectReference: {fileID: 1763004728}
+    - target: {fileID: 5133764998164130276, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}
+      propertyPath: playerInventory
+      value: 
+      objectReference: {fileID: 1393619061}
     - target: {fileID: 5649375949075583985, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 10.85
@@ -12576,6 +12603,10 @@ PrefabInstance:
       propertyPath: itemController
       value: 
       objectReference: {fileID: 1763004728}
+    - target: {fileID: 8825248159588361024, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}
+      propertyPath: playerInventory
+      value: 
+      objectReference: {fileID: 1393619061}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}
 --- !u!1001 &1840096094

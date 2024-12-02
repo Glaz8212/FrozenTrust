@@ -3,6 +3,7 @@ using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using static PlayerStatus;
 
 public class PlayerClickedItem : MonoBehaviour
 {
@@ -11,11 +12,9 @@ public class PlayerClickedItem : MonoBehaviour
     public ItemPrefab nowItemPrefab;
 
     [Header("참조할 스크립트")]
-    [SerializeField] GameSceneManager gameSceneManager;
     [SerializeField] PlayerInteraction playerInteraction;
     [SerializeField] BoxController boxController;
-    //[SerializeField] BoxInventory[] boxInventorylist;
-
+    private PlayerStatus playerStatus;
     // ItmeBoxList 오브젝트에 있는 BoxInventroyList.cs
     [SerializeField] BoxInventoryList boxInventoryList;
 
@@ -38,15 +37,15 @@ public class PlayerClickedItem : MonoBehaviour
     /// </summary>
     private void SetPlayerInventory()
     {
-        gameSceneManager = GameObject.Find("GameSceneManager").GetComponent<GameSceneManager>();
         // 박스 컨트롤러를 불러오기 위한 생성된 플레이어의 PlayerInteration.cs 참조
-        playerInteraction = gameSceneManager.nowPlayer.GetComponent<PlayerInteraction>();
+        playerInteraction = GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>();
+
         playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
 
         // 현재의 부모 오브젝트에 있는 BoxInventoryList.cs참조
         boxInventoryList = GameObject.Find("ItemBoxList").GetComponent<BoxInventoryList>();
-        // 현재의 BoxInventory = 참조한 BoxInventoryLsit 배열의 현재 오브젝트가 몇번째 자식오브젝트의 순서와 동일
-        // GetSibligIndex() =  현재 오브젝트가 몇번째인지 int형으로 출력
+
+        playerStatus = GameSceneManager.Instance.nowPlayer.GetComponent<PlayerStatus>();
     }
 
     /// <summary>
@@ -69,16 +68,16 @@ public class PlayerClickedItem : MonoBehaviour
 
         if (boxController != null) // boxController 참조가 된 경우
         {
-            // Box의 인벤토리 UI가 닫혀있는 경우 작동 x
+            // Box의 인벤토리 UI가 닫혀있는 경우
             if (boxController.IsUIOpen == false)
             {
-                if (nowItemPrefab.itemNameText.text == "Fruit")
+                if (nowItemPrefab.itemNameText.text == "Fruit" || nowItemPrefab.itemNameText.text == "Meat" )
                 {
-                    // TODO: 플레이어의 허기를 올려준다
+                    playerStatus.HealHunger(200f);
                     Debug.LogError("플레이어의 허기를 증가");
                     playerInventory.RemoveItem(nowItemPrefab.itemNameText.text, 1);
-
                 }
+
                 Debug.Log("직접 사용할 수 없습니다.");
                 return;
             }
