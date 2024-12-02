@@ -44,7 +44,7 @@ public class MatchmakingManager : MonoBehaviourPunCallbacks
     }
 
     // 플레이어 커스텀 프로퍼티 업데이트
-    public override void OnPlayerPropertiesUpdate(Player targetPlayer, Hashtable changedProps)
+    public override void OnPlayerPropertiesUpdate  (Player targetPlayer, Hashtable changedProps)
     {
         roomPanel.UpdatePlayerProperty(targetPlayer, changedProps); // UI 갱신
     }
