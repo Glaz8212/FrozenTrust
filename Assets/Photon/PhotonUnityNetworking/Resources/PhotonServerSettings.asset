@@ -44,21 +44,14 @@ MonoBehaviour:
   - StateChanged
   - SyncHealth
   - SynchRoles
-  - SyncState
   - UpdateTimerUI
   - PlayDeathAnimation
   - AddBox
   - SubBox
   - DestroyItem
-  - Die
-  - PlayAttackAnimation
-  - PlayDieAnimation
-  - PlayIdleAnimation
-  - PlayMoveAnimation
   - CloserAttack
   - TwoHandedAttack
   - Synchtraitor
-  - DieAnimation
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
