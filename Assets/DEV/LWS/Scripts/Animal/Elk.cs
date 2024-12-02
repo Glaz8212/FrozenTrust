@@ -44,9 +44,12 @@ public class Elk : MonoBehaviourPun, IPunObservable
 
     private void Update()
     {
-        if (PhotonNetwork.IsMasterClient && curHp > 0)
+        if (photonView.IsMine)
         {
-            Idle();
+            if (curHp >= 0)
+                Idle();
+            else
+                Die();
         }
         else
         {
