@@ -233,7 +233,9 @@ MonoBehaviour:
   nowItemPrefab: {fileID: 0}
   gameSceneManager: {fileID: 0}
   playerInteraction: {fileID: 0}
+  boxController: {fileID: 0}
   boxInventory: {fileID: 0}
+  photonView: {fileID: 0}
   playerInventory: {fileID: 0}
 --- !u!114 &4481246028408084321
 MonoBehaviour:

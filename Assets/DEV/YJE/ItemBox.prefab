@@ -678,9 +678,6 @@ MonoBehaviour:
   itemContent: {fileID: 2436303155832660073}
   itemPrefabObj: {fileID: 1418874672919742190, guid: 5fdd15402d544f24a9dc161a8b095ca1, type: 3}
   size: 6
-  woodItem: {fileID: 0}
-  oreItem: {fileID: 0}
-  fruitItem: {fileID: 0}
 --- !u!114 &8004096990619366308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1255,4 +1252,4 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0.6, z: 0}
