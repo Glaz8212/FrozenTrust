@@ -55,6 +55,8 @@ MonoBehaviour:
   - PlayDieAnimation
   - PlayIdleAnimation
   - PlayMoveAnimation
+  - CloserAttack
+  - TwoHandedAttack
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
