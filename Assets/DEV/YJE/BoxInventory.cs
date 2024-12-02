@@ -11,15 +11,16 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
     [SerializeField] GameObject itemPrefabObj; // 아이템 프리팹
     [SerializeField] int size; // 박스 사이즈
     GameSceneManager gameSceneManager;
-    /*
-    [SerializeField] GameObject woodItem;
-    [SerializeField] GameObject oreItem;
-    [SerializeField] GameObject fruitItem;
-    */
+    /*  [SerializeField] GameObject woodItem;
+      [SerializeField] GameObject oreItem;
+      [SerializeField] GameObject fruitItem;*/
+
     private void Awake()
     {
         gameSceneManager = GameObject.Find("GameSceneManager").GetComponent<GameSceneManager>();
     }
+
+
     /// <summary>
     /// 네트워크 동기함수로 AddBox() 생성
     /// </summary>
@@ -47,7 +48,7 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
         {
             curItemData.itemData.itemCount += 1;
             Debug.Log($"인벤토리 아이템 갯수 : {curItemData.itemData.itemName} : {curItemData.itemData.itemCount} ");
-            UpdateItem(curItemData);
+            UpdateItem(curItemData, curItemData.itemData.itemCount);
         }
         else if (inventory.Count <= size) // 아이템 박스 사이즈 보다 용량이 적은 경우
         {
@@ -125,6 +126,67 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
     }
     */
 
+    /*
+    /// <summary>
+    /// 네트워크 동기함수로 AddBox() 생성
+    /// </summary>
+    /// <param name="itemName"></param>
+    [PunRPC]
+    public void AddBox(string itemName)
+    {
+        ItemData curItem = null;
+        foreach (ItemData item in inventory)
+        {
+            // 같은 종류의 아이템을 추가하려는 경우
+            if (item.itemData.itemName == itemName)
+            {
+                if (item.itemData.itemCount < 4)
+                {
+                    curItem = item;
+                    break;
+                }
+            }
+        }
+        if (curItem != null) // 현재 아이템이 없으면
+        {
+            curItem.itemData.itemCount += 1;
+            UpdateItem(curItem);
+        }
+        else if (inventory.Count <= size) // 아이템 박스 사이즈 보다 용량이 적은 경우
+        {
+            // 관련 아이템을 생성 -> 삽입 -> 삭제
+            switch (itemName)
+            {
+                case "Wood":
+                    Item woodItem = PhotonNetwork.Instantiate("YJE/Wood", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
+                    curItem = new ItemData(woodItem);
+                    PhotonNetwork.Destroy(woodItem.gameObject);
+                    break;
+                case "Ore":
+                    Debug.Log("광석을 만들기");
+                    Item oreItem = PhotonNetwork.Instantiate("YJE/Ore", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
+                    curItem = new ItemData(oreItem);
+                    PhotonNetwork.Destroy(oreItem.gameObject);
+                    break;
+                case "Fruit":
+                    Debug.Log("열매를 만들기");
+                    Item fruitItem = PhotonNetwork.Instantiate("YJE/Fruit", new Vector3(0, 0, 0), Quaternion.identity).GetComponent<Item>();
+                    curItem = new ItemData(fruitItem);
+                    PhotonNetwork.Destroy(fruitItem.gameObject);
+                    break;
+                default:
+                    break;
+            }
+            inventory.Add(curItem); // 아이템 추가
+            CreateItemUI(curItem); // 아이템 UI 추가
+        }
+        else // 인벤토리가 가득 찬 경우
+        {
+            return;
+        }
+    }
+    */
+
     /// <summary>
     /// 네트워크 동기함수로 SubBox() 생성
     /// </summary>
@@ -153,14 +215,14 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
             Debug.Log($"인벤토리 아이템 갯수 : {curItemData.itemData.itemName} : {curItemData.itemData.itemCount} ");
             if (curItemData.itemData.itemCount <= 0) // 0 이하인 경우
             {
-                inventory.Remove(curItemData); // 리스트에서 아이템 제외
-                Debug.Log("인벤토리에서 삭제");
                 Destroy(curItemData.itemPrefab.gameObject);
-                UpdateItem(curItemData);
+                UpdateItem(curItemData, curItemData.itemData.itemCount);
+                Debug.Log("인벤토리에서 삭제");
+                inventory.Remove(curItemData); // 리스트에서 아이템 제외
             }
             else
             {
-                UpdateItem(curItemData);
+                UpdateItem(curItemData, curItemData.itemData.itemCount);
             }
         }
     }
@@ -199,14 +261,38 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
         }
     }
     */
+    /*
+        [PunRPC]
+        public void UpdateItem(string name, int itemCount)
+        {
+            Debug.Log("아이템 업데이트");
+            int arrayNum = 0;
+            switch (name)
+            {
+                case "Wood":
+                    arrayNum = 0;
+                    break;
+                case "Ore":
+                    arrayNum = 1;
+                    break;
+                case "Fruit":
+                    arrayNum = 2;
+                    break;
+            }
+            Debug.Log("아이템UI설정 실행 준비 - 각 개인별 전부 실행여부.....확인필요.....");
+            nowUIChaged.GetComponent<ItemPrefab>().SetItemUI(arrayNum, itemCount);
+        }
+
+    */
+
 
     // 아이템 업데이트
-    public void UpdateItem(ItemData item)
+    public void UpdateItem(ItemData item, int count)
     {
         if (item.itemPrefab != null)
         {
             Debug.LogError("아이템 업데이트");
-            item.itemPrefab.SetItemUI(item.itemData.itemSprite, item.itemData.itemName, item.itemData.itemCount);
+            item.itemPrefab.SetItemUI(item.itemData.itemSprite, item.itemData.itemName, count);
         }
     }
 
@@ -220,6 +306,65 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
 
     }
 
+    /* public void CreateItemUI(string itemName) // RPC로 기본 데이터형만 받아올 수 있음 공통실행함수
+     {
+         Debug.Log("이름에 맞는 아이템 데이터 생성");
+         GameObject curObject = null;
+         Item curItem = null;
+         ItemData curItemData = null;
+
+         GameObject newItemUI = null;
+         ItemPrefab itemUI = null;
+         // 관련 아이템을 생성 -> 삽입 -> 삭제
+         switch (itemName)
+         {
+             case "Wood":
+                 Debug.Log("목재를 만들기");
+                 curObject = itemController.MakeWoodItem();
+                 curItem = curObject.GetComponent<Item>();
+                 curItemData = new ItemData(curItem);
+                 newItemUI = Instantiate(itemPrefab, itemContent);
+                 itemUI = newItemUI.GetComponent<ItemPrefab>();
+
+                 Debug.Log("UI 자료 세팅");
+                 //photonView.RPC("SetItemUIRPC", RpcTarget.All, 0, curItemData.itemData.itemCount);
+                 itemUI.SetItemUI(curItemData.itemData.itemSprite, curItemData.itemData.itemName, curItemData.itemData.itemCount);
+                 Debug.Log("나무 아이템 제거");
+                 itemController.ResetWoodItem();
+                 break;
+             case "Ore":
+                 Debug.Log("광석을 만들기");
+                 curObject = itemController.MakeOreItem();
+                 curItem = curObject.GetComponent<Item>();
+                 curItemData = new ItemData(curItem);
+                 newItemUI = Instantiate(itemPrefab, itemContent);
+                 itemUI = newItemUI.GetComponent<ItemPrefab>();
+
+                 Debug.Log("UI 자료 세팅");
+                 // photonView.RPC("SetItemUIRPC", RpcTarget.All, 1, curItemData.itemData.itemCount);
+                 itemUI.SetItemUI(curItemData.itemData.itemSprite, curItemData.itemData.itemName, curItemData.itemData.itemCount);
+                 Debug.Log("광석 아이템 제거");
+                 itemController.ResetOreItem();
+                 break;
+             case "Fruit":
+                 Debug.Log("열매를 만들기");
+                 curObject = itemController.MakeFruitItem();
+                 curItem = curObject.GetComponent<Item>();
+                 curItemData = new ItemData(curItem);
+                 newItemUI = Instantiate(itemPrefab, itemContent);
+                 itemUI = newItemUI.GetComponent<ItemPrefab>();
+
+                 Debug.Log("UI 자료 세팅");
+                 // photonView.RPC("SetItemUIRPC", RpcTarget.All, 3, curItemData.itemData.itemCount);
+                 itemUI.SetItemUI(curItemData.itemData.itemSprite, curItemData.itemData.itemName, curItemData.itemData.itemCount);
+                 Debug.Log("광석 아이템 제거");
+                 itemController.ResetFruitItem();
+                 break;
+             default:
+                 break;
+         }
+     }
+    */
     /// <summary>
     /// 이름에 맞는 아이템 데이터 사용을 위해서 분기하여 오브젝트를 빌려오는 함수
     /// </summary>
@@ -241,15 +386,46 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
                 curObject = itemController.MakeWoodItem();
                 return curObject;
 
+            //curItem = curObject.GetComponent<Item>();
+            //curItemData = new ItemData(curItem);
+
+            //newItemUI = Instantiate(itemPrefab, itemContent);
+            //itemUI = newItemUI.GetComponent<ItemPrefab>();
+
+            // Debug.Log("UI 자료 세팅");
+            //itemUI.SetItemUI(curItemData.itemData.itemSprite, curItemData.itemData.itemName, curItemData.itemData.itemCount);
+            //Debug.Log("나무 아이템 제거");
+            //itemController.ResetWoodItem();
             case "Ore":
                 Debug.Log("광석을 만들기");
                 curObject = itemController.MakeOreItem();
                 return curObject;
 
+            //curItem = curObject.GetComponent<Item>();
+            //curItemData = new ItemData(curItem);
+            //newItemUI = Instantiate(itemPrefab, itemContent);
+            //itemUI = newItemUI.GetComponent<ItemPrefab>();
+
+            //Debug.Log("UI 자료 세팅");
+            // itemUI.SetItemUI(curItemData.itemData.itemSprite, curItemData.itemData.itemName, curItemData.itemData.itemCount);
+            //Debug.Log("광석 아이템 제거");
+            //itemController.ResetOreItem();
             case "Fruit":
                 Debug.Log("열매를 만들기");
                 curObject = itemController.MakeFruitItem();
                 return curObject;
+
+            //curItem = curObject.GetComponent<Item>();
+            //curItemData = new ItemData(curItem);
+
+
+            //newItemUI = Instantiate(itemPrefab, itemContent);
+            //itemUI = newItemUI.GetComponent<ItemPrefab>();
+
+            //Debug.Log("UI 자료 세팅");
+            //itemUI.SetItemUI(curItemData.itemData.itemSprite, curItemData.itemData.itemName, curItemData.itemData.itemCount);
+            //Debug.Log("광석 아이템 제거");
+            //itemController.ResetFruitItem();
 
             default:
                 return null;
@@ -280,4 +456,20 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
                 break;
         }
     }
+
+
+
+    /*
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(inventory);
+        }
+        else
+        {
+            this.inventory = (List<ItemData>)stream.ReceiveNext();
+        }
+    }
+    */
 }
