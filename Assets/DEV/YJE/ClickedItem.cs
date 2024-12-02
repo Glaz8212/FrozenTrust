@@ -14,6 +14,7 @@ public class ClickedItem : MonoBehaviourPun
     [SerializeField] GameSceneManager gameSceneManager;
     [SerializeField] PlayerInteraction playerInteraction;
     [SerializeField] BoxController boxController;
+    //[SerializeField] BoxInventory[] boxInventorylist;
     [SerializeField] BoxInventory boxInventory;
     [SerializeField] PhotonView photonView;
     [SerializeField] PlayerInventory playerInventory;
@@ -37,6 +38,10 @@ public class ClickedItem : MonoBehaviourPun
         // 박스 컨트롤러를 불러오기 위한 생성된 플레이어의 PlayerInteration.cs 참조
         playerInteraction = gameSceneManager.nowPlayer.GetComponent<PlayerInteraction>();
         playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
+        //boxInventory = new BoxInventory[10];
+        //boxInventorylist = FindObjectsByType<BoxInventory>(FindObjectsSortMode.None);
+
+        //boxInventory = GetComponents<BoxInventory>();
         /*
         // player와 상호작용한 BoxConroller.cs 참조
         boxController = playerInteraction.boxController;
