@@ -31,9 +31,15 @@ public class WeaponState : MonoBehaviour
 
     public void Deactivate()
     {
-        rigidbody1.isKinematic = true; // 물리 비활성화
-        collider1.enabled = false; // 물리 비활성화
-        collider2.enabled = false; // 물리 비활성화
+        rigidbody1.isKinematic = true;// 물리 비활성화
+        collider1.enabled = false;
+        collider2.enabled = false; 
+    }
+    public void Active()
+    {
+        rigidbody1.isKinematic = false; // 물리 활성화
+        collider1.enabled = true;
+        collider2.enabled = true; 
     }
 
     private void OnTriggerEnter(Collider other)

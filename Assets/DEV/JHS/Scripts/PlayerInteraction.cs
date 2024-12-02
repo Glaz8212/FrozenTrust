@@ -84,6 +84,7 @@ public class PlayerInteraction : MonoBehaviourPun
                     }
                     else
                     {
+
                         if (weapon.weaponType == WeaponType.OneHanded)
                         {
                             MoverWeapon();
@@ -100,11 +101,20 @@ public class PlayerInteraction : MonoBehaviourPun
                     }
                     break;
             }
-        }/*
-        else if (photonView.IsMine && Input.GetKeyDown(KeyCode.Q) && status.playerDie == false && )
+        }
+        // 플레이어 본인이고 죽지 않았고 무기 오브젝트가 장착되어 있을때 Q를 누른다면
+        else if (photonView.IsMine && Input.GetKeyDown(KeyCode.Q) && status.playerDie == false && weaponGameObject != null)
         {
-
-        }*/
+            // 자식에 들어간 무기 제거
+            WeaponState weaponState = weaponGameObject.GetComponentInChildren<WeaponState>();
+            if (weaponState != null)
+            {
+                // 물리 활성화 및 충돌기 활성화
+                weaponState.Active();
+            }
+            weaponGameObject.transform.SetParent(null);
+            weaponGameObject = null;          
+        }
     }
 
     private void MoverWeapon()
@@ -140,7 +150,7 @@ public class PlayerInteraction : MonoBehaviourPun
             // 타입이 item에 값이 있으면 Item 없으면 Idle
             type = item != null ? Type.Item : Type.Idle;
         }
-        else if (other.CompareTag("Weapon"))
+        else if (other.CompareTag("Weapon") && weaponGameObject == null)
         {
             Debug.Log("무기");
             // currentCollider에 충돌한 other값 삽입
@@ -207,7 +217,6 @@ public class PlayerInteraction : MonoBehaviourPun
         missionController = null;
         boxController = null;
         weapon = null;
-        weaponGameObject = null;
         item = null;
         isInteracting = false;
     }
