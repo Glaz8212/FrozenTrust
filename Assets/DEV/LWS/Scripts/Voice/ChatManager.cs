@@ -16,6 +16,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
     [Header("UI 속성")]
     [SerializeField] private GameObject survivorChatPanel;
     [SerializeField] private GameObject traitorChatPanel;
+    [SerializeField] private GameObject traitorButton;
     [SerializeField] private InputField survivorInputField;
     [SerializeField] private InputField traitorInputField;
     [SerializeField] private Text survivorChatLog;
@@ -40,6 +41,14 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
     private void Start()
     {
+        StartCoroutine(InitializeAfterDelay());
+    }
+
+    private IEnumerator InitializeAfterDelay()
+    {
+        // 3초 텀을 둠
+        yield return new WaitForSeconds(3f);
+
         // 닉네임 설정
         userName = PhotonNetwork.LocalPlayer.NickName;
         // 배신자 여부 판단
@@ -47,7 +56,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
 
         // 챗 서버 연결
         ConnectToChat();
-        // UI 활성화 (배신자여부)
+        // UI 활성화 (배신자 여부)
         UpdateUI();
     }
 
@@ -56,12 +65,18 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         // 챗 클라이언트 업데이트
         chatClient?.Service();
     }
+    private void ConnectToChat()
+    {
+        chatClient = new ChatClient(this);
+        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(userName));
+    }
 
     // 배신자 여부에 따라 traitorChatPanel 활성화
     private void UpdateUI()
     {
+        Debug.LogWarning(isTraitor);
         survivorChatPanel.SetActive(true);
-        traitorChatPanel.SetActive(isTraitor);
+        traitorButton.SetActive(isTraitor);
     }
 
     public void ChangeToTraitorChat()
@@ -76,11 +91,6 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         traitorChatPanel.SetActive(false);
     }
 
-    private void ConnectToChat()
-    {
-        chatClient = new ChatClient(this);
-        chatClient.Connect(PhotonNetwork.PhotonServerSettings.AppSettings.AppIdChat, "1.0", new AuthenticationValues(userName));
-    }
 
     public void OnConnected()
     {
