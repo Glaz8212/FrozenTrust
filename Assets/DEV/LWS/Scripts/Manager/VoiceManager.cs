@@ -8,24 +8,13 @@ using UnityEngine;
 public class VoiceManager : MonoBehaviourPunCallbacks
 {
     [SerializeField] private Recorder recorder;
-    [SerializeField] private PhotonVoiceView voiceView;
+    [SerializeField] PlayerStatus status;
 
-    private void Start()
+    private void Update()
     {
-        if (!PhotonNetwork.InRoom)
+        if( status.state == PlayerStatus.PlayerState.Die)
         {
-            Debug.LogError("∑Î¿Ã æ∆¥‘");
-            return;
-        }
-
-        if (recorder == null)
-        {
-            recorder = GetComponent<Recorder>();
-        }
-
-        if (voiceView == null)
-        {
-            voiceView = GetComponent<PhotonVoiceView>();
+             recorder.TransmitEnabled = false;
         }
     }
 }
