@@ -3,15 +3,17 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class GameSceneManager : MonoBehaviourPun
 {
     public static GameSceneManager Instance;
-    public MissionController missionController;
-    public GameObject nowPlayer;
+    [SerializeField] public MissionController missionController;
+    [SerializeField] public GameObject nowPlayer;
     [SerializeField] PlayerStatus playerStatus;
+    [SerializeField] NamePrint[] namePrints;
 
     private float moveTime = -10f;
     private float teleportCooldown = 10f;
@@ -47,7 +49,7 @@ public class GameSceneManager : MonoBehaviourPun
         Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
         nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
         playerStatus = nowPlayer.gameObject.GetComponent<PlayerStatus>();
-        OnPlayerSpawned?.Invoke();        
+        OnPlayerSpawned?.Invoke();
     }
 
     private void Start()
@@ -67,8 +69,11 @@ public class GameSceneManager : MonoBehaviourPun
             // RPC 함수 타이머 동기화
             photonView.RPC(nameof(UpdateTimerUI), RpcTarget.All, gameTimer);
 
-            TeleportEvent();
+            if (gameTimer <= 880 && gameTimer >= 879 && (Time.time - moveTime >= teleportCooldown))
+            {
+                photonView.RPC(nameof(TeleportEvent), RpcTarget.All);
 
+            }
 
             yield return null;
         }
@@ -78,62 +83,63 @@ public class GameSceneManager : MonoBehaviourPun
 
     private void EventManager(int eventNum)
     {
-        if(eventNum == 1)
+        if (eventNum == 1)
         {
-            TeleportEvent();
+            photonView.RPC(nameof(TeleportEvent), RpcTarget.All);
         }
         else
         {
-            //NickNameEvent();
-        }        
+            photonView.RPC(nameof(NickNameEvent), RpcTarget.All);
+        }
     }
 
+    [PunRPC]
     private void TeleportEvent()
     {
         if (gameTimer <= 880 && gameTimer >= 879 && (Time.time - moveTime >= teleportCooldown) && playerStatus.environment != PlayerStatus.SurroundingEnvironment.Warm)
         {
             Vector3 randomPos = new Vector3(Random.Range(-10f, 10f), 3, Random.Range(-10f, 10f));
             CharacterController controller = nowPlayer.GetComponent<CharacterController>();
+
             controller.enabled = false; // CharacterController 비활성화
             nowPlayer.transform.position = randomPos;
             controller.enabled = true;  // CharacterController 재활성화
 
             moveTime = Time.time;
 
-            //NickNameEvent();
+            photonView.RPC(nameof(NickNameEvent), RpcTarget.All);
         }
     }
 
-/*    private void NickNameEvent()
+    [PunRPC]
+    private void NickNameEvent()
     {
-        Debug.Log("닉네임변경이벤트");
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
-        {
-            // 플레이어 원래 닉네임 저장
-            originalNickname[i] = PhotonNetwork.PlayerList[i].NickName;
-        }
+        NamePrint[] namePrints = FindObjectsOfType<NamePrint>();
 
-        foreach (Player player in PhotonNetwork.PlayerList)
+        foreach (NamePrint name in namePrints)
         {
-            // 플레이어 닉네임 변경
-            player.NickName = "???";
+                // 닉네임 비활성화
+                name.gameObject.SetActive(false);
         }
 
         // 지정 시간 동안 대기 후 복구
-        StartCoroutine(ReSetNickName(10f));
+        StartCoroutine(ReSetNickName(30f));
     }
 
     IEnumerator ReSetNickName(float delay)
     {
+        NamePrint[] namePrints = FindObjectsOfType<NamePrint>();
+
+        
         // 지정된 시간 동안 대기
         yield return new WaitForSeconds(delay);
 
-        // 닉네임 복구
-        for (int i = 0; i < PhotonNetwork.PlayerList.Length; i++)
+        foreach (NamePrint name in namePrints)
         {
-            PhotonNetwork.PlayerList[i].NickName = originalNickname[i];
+            // 닉네임 비활성화
+            name.gameObject.SetActive(true);
         }
-    }*/
+    }
 
     // 클라이언트 타이머 UI 업데이트
     [PunRPC]
