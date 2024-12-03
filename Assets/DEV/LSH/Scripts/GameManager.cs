@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.IsMasterClient)
         {
             PlayerEnemyReRoll();
+            GameSceneManager.Instance.originalNickname = new string[PhotonNetwork.PlayerList.Length];
         }
     }
 
