@@ -55,14 +55,11 @@ public class MissionClicekedItem : MonoBehaviour
         if (GameManager.Instance.playerRole == 1)
         {
             Debug.Log("배신자 인식");
-            Debug.Log("버튼 클릭");
             // 현재 버튼을 클릭한 게임 오브젝트
             nowClicked = EventSystem.current.currentSelectedGameObject.gameObject;
             // 오브젝트의 ItemPrefab.cs 참조
             nowItemPrefab = nowClicked.GetComponent<ItemPrefab>();
             missionBoxInventory = missionInventoryList.missionInventoryList[transform.GetSiblingIndex()];
-            // boxInventory = boxInventoryList.boxInventorylist[transform.GetSiblingIndex()];
-
 
             PhotonView photonView = missionBoxInventory.GetComponent<PhotonView>();
 
@@ -83,6 +80,7 @@ public class MissionClicekedItem : MonoBehaviour
         else
         {
             Debug.Log("배신자가 아닙니다.");
+            return;
         }
         
     }
