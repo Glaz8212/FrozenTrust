@@ -12,11 +12,8 @@ public class MissionClicekedItem : MonoBehaviour
 
     [Header("참조할 스크립트")]
     [SerializeField] PlayerInteraction playerInteraction;
-    // [SerializeField] BoxController boxController;
-    // [SerializeField] BoxInventoryList boxInventoryList;
     [SerializeField] MissionInventoryList missionInventoryList;
     [SerializeField] MissionBoxInventory missionBoxInventory;
-    // [SerializeField] BoxInventory boxInventory;
     [SerializeField] PhotonView photonView;
     [SerializeField] PlayerInventory playerInventory;
 
@@ -38,12 +35,10 @@ public class MissionClicekedItem : MonoBehaviour
 
         // 박스 컨트롤러를 불러오기 위한 생성된 플레이어의 PlayerInteration.cs 참조
         playerInteraction = GameSceneManager.Instance.nowPlayer.GetComponentInParent<PlayerInteraction>();
-        // playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
         playerInventory = GameObject.FindGameObjectWithTag("PlayerInventory").GetComponent<PlayerInventory>();
 
         // 현재의 부모 오브젝트에 있는 MissionBoxInventoryList.cs참조
         missionInventoryList = gameObject.transform.GetComponentInParent<MissionInventoryList>();
-        // boxInventoryList = gameObject.transform.GetComponentInParent<BoxInventoryList>();
 
     }
     /// <summary>
