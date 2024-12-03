@@ -14,7 +14,7 @@ public class GameSceneManager : MonoBehaviourPun
     [SerializeField] PlayerStatus playerStatus;
 
 
-    private float gameTimer = 900f; // 15분 타이머
+    private float gameTimer = 300f; // 15분 타이머
     public TMP_Text timerText;
 
     public UnityEvent OnPlayerSpawned = new UnityEvent();
