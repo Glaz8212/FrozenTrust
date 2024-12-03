@@ -44,7 +44,7 @@ public class GameSceneManager : MonoBehaviourPun
 
     private void PlayerSpawn()
     {
-        Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
+        Vector3 randomPos = new Vector3(-51f + Random.Range(-5f, 5f), 8f, -6.5f + Random.Range(-5f, 5f));
         nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
         playerStatus = nowPlayer.gameObject.GetComponent<PlayerStatus>();
         OnPlayerSpawned?.Invoke();
