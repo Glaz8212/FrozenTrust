@@ -1,9 +1,7 @@
 using Photon.Pun;
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static PlayerStatus;
 
 public class PlayerClickedItem : MonoBehaviour
 {
@@ -53,7 +51,7 @@ public class PlayerClickedItem : MonoBehaviour
         boxInventoryList = GameObject.FindGameObjectWithTag("ItemBoxList").GetComponent<BoxInventoryList>();//*******************
         //missionInventoryList = GameObject.Find("MissionController").GetComponent<MissionInventoryList>();//*******************
         missionInventoryList = GameObject.FindGameObjectWithTag("MissionController").GetComponent<MissionInventoryList>();//*******************
-        
+
         playerStatus = GameSceneManager.Instance.nowPlayer.GetComponent<PlayerStatus>();
     }
 
@@ -72,7 +70,7 @@ public class PlayerClickedItem : MonoBehaviour
         boxController = playerInteraction.boxController;
         missionBoxController = playerInteraction.missionController;
         // boxController 참조가 된 경우
-        if (boxController != null) 
+        if (boxController != null)
         {
             Debug.Log(boxController.gameObject.transform.GetSiblingIndex());
             boxInventory = boxInventoryList.boxInventorylist[boxController.gameObject.transform.GetSiblingIndex()];
@@ -81,7 +79,7 @@ public class PlayerClickedItem : MonoBehaviour
             // Box의 인벤토리 UI가 닫혀있는 경우 - 소모 아이템 사용
             if (boxController.IsUIOpen == false)
             {
-                if (nowItemPrefab.itemNameText.text == "Fruit" || nowItemPrefab.itemNameText.text == "Meat" )
+                if (nowItemPrefab.itemNameText.text == "Fruit" || nowItemPrefab.itemNameText.text == "Meat")
                 {
                     playerStatus.HealHunger(200f);
                     Debug.Log("플레이어의 허기를 증가");
@@ -102,7 +100,7 @@ public class PlayerClickedItem : MonoBehaviour
         }
 
         // 미션박스가 있는 경우
-        else if(missionBoxController != null)
+        else if (missionBoxController != null)
         {
             Debug.Log(missionBoxController.gameObject.transform.GetSiblingIndex());
             missionBoxInventory = missionInventoryList.missionInventoryList[missionBoxController.gameObject.transform.GetSiblingIndex()];
@@ -126,7 +124,10 @@ public class PlayerClickedItem : MonoBehaviour
             {
                 // MissionBoxInventory.cs의 RPC함수로 AddMission실행
                 photonView.RPC("AddMission", RpcTarget.All, nowItemPrefab.itemNameText.text);
-                playerInventory.RemoveItem(nowItemPrefab.itemNameText.text, 1);
+                if (!missionBoxInventory.IsEnterChecked)
+                {
+                    playerInventory.RemoveItem(nowItemPrefab.itemNameText.text, 1);
+                }
                 return;
             }
         }

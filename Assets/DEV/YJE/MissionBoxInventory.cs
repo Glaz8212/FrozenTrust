@@ -18,6 +18,8 @@ public class MissionBoxInventory : MonoBehaviour
     public int missionOreCount; // 최종 미션에 필요한 개수
     public int missionFruitCount; // 최종 미션에 필요한 개수
 
+    public bool IsEnterChecked = false; 
+
     // 랜덤으로 미션 개수 설정
     private void Start()
     {
@@ -67,7 +69,8 @@ public class MissionBoxInventory : MonoBehaviour
                     if (curItemCount == missionWoodCount)
                     {
                         Debug.Log("더 이상 넣을 수 없습니다.");
-                        playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
+                        IsEnterChecked = true; // 가득 차 있는 경우
+                        //playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
                         return;
                     }
                     else
@@ -76,7 +79,8 @@ public class MissionBoxInventory : MonoBehaviour
                     if (curItemCount == missionOreCount)
                     {
                         Debug.Log("더 이상 넣을 수 없습니다.");
-                        playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
+                        IsEnterChecked = true; // 가득 차 있는 경우
+                        //playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
                         return;
                     }
                     else
@@ -85,7 +89,8 @@ public class MissionBoxInventory : MonoBehaviour
                     if (curItemCount == missionFruitCount)
                     {
                         Debug.Log("더 이상 넣을 수 없습니다.");
-                        playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
+                        IsEnterChecked = true; // 가득 차 있는 경우
+                        //playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
                         return;
                     }
                     else
