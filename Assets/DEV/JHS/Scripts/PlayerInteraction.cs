@@ -112,7 +112,8 @@ public class PlayerInteraction : MonoBehaviourPun
                 attacker.ReleaseWeapon();
                 Debug.Log("무기 다시 활성화");
                 // 물리 활성화 및 충돌기 활성화
-                weaponState.photonView.RPC("Active", RpcTarget.All);
+                weaponState.photonView.RPC("Deactivate", RpcTarget.All);
+                
             }
             PhotonView weaponPhotonView = weaponGameObject.GetComponent<PhotonView>();
             if (weaponPhotonView != null && weaponPhotonView.IsMine)
@@ -140,7 +141,7 @@ public class PlayerInteraction : MonoBehaviourPun
         if (weaponState != null)
         {
             attacker?.SetWeaponState(weaponState);
-            weaponState.photonView.RPC("Deactivate", RpcTarget.All);
+            weaponState.photonView.RPC("Active", RpcTarget.All);
         }
         attacker?.InstallationWeapon(PlayerAttacker.Type.TwoHandWeapon);
     }
