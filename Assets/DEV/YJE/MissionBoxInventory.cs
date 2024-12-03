@@ -27,8 +27,8 @@ public class MissionBoxInventory : MonoBehaviour
         missionOreCount = num;
         num = Random.Range(0, 5);
         missionFruitCount = num;
-        playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
-        // playerInventory = GameObject.FindGameObjectWithTag("PlayerInventory").GetComponent<PlayerInventory>();
+        // playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
+        playerInventory = GameObject.FindGameObjectWithTag("PlayerInventory").GetComponent<PlayerInventory>();
     }
 
     /// <summary>
