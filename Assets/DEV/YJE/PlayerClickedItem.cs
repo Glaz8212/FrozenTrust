@@ -15,6 +15,7 @@ public class PlayerClickedItem : MonoBehaviour
     [SerializeField] PlayerInteraction playerInteraction;
     [SerializeField] BoxController boxController;
     private PlayerStatus playerStatus;
+
     // ItmeBoxList 오브젝트에 있는 BoxInventroyList.cs
     [SerializeField] BoxInventoryList boxInventoryList;
 
@@ -62,26 +63,27 @@ public class PlayerClickedItem : MonoBehaviour
         // player와 상호작용한 BoxConroller.cs 참조
         boxController = playerInteraction.boxController;
 
-        Debug.LogError(boxController.gameObject.transform.GetSiblingIndex());
-        boxInventory = boxInventoryList.boxInventorylist[boxController.gameObject.transform.GetSiblingIndex()];
-        PhotonView photonView = boxInventory.GetComponent<PhotonView>();
-
-        if (boxController != null) // boxController 참조가 된 경우
+        // boxController 참조가 된 경우
+        if (boxController != null) 
         {
-            // Box의 인벤토리 UI가 닫혀있는 경우
+            Debug.Log(boxController.gameObject.transform.GetSiblingIndex());
+            boxInventory = boxInventoryList.boxInventorylist[boxController.gameObject.transform.GetSiblingIndex()];
+            PhotonView photonView = boxInventory.GetComponent<PhotonView>();
+
+            // Box의 인벤토리 UI가 닫혀있는 경우 - 소모 아이템 사용
             if (boxController.IsUIOpen == false)
             {
                 if (nowItemPrefab.itemNameText.text == "Fruit" || nowItemPrefab.itemNameText.text == "Meat" )
                 {
                     playerStatus.HealHunger(200f);
-                    Debug.LogError("플레이어의 허기를 증가");
+                    Debug.Log("플레이어의 허기를 증가");
                     playerInventory.RemoveItem(nowItemPrefab.itemNameText.text, 1);
                 }
 
                 Debug.Log("직접 사용할 수 없습니다.");
                 return;
             }
-            // Box의 인벤토리 UI가 열려있는 경우 추가
+            // Box의 인벤토리 UI가 열려있는 경우 박스에 아이템 추가
             else if (boxController.IsUIOpen == true)
             {
                 // BoxInventory.cs의 RPC함수로 AddBox실행
@@ -90,8 +92,16 @@ public class PlayerClickedItem : MonoBehaviour
                 return;
             }
         }
-        else // 참조한 BoxController.cs가 없는 경우
+        // BoxController.cs가 없는 경우
+        else
         {
+            if (nowItemPrefab.itemNameText.text == "Fruit" || nowItemPrefab.itemNameText.text == "Meat")
+            {
+                playerStatus.HealHunger(200f);
+                Debug.LogError("플레이어의 허기를 증가");
+                playerInventory.RemoveItem(nowItemPrefab.itemNameText.text, 1);
+            }
+            Debug.Log("직접 사용할 수 없습니다.");
             return;
         }
     }

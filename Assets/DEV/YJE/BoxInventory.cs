@@ -8,7 +8,7 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
     [SerializeField] ItemController itemController;
 
     public List<ItemData> inventory = new List<ItemData>();// 아이템 박스 인벤토리
-    public List<int> inventoryCount = new List<int>(); //*********************************
+    public List<int> inventoryCount = new List<int>(); // 아이템 개수를 저장하는 리스트
     [SerializeField] RectTransform itemContent; // 프리팹이 생성 될 위치
     [SerializeField] GameObject itemPrefabObj; // 아이템 프리팹
     [SerializeField] int size; // 박스 사이즈
@@ -30,7 +30,7 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
         Debug.Log("AddBox  RPC함수 정상 실행");
         ItemData curItemData = null;
         int curItemCount = 0;
-        int index = 0; // i의 값을 저장
+        int index = 0; // i의 값을 저장하는 index
         if (inventory.Count != 0)
         {
             for (int i = 0; i < inventory.Count; i++)
@@ -42,7 +42,7 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
                         curItemData = inventory[i];
                         curItemCount = inventoryCount[i];
                         index = i;
-                        break;
+                        break; // 동일한 아이템을 찾은 경우 for문 종료
                     }
                 }
             }
@@ -50,19 +50,18 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
 
         if (curItemData != null) // 현재 아이템이 이미 있으면
         {
-            Debug.LogWarning($"인벤토리 아이템 수정 전 갯수 : {curItemData.itemData.itemName} : {curItemCount} ");
-            curItemCount += 1;//***************************
+            curItemCount += 1;
             inventoryCount[index] = curItemCount; // 인벤토리에 카운트 저장
             Debug.LogWarning($"인벤토리 아이템 수정 후 갯수 : {curItemData.itemData.itemName} : {curItemCount} ");
-            UpdateItem(curItemData, curItemCount);//********************************************
+            UpdateItem(curItemData, curItemCount); // UI 업데이트
         }
         else if (inventory.Count <= size) // 아이템 박스 사이즈 보다 용량이 적은 경우
         {
             GameObject curObject = MakeItemObject(itemName);
             Item curItem = curObject.GetComponent<Item>();
             curItemData = new ItemData(curItem);
-            curItemCount = curItemData.itemData.itemCount; // 초기 값 지정
-            Debug.LogError($"{curItemData.itemData.itemName} : {curItemCount}");
+            curItemCount = curItemData.itemData.itemCount; // 개수의 초기 값 지정
+            Debug.Log($"{curItemData.itemData.itemName} : {curItemCount}");
             Debug.Log("인벤토리 추가");
             inventory.Add(curItemData); // 아이템 추가
             inventoryCount.Add(curItemCount); // 아이템의 개수 추가
@@ -70,7 +69,7 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
             CreateItemUI(curItemData); // 한 개 짜리 생성
             Debug.Log("생성한 게임 오브젝트 반납");
             DeleteItemObject(itemName);
-            Debug.LogError("삭제 완료");
+            Debug.Log("삭제 완료");
         }
         else // 인벤토리가 가득 찬 경우
         {
@@ -98,10 +97,6 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
                     curItemData = inventory[i];
                     curItemCount = inventoryCount[i];
                     index = i; // 인벤토리 삭제 시 사용
-
-                    Debug.LogWarning($"{inventory[i].itemData.itemCount}");
-                    Debug.LogWarning($"{inventoryCount[i]}");
-                    Debug.LogWarning($"{i}");
                     break;
                 }
             }
@@ -110,9 +105,8 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
         if (curItemData != null) // 아이템이 있으면
         {
             Debug.Log("아이템 갯수 감소");
-            Debug.LogError($"인벤토리 아이템 수정 전 갯수 : {curItemData.itemData.itemName} : {curItemCount} ");
             curItemCount -= 1; // 한개 제거
-            Debug.LogError($"인벤토리 아이템 수정 후 갯수 : {curItemData.itemData.itemName} : {curItemCount} ");
+            Debug.Log($"인벤토리 아이템 수정 후 갯수 : {curItemData.itemData.itemName} : {curItemCount} ");
             inventoryCount[index] = curItemCount; // 인벤토리에 카운트 저장
             if (curItemCount <= 0) // 0 이하인 경우
             {
@@ -120,12 +114,11 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
                 Destroy(curItemData.itemPrefab.gameObject);
                 Debug.Log("인벤토리에서 삭제");
                 inventory.Remove(curItemData); // 리스트에서 아이템 제외
-                inventoryCount.RemoveAt(index); // 리스트에서 인덱스 번호의 위치의 개수 제외****************
+                inventoryCount.RemoveAt(index); // 리스트에서 인덱스 번호의 위치의 정보 제외
             }
             else
             {
                 UpdateItem(curItemData, curItemCount);
-                Debug.LogError($"인벤토리 아이템 갯수 : {curItemData.itemData.itemName} : {curItemCount} ");
             }
         }
     }
@@ -139,7 +132,7 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
     {
         if (item.itemPrefab != null)////////
         {
-            Debug.LogError("아이템 업데이트");
+            Debug.Log("아이템UI 업데이트");
 
             item.itemPrefab.SetItemUI(item.itemData.itemSprite, item.itemData.itemName, curItemCount);
         }

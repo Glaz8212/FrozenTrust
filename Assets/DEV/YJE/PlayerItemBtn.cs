@@ -14,11 +14,11 @@ public class PlayerItemBtn : MonoBehaviour
 
     private void OnEnable()
     {
-        Debug.LogError("버튼연결실행");
+        Debug.Log("버튼연결실행");
         playerClickedItem = gameObject.GetComponentInParent<PlayerClickedItem>(); // 부모오브젝트가 가진 ClickedItem.cs
         btn = gameObject.GetComponent<Button>(); // 현재 오브젝트의 버튼
         Debug.Log("플레이어 아이템 프리팹 버튼 연결");
         btn.onClick.AddListener(playerClickedItem.PlayerAddBox); // 함수를 연결
-        Debug.LogError("버튼 연결 완료");
+        Debug.Log("버튼 연결 완료");
     }
 }
