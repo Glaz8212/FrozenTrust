@@ -67,13 +67,13 @@ public class NamePrint : MonoBehaviourPunCallbacks
 
     // 포톤 콜백 메서드 (Photon 플레이어 객체, 변경된 CustomProperties의 키와 값을 포함한 Hashtable)
     // 플레이어 닉네임 변동 시 
-    /* 없어도 잘되면 실행시 제거
+
     public override void OnPlayerPropertiesUpdate(Player targetPlayer, ExitGames.Client.Photon.Hashtable changedProps)
     {
         if (targetPlayer == photonView.Owner && changedProps.ContainsKey("PlayerName"))
         {
             UpdateName();
         }
-    }*/
+    }
 }
 

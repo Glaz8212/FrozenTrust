@@ -34,7 +34,7 @@ public class PlayerInteraction : MonoBehaviourPun
         // Inventory 오브젝트를 찾아 PlayerInventory 할당
         if (playerInventory == null)
         {
-            GameObject inventoryObject = GameObject.Find("Inventory");
+            GameObject inventoryObject = GameObject.FindWithTag("PlayerInventory");
             if (inventoryObject != null)
             {
                 playerInventory = inventoryObject.GetComponent<PlayerInventory>();
