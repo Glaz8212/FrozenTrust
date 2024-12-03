@@ -79,7 +79,7 @@ public class UIManager : MonoBehaviour
     public void OnSpawned()
     {
         playerStatus = GameSceneManager.Instance.nowPlayer.gameObject.GetComponent<PlayerStatus>();
-        missionController = gameObject.GetComponent<MissionController>();
+        missionController = GameSceneManager.Instance.missionController.gameObject.GetComponent<MissionController>();
 
         // 역할 업데이트
         if (GameManager.Instance.playerRole == 1)
