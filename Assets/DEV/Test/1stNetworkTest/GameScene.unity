@@ -11162,6 +11162,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 315.4
       objectReference: {fileID: 0}
+    - target: {fileID: 7215266476176428518, guid: 6906131585ea1ea40a37d70138c64cac, type: 3}
+      propertyPath: m_TagString
+      value: PlayerInventory
+      objectReference: {fileID: 0}
     - target: {fileID: 7215266477009010038, guid: 6906131585ea1ea40a37d70138c64cac, type: 3}
       propertyPath: m_SizeDelta.y
       value: 0
@@ -12899,6 +12903,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: MissionController
       objectReference: {fileID: 0}
+    - target: {fileID: 2087757030799200448, guid: 5cf6998d868dd90408d14545c325bd41, type: 3}
+      propertyPath: m_TagString
+      value: MissionController
+      objectReference: {fileID: 0}
     - target: {fileID: 2087757030799200462, guid: 5cf6998d868dd90408d14545c325bd41, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -14455,6 +14463,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3009674545525163301, guid: 73132190e9a88c04ebc1177b850f77a6, type: 3}
+      propertyPath: m_TagString
+      value: OrePool
+      objectReference: {fileID: 0}
+    - target: {fileID: 3009674545794891214, guid: 73132190e9a88c04ebc1177b850f77a6, type: 3}
+      propertyPath: m_TagString
+      value: WoodPool
+      objectReference: {fileID: 0}
     - target: {fileID: 3009674546123555057, guid: 73132190e9a88c04ebc1177b850f77a6, type: 3}
       propertyPath: m_RootOrder
       value: 19
@@ -14502,6 +14518,10 @@ PrefabInstance:
     - target: {fileID: 3009674546123555063, guid: 73132190e9a88c04ebc1177b850f77a6, type: 3}
       propertyPath: m_Name
       value: ItemController
+      objectReference: {fileID: 0}
+    - target: {fileID: 3009674546613321341, guid: 73132190e9a88c04ebc1177b850f77a6, type: 3}
+      propertyPath: m_TagString
+      value: FruitPool
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73132190e9a88c04ebc1177b850f77a6, type: 3}
@@ -15361,6 +15381,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6959144900173915233, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}
       propertyPath: m_Name
+      value: ItemBoxList
+      objectReference: {fileID: 0}
+    - target: {fileID: 6959144900173915233, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}
+      propertyPath: m_TagString
       value: ItemBoxList
       objectReference: {fileID: 0}
     - target: {fileID: 8686207772994199443, guid: 78ffc6815ddd2bb4daf238a02648f27f, type: 3}

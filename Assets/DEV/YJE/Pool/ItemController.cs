@@ -17,9 +17,9 @@ public class ItemController : MonoBehaviour
     [SerializeField] public List<ItemObj> fruitPool;
     private void Start()
     {
-        woodPool = GameObject.Find("WoodPool").GetComponent<ItemPool>().itemPools;
-        orePool = GameObject.Find("OrePool").GetComponent<ItemPool>().itemPools;
-        fruitPool = GameObject.Find("FruitPool").GetComponent<ItemPool>().itemPools;
+        woodPool = GameObject.FindGameObjectWithTag("WoodPool").GetComponent<ItemPool>().itemPools;
+        orePool = GameObject.FindGameObjectWithTag("OrePool").GetComponent<ItemPool>().itemPools;
+        fruitPool = GameObject.FindGameObjectWithTag("FruitPool").GetComponent<ItemPool>().itemPools;
     }
 
     public ItemObj MakeItem(ItemObj newItem, List<ItemObj> itemPool)

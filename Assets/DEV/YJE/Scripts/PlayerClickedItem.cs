@@ -45,14 +45,14 @@ public class PlayerClickedItem : MonoBehaviour
         // 박스 컨트롤러를 불러오기 위한 생성된 플레이어의 PlayerInteration.cs 참조
         playerInteraction = GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>();
 
-        playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
-        // playerInventory = GameObject.FindGameObjectWithTag("PlayerInventory").GetComponent<PlayerInventory>();
+        // playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
+        playerInventory = GameObject.FindGameObjectWithTag("PlayerInventory").GetComponent<PlayerInventory>();
 
         // 현재의 부모 오브젝트에 있는 BoxInventoryList.cs참조
-        boxInventoryList = GameObject.Find("ItemBoxList").GetComponent<BoxInventoryList>();//*******************
-        //boxInventoryList = GameObject.FindGameObjectWithTag("ItemBoxList").GetComponent<BoxInventoryList>();//*******************
-        missionInventoryList = GameObject.Find("MissionController").GetComponent<MissionInventoryList>();//*******************
-        //missionInventoryList = GameObject.FindGameObjectWithTag("MissionController").GetComponent<MissionInventoryList>();//*******************
+        //boxInventoryList = GameObject.Find("ItemBoxList").GetComponent<BoxInventoryList>();//*******************
+        boxInventoryList = GameObject.FindGameObjectWithTag("ItemBoxList").GetComponent<BoxInventoryList>();//*******************
+        //missionInventoryList = GameObject.Find("MissionController").GetComponent<MissionInventoryList>();//*******************
+        missionInventoryList = GameObject.FindGameObjectWithTag("MissionController").GetComponent<MissionInventoryList>();//*******************
         
         playerStatus = GameSceneManager.Instance.nowPlayer.GetComponent<PlayerStatus>();
     }
