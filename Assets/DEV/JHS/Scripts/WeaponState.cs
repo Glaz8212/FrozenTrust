@@ -1,8 +1,9 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponState : MonoBehaviour
+public class WeaponState : MonoBehaviourPun
 {
     // 무기 타입 확인
     public enum WeaponType
@@ -46,6 +47,7 @@ public class WeaponState : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!photonView.IsMine) return;
         if (isHit) return;
         // 오브젝트 공격 판정
         isHit = true;

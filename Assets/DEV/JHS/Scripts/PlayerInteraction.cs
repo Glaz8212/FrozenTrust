@@ -114,6 +114,11 @@ public class PlayerInteraction : MonoBehaviourPun
                 // 물리 활성화 및 충돌기 활성화
                 weaponState.Active();
             }
+            PhotonView weaponPhotonView = weaponGameObject.GetComponent<PhotonView>();
+            if (weaponPhotonView != null && weaponPhotonView.IsMine)
+            {
+                weaponPhotonView.TransferOwnership(0); // 소유권 반환
+            }
             weaponGameObject.transform.SetParent(null);
             weaponGameObject = null;          
         }
@@ -121,6 +126,11 @@ public class PlayerInteraction : MonoBehaviourPun
 
     private void MoverWeapon()
     {
+        PhotonView weaponPhotonView = weaponGameObject.GetComponent<PhotonView>();
+        if (weaponPhotonView != null && !weaponPhotonView.IsMine)
+        {
+            weaponPhotonView.TransferOwnership(photonView.Owner);
+        }
         weaponGameObject.transform.SetParent(playerHandTransform);
 
         weaponGameObject.transform.localPosition = Vector3.zero;
