@@ -30,8 +30,8 @@ public class Vent : MonoBehaviour
 
     private bool IsTraitor(PlayerMover player)
     {
-        // 액트넘버가 1이면 (배신자면) true 반환
-        return player.photonView.Owner.ActorNumber == 1;
+        // 플레이어롤이 1이면 (배신자면) true 반환
+        return GameManager.Instance.playerRole == 1;
     }
 
     private void UseVent(PlayerMover player)
