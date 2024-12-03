@@ -9,7 +9,6 @@ public class BoxController : MonoBehaviourPun
 {
     public bool IsUIOpen;
     [SerializeField] GameObject UI_ItemBox;
-    private GameSceneManager gameSceneManager;
 
     // TODO : UI 상호작용 창 닫혀있는지 확인하는 bool변수 - public
     public void BoxOpen()
@@ -30,33 +29,4 @@ public class BoxController : MonoBehaviourPun
 
     }
 
-
-
-
-    /*
-    [SerializeField] PlayerInteraction playerInteraction;
-
-    public void Update()
-    {
-        if (playerInteraction.isInteracting)
-        {
-            BoxOpen();
-        }
-        else
-        {
-            BoxClose();
-        }
-    }
-
-    public void BoxOpen()
-    {
-        Debug.Log("아이템상자 열기");
-    }
-
-    public void BoxClose()
-    {
-        Debug.Log("아이템상자 닫기");
-
-    }
-    */
 }
