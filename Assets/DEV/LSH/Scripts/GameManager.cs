@@ -50,7 +50,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         int playerList = PhotonNetwork.PlayerList.Length;
 
         // 배신자는 4명당 1명 최소 인원 4명
-        traitorCount = Mathf.Max(2, playerList / 4);
+        traitorCount = Mathf.Max(1, playerList / 4);
         survivorCount = playerList - traitorCount;
 
         List<int> playerId = new List<int>();
@@ -121,16 +121,24 @@ public class GameManager : MonoBehaviourPunCallbacks
 
     public void CheckWin(bool checkwin)
     {
+        StopAllCoroutines();
         // 배에 올라탔을 때 호출 함수
         if (checkwin == true)// 생존자 승리조건
         {
-            //GameStateChange(GameState.End);
+            GameStateChange(GameState.End);
+            
             Debug.Log("승리");
         }
         else if (checkwin == false)// 배신자 승리조건
         {
-            //GameStateChange(GameState.End);
+            GameStateChange(GameState.End);
+            
             Debug.Log("패배");
+        }
+
+        if (PhotonNetwork.IsConnected)
+        {
+            PhotonNetwork.Disconnect();
         }
     }
 
