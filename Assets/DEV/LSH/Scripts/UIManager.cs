@@ -23,6 +23,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] PlayerStatus playerStatus;
     [SerializeField] MissionController missionController;
 
+    [SerializeField] GameObject traitorTeam;
+
     private void OnDisable()
     {
         if (GameSceneManager.Instance != null)
@@ -43,12 +45,16 @@ public class UIManager : MonoBehaviour
     private void LateUpdate()
     {
         UIUpdate();
+        MissionUI();
     }
 
     private void UIUpdate()
     {
+        if (playerStatus == null)
+            return;
+
         // 플레이어 허기 상태일 때 최대체력 UI업데이트
-        if (playerStatus.state == PlayerStatus.PlayerState.LackHunger)
+        if (playerStatus.state == PlayerStatus.PlayerState.LackHunger || playerStatus.state == PlayerStatus.PlayerState.LackEverything)
         {
             // 허기 상태
             hpBar.text = $"{playerStatus.playerHP}/{playerStatus.playerReducedHP}";
@@ -79,20 +85,27 @@ public class UIManager : MonoBehaviour
         if (GameManager.Instance.playerRole == 1)
         {
             myRole.text = "배신자";
+
             List<int> traitorIds = GameManager.Instance.GetTraitorIds();
-            for (int i = 0; i < traitorIds.Count; i++)
+            if(traitorIds.Count >= 2)
             {
-                int PlayerId = traitorIds[i];
+                traitorTeam.SetActive(true);
                 traitorText.text += $"배신자\n";
-                foreach (Player player in PhotonNetwork.PlayerList)
+                for (int i = 0; i < traitorIds.Count; i++)
                 {
-                    if (player.ActorNumber == PlayerId)
+                    int PlayerId = traitorIds[i];
+                    traitorText.text += $"배신자\n";
+                    foreach (Player player in PhotonNetwork.PlayerList)
                     {
-                        string traitorName = player.NickName;
-                        traitorText.text += $"{traitorName}\n";
+                        if (player.ActorNumber == PlayerId)
+                        {
+                            string traitorName = player.NickName;
+                            traitorText.text += $"{traitorName}\n";
+                        }
                     }
                 }
             }
+            
         }
         else
         {
@@ -112,14 +125,29 @@ public class UIManager : MonoBehaviour
         }
         else if (missionController.Is2Clear)
         {
-            missionText.text = "미션 2 클리어 완료!";
+            if(GameManager.Instance.playerRole == 0)
+            {
+                missionText.text = "미션 2 클리어 완료!\n";
+                missionText.text += "이제 탈출만이 남았습니다. 탈출 장소로 향하십시오.";
+            }
+            else
+            {
+                missionText.text = "생존자가 모든 미션을 클리어했습니다.\n";
+                missionText.text += "그들이 탈출하지 못하게 막으십시오.";
+            }
+            
         }
         else if (missionController.Is1Clear)
         {
             if (GameManager.Instance.playerRole == 0)
             {
                 missionText.text = "미션1 클리어 완료!\n";
-                missionText.text = "미션2 오브젝트를 찾아서 수행하시오.!";
+                missionText.text += "미션2 오브젝트를 찾아서 수행하시오.!";
+            }
+            else
+            {
+                missionText.text = "생존자가 미션1을 클리어 했습니다!\n";
+                missionText.text += "미션2를 해결하지 못하게 방해하십시오.";
             }
         }
         else

@@ -11,9 +11,10 @@ public class GameSceneManager : MonoBehaviourPun
     public static GameSceneManager Instance;
     public MissionController missionController;
     public GameObject nowPlayer;
+    [SerializeField] PlayerStatus playerStatus;
 
 
-    public float gameTimer = 900f; // 15분 타이머
+    private float gameTimer = 900f; // 15분 타이머
     public TMP_Text timerText;
 
     public UnityEvent OnPlayerSpawned = new UnityEvent();
@@ -43,8 +44,8 @@ public class GameSceneManager : MonoBehaviourPun
     {
         Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
         nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
-
-        OnPlayerSpawned?.Invoke();
+        playerStatus = nowPlayer.gameObject.GetComponent<PlayerStatus>();
+        OnPlayerSpawned?.Invoke();        
     }
 
     private void Start()
@@ -57,15 +58,6 @@ public class GameSceneManager : MonoBehaviourPun
 
     private void Update()
     {
-        /*if (missionController.IsEndingClear == true)
-        {
-            GameManager.Instance.CheckWin(true);
-        }
-
-        if (false)// player = deathplayer
-        {
-            GameManager.Instance.CheckWin(false);
-        }*/
     }
 
     private IEnumerator GameTimerCoroutine()
@@ -79,6 +71,8 @@ public class GameSceneManager : MonoBehaviourPun
 
             yield return null;
         }
+
+        GameManager.Instance.CheckWin(false);
     }
 
 
