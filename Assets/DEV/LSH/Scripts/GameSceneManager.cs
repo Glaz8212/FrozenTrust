@@ -94,7 +94,7 @@ public class GameSceneManager : MonoBehaviourPun
     [PunRPC]
     private void TeleportEvent()
     {
-        if (gameTimer <= 880 && gameTimer >= 879 && (Time.time - moveTime >= teleportCooldown) && playerStatus.environment != PlayerStatus.SurroundingEnvironment.Warm)
+        if ((Time.time - moveTime >= teleportCooldown) && playerStatus.environment != PlayerStatus.SurroundingEnvironment.Warm)
         {
             Vector3 randomPos = new Vector3(Random.Range(-10f, 10f), 3, Random.Range(-10f, 10f));
             CharacterController controller = nowPlayer.GetComponent<CharacterController>();
