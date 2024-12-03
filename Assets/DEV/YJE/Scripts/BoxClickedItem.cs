@@ -36,7 +36,8 @@ public class BoxClickedItem : MonoBehaviour
        
         // 박스 컨트롤러를 불러오기 위한 생성된 플레이어의 PlayerInteration.cs 참조
         playerInteraction = GameSceneManager.Instance.nowPlayer.GetComponentInParent<PlayerInteraction>();
-        playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
+        //playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
+        playerInventory = GameObject.FindGameObjectWithTag("PlayerInventory").GetComponent<PlayerInventory>();
 
         // 현재의 부모 오브젝트에 있는 BoxInventoryList.cs참조
         boxInventoryList = gameObject.transform.GetComponentInParent<BoxInventoryList>();

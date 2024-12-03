@@ -6,13 +6,13 @@ using UnityEngine;
 public class PlayerCameraController : MonoBehaviourPunCallbacks
 {
     private CinemachineVirtualCamera cinemachineVirtualCamera;
-    private GameSceneManager gameSceneManager;
+    // private GameSceneManager gameSceneManager;
     public GameObject nowPlayer;
 
     private void Awake()
     {
         cinemachineVirtualCamera = GetComponent<CinemachineVirtualCamera>();
-        gameSceneManager = GameObject.Find("GameSceneManager").GetComponent<GameSceneManager>();
+        // gameSceneManager = GameObject.Find("GameSceneManager").GetComponent<GameSceneManager>();
     }
 
     private void Start()
@@ -33,7 +33,7 @@ public class PlayerCameraController : MonoBehaviourPunCallbacks
 
     private void SetCam()
     {
-        nowPlayer = gameSceneManager.nowPlayer;
+        nowPlayer = GameSceneManager.Instance.nowPlayer;
         cinemachineVirtualCamera.Follow = nowPlayer.transform;
         cinemachineVirtualCamera.LookAt = nowPlayer.transform;
     }
