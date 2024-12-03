@@ -52,7 +52,7 @@ public class ChatManager : MonoBehaviour, IChatClientListener
         // 닉네임 설정
         userName = PhotonNetwork.LocalPlayer.NickName;
         // 배신자 여부 판단
-        isTraitor = PhotonNetwork.LocalPlayer.ActorNumber == 1;
+        isTraitor = GameManager.Instance.playerRole == 1;
 
         // 챗 서버 연결
         ConnectToChat();

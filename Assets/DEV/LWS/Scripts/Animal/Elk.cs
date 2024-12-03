@@ -24,9 +24,6 @@ public class Elk : MonoBehaviourPun, IPunObservable
     [SerializeField] float maxHp;
     [SerializeField] float curHp;
 
-    // 드랍될 고기 아이템 프리팹
-    [SerializeField] GameObject meatPrefab;
-
     private void Awake()
     {
         Init();
@@ -47,7 +44,7 @@ public class Elk : MonoBehaviourPun, IPunObservable
         {
             if (curHp > 0)
                 Idle();
-            else if (!animator.GetBool("isDead")) 
+            else if (!animator.GetBool("isDead"))
                 Die();
         }
         else
@@ -130,10 +127,9 @@ public class Elk : MonoBehaviourPun, IPunObservable
 
     private void DropMeat()
     {
-        if (meatPrefab != null)
-        {
-            PhotonNetwork.Instantiate(meatPrefab.name, transform.position, Quaternion.identity);
-        }
+
+        PhotonNetwork.Instantiate("LWS/Meat", transform.position, Quaternion.identity);
+
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
