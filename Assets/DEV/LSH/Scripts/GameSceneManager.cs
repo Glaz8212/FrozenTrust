@@ -13,13 +13,11 @@ public class GameSceneManager : MonoBehaviourPun
     [SerializeField] public MissionController missionController;
     [SerializeField] public GameObject nowPlayer;
     [SerializeField] PlayerStatus playerStatus;
-    [SerializeField] NamePrint[] namePrints;
 
     private float moveTime = -10f;
     private float teleportCooldown = 10f;
     private float gameTimer = 900f; // 15분 타이머
     public TMP_Text timerText;
-    public string[] originalNickname;
 
     public UnityEvent OnPlayerSpawned = new UnityEvent();
 
