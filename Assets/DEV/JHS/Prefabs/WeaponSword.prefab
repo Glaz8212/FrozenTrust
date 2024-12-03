@@ -102,7 +102,7 @@ MonoBehaviour:
   collider1: {fileID: 3122796263895924592}
   collider2: {fileID: 6629217245535032454}
   rigidbody1: {fileID: 153595341672085512}
-  weaponType: 0
+  weaponType: 1
 --- !u!65 &8510198479739735759
 BoxCollider:
   m_ObjectHideFlags: 0

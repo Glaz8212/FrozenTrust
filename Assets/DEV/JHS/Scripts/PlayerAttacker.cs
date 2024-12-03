@@ -84,6 +84,7 @@ public class PlayerAttacker : MonoBehaviourPun
 
         // 이미 설정된 weaponState에서 Collider 참조
         weaponCollider = weaponState.GetComponent<Collider>();
+        DeactivateAttackArea();
         Debug.Log($"{type}으로 변경");
     }
     // 무기 해제
@@ -145,25 +146,34 @@ public class PlayerAttacker : MonoBehaviourPun
         }
     }
     [PunRPC]
-    private void CloserAttack(bool isLeftHand)
+    private void CloserAttack()
     {
         animator.Play("SlashOneHand");
-        weaponCollider.enabled = true;
+        if (weaponCollider != null)
+        {
+            weaponCollider.enabled = true;
+        }
     }
     [PunRPC]
-    private void TwoHandedAttack(bool isLeftHand)
+    private void TwoHandedAttack()
     {
         animator.Play("SlashTwoHand");
-        weaponCollider.enabled = true;
+        if (weaponCollider != null)
+        {
+            weaponCollider.enabled = true;
+        }
     }
 
 
     [PunRPC]
     private void DeactivateAttackArea()
     {
-        leftAttackArea.enabled = false;
-        rightAttackArea.enabled = false;
-        if (weaponCollider != null)
+        if (weaponCollider ==  null)
+        {
+            leftAttackArea.enabled = false;
+            rightAttackArea.enabled = false;
+        }      
+        else if (weaponCollider != null)
         {
             weaponCollider.enabled = false;
         }
