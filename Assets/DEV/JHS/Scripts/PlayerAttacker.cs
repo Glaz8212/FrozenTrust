@@ -133,26 +133,27 @@ public class PlayerAttacker : MonoBehaviourPun
         if (isLeftHand)
         {
             // 좌측 펀치 애니메이션 실행
-            animator.Play("SlashOneHand");
+            
+            animator.Play("Punch_LeftHand");
             leftAttackArea.enabled = true;
         }
         else
         {
             // 우측 펀치 애니메이션 실행
-            animator.Play("SlashTwoHand");
+            animator.Play("Punch_RightHand");          
             rightAttackArea.enabled = true;
         }
     }
     [PunRPC]
     private void CloserAttack(bool isLeftHand)
     {
-        animator.Play("Punch_LeftHand");
+        animator.Play("SlashOneHand");
         weaponCollider.enabled = true;
     }
     [PunRPC]
     private void TwoHandedAttack(bool isLeftHand)
     {
-        animator.Play("Punch_LeftHand");
+        animator.Play("SlashTwoHand");
         weaponCollider.enabled = true;
     }
 

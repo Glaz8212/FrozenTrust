@@ -109,6 +109,7 @@ public class PlayerInteraction : MonoBehaviourPun
             WeaponState weaponState = weaponGameObject.GetComponentInChildren<WeaponState>();
             if (weaponState != null)
             {
+                attacker.ReleaseWeapon();
                 Debug.Log("무기 다시 활성화");
                 // 물리 활성화 및 충돌기 활성화
                 weaponState.Active();
