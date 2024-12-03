@@ -13,13 +13,17 @@ public class PlayerClickedItem : MonoBehaviour
 
     [Header("참조할 스크립트")]
     [SerializeField] PlayerInteraction playerInteraction;
-    [SerializeField] BoxController boxController;
     private PlayerStatus playerStatus;
 
     // ItmeBoxList 오브젝트에 있는 BoxInventroyList.cs
+    [SerializeField] BoxController boxController;
     [SerializeField] BoxInventoryList boxInventoryList;
-
     [SerializeField] BoxInventory boxInventory;
+
+    [SerializeField] MissionBox missionBoxController;
+    [SerializeField] MissionInventoryList missionInventoryList;
+    [SerializeField] MissionBoxInventory missionBoxInventory;
+
     [SerializeField] PhotonView photonView;
     [SerializeField] PlayerInventory playerInventory;
 
@@ -42,10 +46,14 @@ public class PlayerClickedItem : MonoBehaviour
         playerInteraction = GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>();
 
         playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
+        // playerInventory = GameObject.FindGameObjectWithTag("PlayerInventory").GetComponent<PlayerInventory>();
 
         // 현재의 부모 오브젝트에 있는 BoxInventoryList.cs참조
-        boxInventoryList = GameObject.Find("ItemBoxList").GetComponent<BoxInventoryList>();
-
+        boxInventoryList = GameObject.Find("ItemBoxList").GetComponent<BoxInventoryList>();//*******************
+        //boxInventoryList = GameObject.FindGameObjectWithTag("ItemBoxList").GetComponent<BoxInventoryList>();//*******************
+        missionInventoryList = GameObject.Find("MissionController").GetComponent<MissionInventoryList>();//*******************
+        //missionInventoryList = GameObject.FindGameObjectWithTag("MissionController").GetComponent<MissionInventoryList>();//*******************
+        
         playerStatus = GameSceneManager.Instance.nowPlayer.GetComponent<PlayerStatus>();
     }
 
@@ -62,7 +70,7 @@ public class PlayerClickedItem : MonoBehaviour
 
         // player와 상호작용한 BoxConroller.cs 참조
         boxController = playerInteraction.boxController;
-
+        missionBoxController = playerInteraction.missionController;
         // boxController 참조가 된 경우
         if (boxController != null) 
         {
@@ -88,6 +96,36 @@ public class PlayerClickedItem : MonoBehaviour
             {
                 // BoxInventory.cs의 RPC함수로 AddBox실행
                 photonView.RPC("AddBox", RpcTarget.All, nowItemPrefab.itemNameText.text);
+                playerInventory.RemoveItem(nowItemPrefab.itemNameText.text, 1);
+                return;
+            }
+        }
+
+        // 미션박스가 있는 경우
+        else if(missionBoxController != null)
+        {
+            Debug.Log(missionBoxController.gameObject.transform.GetSiblingIndex());
+            missionBoxInventory = missionInventoryList.missionInventoryList[missionBoxController.gameObject.transform.GetSiblingIndex()];
+            PhotonView photonView = missionBoxInventory.GetComponent<PhotonView>();
+
+            // Box의 인벤토리 UI가 닫혀있는 경우 - 소모 아이템 사용
+            if (missionBoxController.IsUIOpen == false)
+            {
+                if (nowItemPrefab.itemNameText.text == "Fruit" || nowItemPrefab.itemNameText.text == "Meat")
+                {
+                    playerStatus.HealHunger(200f);
+                    Debug.Log("플레이어의 허기를 증가");
+                    playerInventory.RemoveItem(nowItemPrefab.itemNameText.text, 1);
+                }
+
+                Debug.Log("직접 사용할 수 없습니다.");
+                return;
+            }
+            // Box의 인벤토리 UI가 열려있는 경우 박스에 아이템 추가
+            else if (missionBoxController.IsUIOpen == true)
+            {
+                // MissionBoxInventory.cs의 RPC함수로 AddMission실행
+                photonView.RPC("AddMission", RpcTarget.All, nowItemPrefab.itemNameText.text);
                 playerInventory.RemoveItem(nowItemPrefab.itemNameText.text, 1);
                 return;
             }

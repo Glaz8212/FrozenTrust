@@ -1,9 +1,8 @@
 using Photon.Pun;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class BoxInventory : MonoBehaviourPun//, IPunObservable
+public class MissionBoxInventory : MonoBehaviour
 {
     [SerializeField] ItemController itemController;
 
@@ -11,16 +10,35 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
     public List<int> inventoryCount = new List<int>(); // 아이템 개수를 저장하는 리스트
     [SerializeField] RectTransform itemContent; // 프리팹이 생성 될 위치
     [SerializeField] GameObject itemPrefabObj; // 아이템 프리팹
-    [SerializeField] int size; // 박스 사이즈
+    int size = 3; // 박스 사이즈
+
+    [SerializeField] PlayerInventory playerInventory;
+
+    public int missionWoodCount; // 최종 미션에 필요한 개수 - 아이템 종류별로 다르게 사용
+    public int missionOreCount; // 최종 미션에 필요한 개수
+    public int missionFruitCount; // 최종 미션에 필요한 개수
+
+    // 랜덤으로 미션 개수 설정
+    private void Start()
+    {
+        int num = Random.Range(0, 5);
+        missionWoodCount = num;
+        num = Random.Range(0, 5);
+        missionOreCount = num;
+        num = Random.Range(0, 5);
+        missionFruitCount = num;
+        playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
+        // playerInventory = GameObject.FindGameObjectWithTag("PlayerInventory").GetComponent<PlayerInventory>();
+    }
 
     /// <summary>
     /// 네트워크 동기함수로 AddBox() 생성
     /// </summary>
     /// <param name="itemName"></param>
     [PunRPC]
-    public void AddBox(string itemName)
+    public void AddMission(string itemName)
     {
-        Debug.Log("AddBox  RPC함수 정상 실행");
+        Debug.Log("AddMission RPC함수 정상 실행");
         ItemData curItemData = null;
         int curItemCount = 0;
         int index = 0; // i의 값을 저장하는 index
@@ -43,6 +61,40 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
 
         if (curItemData != null) // 현재 아이템이 이미 있으면
         {
+            // 각 아이템 별로 필요한 아이템 개수가 전부 찼는지 확인이 필요
+            switch (curItemData.itemData.itemName)
+            {
+                case "Wood":
+                    if (curItemCount == missionWoodCount)
+                    {
+                        Debug.Log("더 이상 넣을 수 없습니다.");
+                        playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
+                        return;
+                    }
+                    else
+                        break;
+                case "Ore":
+                    if (curItemCount == missionOreCount)
+                    {
+                        Debug.Log("더 이상 넣을 수 없습니다.");
+                        playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
+                        return;
+                    }
+                    else
+                        break;
+                case "Fruit":
+                    if (curItemCount == missionFruitCount)
+                    {
+                        Debug.Log("더 이상 넣을 수 없습니다.");
+                        playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
+                        return;
+                    }
+                    else
+                        break;
+                default:
+                    break;
+            }
+            // 더 넣을 수 있으면 추가
             curItemCount += 1;
             inventoryCount[index] = curItemCount; // 인벤토리에 카운트 저장
             Debug.LogWarning($"인벤토리 아이템 수정 후 갯수 : {curItemData.itemData.itemName} : {curItemCount} ");
@@ -74,7 +126,7 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
     /// </summary>
     /// <param name="itemName"></param>
     [PunRPC]
-    public void SubBox(string itemName)
+    public void MissionSteal(string itemName)
     {
         // box에 있는 아이템을 찾기
         Debug.LogError("SubBox RPC함수 정상 실행");
@@ -159,7 +211,7 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
                 Debug.Log("목재를 만들기");
                 curObject = itemController.MakeWoodItem();
                 return curObject;
-     
+
             case "Ore":
                 Debug.Log("광석을 만들기");
                 curObject = itemController.MakeOreItem();
