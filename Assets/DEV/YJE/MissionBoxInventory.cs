@@ -27,7 +27,6 @@ public class MissionBoxInventory : MonoBehaviour
         missionOreCount = num;
         num = Random.Range(0, 5);
         missionFruitCount = num;
-        // playerInventory = GameObject.Find("Inventory").GetComponent<PlayerInventory>();
         playerInventory = GameObject.FindGameObjectWithTag("PlayerInventory").GetComponent<PlayerInventory>();
     }
 
@@ -129,7 +128,7 @@ public class MissionBoxInventory : MonoBehaviour
     public void MissionSteal(string itemName)
     {
         // box에 있는 아이템을 찾기
-        Debug.LogError("SubBox RPC함수 정상 실행");
+        Debug.LogError("MissionSteal RPC함수 정상 실행");
         ItemData curItemData = null;
         int curItemCount = 0;
         int index = 0; // i의 값을 저장
@@ -153,7 +152,8 @@ public class MissionBoxInventory : MonoBehaviour
             curItemCount -= 1; // 한개 제거
             Debug.Log($"인벤토리 아이템 수정 후 갯수 : {curItemData.itemData.itemName} : {curItemCount} ");
             inventoryCount[index] = curItemCount; // 인벤토리에 카운트 저장
-            if (curItemCount <= 0) // 0 이하인 경우
+            Debug.Log($"{inventoryCount[index]}");
+            if (inventoryCount[index] <= 0) // 0 이하인 경우
             {
                 Debug.Log(curItemData.itemData.gameObject.name);
                 Destroy(curItemData.itemPrefab.gameObject);
@@ -163,6 +163,7 @@ public class MissionBoxInventory : MonoBehaviour
             }
             else
             {
+                Debug.Log("UI 갱신");
                 UpdateItem(curItemData, curItemCount);
             }
         }

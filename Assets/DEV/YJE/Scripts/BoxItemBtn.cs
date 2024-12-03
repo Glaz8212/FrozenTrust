@@ -12,7 +12,7 @@ public class BoxItemBtn : MonoBehaviour
     public Button btn;
     private BoxClickedItem boxclickedItem;
 
-    private void OnEnable()
+    private void Start()
     {
         boxclickedItem = gameObject.GetComponentInParent<BoxClickedItem>(); // 부모오브젝트가 가진 ClickedItem.cs
         btn = gameObject.GetComponent<Button>(); // 현재 오브젝트의 버튼

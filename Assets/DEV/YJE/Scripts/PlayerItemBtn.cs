@@ -12,7 +12,7 @@ public class PlayerItemBtn : MonoBehaviour
     [SerializeField] Button btn;
     [SerializeField] PlayerClickedItem playerClickedItem;
 
-    private void OnEnable()
+    private void Start()
     {
         Debug.Log("버튼연결실행");
         playerClickedItem = gameObject.GetComponentInParent<PlayerClickedItem>(); // 부모오브젝트가 가진 ClickedItem.cs

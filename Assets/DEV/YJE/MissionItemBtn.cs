@@ -8,7 +8,7 @@ public class MissionItemBtn : MonoBehaviour
     public Button btn;
     private MissionClicekedItem missionClicekedItem;
 
-    private void OnEnable()
+    private void Start()
     {
         missionClicekedItem = gameObject.GetComponentInParent<MissionClicekedItem>();
         btn = gameObject.GetComponent<Button>();
