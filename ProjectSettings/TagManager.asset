@@ -11,11 +11,9 @@ TagManager:
   - Mission1
   - Mission2
   - Ending
-  - Monster
-  - Wood
-  - Ore
-  - Fruit
-  - Meat
+  - Animal
+  - ItemBoxList
+  - MissionController
   layers:
   - Default
   - TransparentFX
