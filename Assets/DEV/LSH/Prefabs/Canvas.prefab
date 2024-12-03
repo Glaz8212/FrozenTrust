@@ -1661,6 +1661,7 @@ GameObject:
   - component: {fileID: 7215266476176428522}
   - component: {fileID: 7215266476176428521}
   - component: {fileID: 7215266476176428519}
+  - component: {fileID: 6514973506671543056}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -1743,6 +1744,27 @@ MonoBehaviour:
   inventory: []
   itemContent: {fileID: 7215266477009010038}
   itemPrefab: {fileID: 4987704419904730852, guid: a4dd7ee6102610f46aa890da83970731, type: 3}
+--- !u!114 &6514973506671543056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7215266476176428518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62759be9c087eb8478dcc350658e07ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nowClicked: {fileID: 0}
+  nowItemPrefab: {fileID: 0}
+  gameSceneManager: {fileID: 0}
+  playerInteraction: {fileID: 0}
+  boxController: {fileID: 0}
+  boxInventoryList: {fileID: 0}
+  boxInventory: {fileID: 0}
+  photonView: {fileID: 0}
+  playerInventory: {fileID: 0}
 --- !u!1 &7215266476559534961
 GameObject:
   m_ObjectHideFlags: 0

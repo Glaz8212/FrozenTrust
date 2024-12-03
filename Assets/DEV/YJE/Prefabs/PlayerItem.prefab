@@ -403,7 +403,7 @@ GameObject:
   - component: {fileID: 4945527856264309526}
   - component: {fileID: 7545690758131214187}
   - component: {fileID: 6856706815951298022}
-  - component: {fileID: 2775867026012693306}
+  - component: {fileID: 3927036154576196037}
   m_Layer: 5
   m_Name: PlayerItem
   m_TagString: Untagged
@@ -517,7 +517,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2775867026012693306}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: ClickedItem, Assembly-CSharp
         m_MethodName: PlayerAddBox
         m_Mode: 1
@@ -560,7 +560,7 @@ MonoBehaviour:
   itemName: 
   itemSprite: {fileID: 21300000, guid: dd936a291896e3f4086c4877c374c4e6, type: 3}
   itemCount: 0
---- !u!114 &2775867026012693306
+--- !u!114 &3927036154576196037
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -569,12 +569,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 4987704419904730852}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afb4fb2236fa0e8408af7eeaab97995b, type: 3}
+  m_Script: {fileID: 11500000, guid: 55a8c60ce53b9ef41a12f9f03745c4cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nowClicked: {fileID: 0}
-  nowItemUI: {fileID: 0}
-  gameSceneManager: {fileID: 0}
-  playerInteraction: {fileID: 0}
-  boxInventory: {fileID: 0}
-  playerInventory: {fileID: 0}
+  btn: {fileID: 0}
+  playerClickedItem: {fileID: 0}

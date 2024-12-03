@@ -11,9 +11,6 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
     [SerializeField] GameObject itemPrefabObj; // 아이템 프리팹
     [SerializeField] int size; // 박스 사이즈
     GameSceneManager gameSceneManager;
-    /*  [SerializeField] GameObject woodItem;
-      [SerializeField] GameObject oreItem;
-      [SerializeField] GameObject fruitItem;*/
 
     private void Awake()
     {
@@ -48,18 +45,19 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
         {
             curItemData.itemData.itemCount += 1;
             Debug.Log($"인벤토리 아이템 갯수 : {curItemData.itemData.itemName} : {curItemData.itemData.itemCount} ");
-            UpdateItem(curItemData, curItemData.itemData.itemCount);
+            UpdateItem(curItemData);/////////
         }
         else if (inventory.Count <= size) // 아이템 박스 사이즈 보다 용량이 적은 경우
         {
             GameObject curObject = MakeItemObject(itemName);
             Item curItem = curObject.GetComponent<Item>();
             curItemData = new ItemData(curItem);
+            //curItemData.itemData.itemCount = 1; // 초기 값 지정
+            Debug.LogError($"{curItemData.itemData.itemName} : {curItemData.itemData.itemCount}");
             Debug.Log("인벤토리 추가");
             inventory.Add(curItemData); // 아이템 추가
             Debug.Log("UI생성");
             CreateItemUI(curItemData);
-            //photonView.RPC("CreateItemUI", RpcTarget.All, itemName);
             Debug.Log("생성한 게임 오브젝트 반납");
             DeleteItemObject(itemName);
             Debug.LogError("삭제 완료");
@@ -201,9 +199,11 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
         {
             if (inventory[i].itemData.itemName == itemName)
             {
-                if (inventory[i].itemData.itemCount < 4)
+                if (inventory[i].itemData.itemCount <= 4)
                 {
                     curItemData = inventory[i];
+                    Debug.LogWarning($"{inventory[i].itemData.itemCount}");
+                    Debug.LogWarning($"{curItemData.itemData.itemCount}");
                 }
             }
         }
@@ -212,17 +212,20 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
         {
             Debug.Log("아이템 갯수 감소");
             curItemData.itemData.itemCount -= 1; // 한개 제거
-            Debug.Log($"인벤토리 아이템 갯수 : {curItemData.itemData.itemName} : {curItemData.itemData.itemCount} ");
+            Debug.LogError($"인벤토리 아이템 갯수 : {curItemData.itemData.itemName} : {curItemData.itemData.itemCount} ");
             if (curItemData.itemData.itemCount <= 0) // 0 이하인 경우
             {
-                Destroy(curItemData.itemPrefab.gameObject);
-                UpdateItem(curItemData, curItemData.itemData.itemCount);
+                Debug.Log(curItemData.itemData.gameObject.name);
+                //UpdateItem(curItemData);///////////
+                //curItemData.itemData.itemCount = 1; // 갯수 기본값으로 회복
+                Destroy(curItemData.itemPrefab.gameObject);/////////
                 Debug.Log("인벤토리에서 삭제");
                 inventory.Remove(curItemData); // 리스트에서 아이템 제외
             }
             else
             {
-                UpdateItem(curItemData, curItemData.itemData.itemCount);
+                UpdateItem(curItemData);
+                Debug.LogError($"인벤토리 아이템 갯수 : {curItemData.itemData.itemName} : {curItemData.itemData.itemCount} ");
             }
         }
     }
@@ -287,12 +290,13 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
 
 
     // 아이템 업데이트
-    public void UpdateItem(ItemData item, int count)
+    public void UpdateItem(ItemData item)
     {
-        if (item.itemPrefab != null)
+        if (item.itemPrefab != null)////////
         {
             Debug.LogError("아이템 업데이트");
-            item.itemPrefab.SetItemUI(item.itemData.itemSprite, item.itemData.itemName, count);
+
+            item.itemPrefab.SetItemUI(item.itemData.itemSprite, item.itemData.itemName, item.itemData.itemCount);
         }
     }
 
@@ -303,7 +307,7 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
         ItemPrefab itemPrefab = itemUI.GetComponent<ItemPrefab>();
         Debug.Log("UI 자료 세팅");
         itemPrefab.SetItemUI(item.itemData.itemSprite, item.itemData.itemName, item.itemData.itemCount);
-
+        item.itemPrefab = itemPrefab;
     }
 
     /* public void CreateItemUI(string itemName) // RPC로 기본 데이터형만 받아올 수 있음 공통실행함수
@@ -373,12 +377,13 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
     {
         Debug.Log("이름에 맞는 아이템 데이터 생성");
         GameObject curObject = null;
+        /*
         Item curItem = null;
         ItemData curItemData = null;
 
         GameObject newItemUI = null;
         ItemPrefab itemUI = null;
-
+        */
         switch (itemName)
         {
             case "Wood":
@@ -449,7 +454,7 @@ public class BoxInventory : MonoBehaviourPun//, IPunObservable
                 itemController.ResetOreItem();
                 break;
             case "Fruit":
-                Debug.Log("광석 아이템 제거");
+                Debug.Log("열매 아이템 제거");
                 itemController.ResetFruitItem();
                 break;
             default:
