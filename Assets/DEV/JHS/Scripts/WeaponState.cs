@@ -25,8 +25,10 @@ public class WeaponState : MonoBehaviour
 
     private void Update()
     {
-        if (weaponCollider.enabled == false)
-            isHit = false ;
+        if (!weaponCollider.enabled)
+        {
+            isHit = false;
+        }
     }
 
     public void Deactivate()
@@ -91,5 +93,12 @@ public class WeaponState : MonoBehaviour
                 Debug.LogWarning("충돌한 객체에 Elk 스크립트가 없습니다.");
             }
         }
+        StartCoroutine(ResetHitFlag());
+    }
+    private IEnumerator ResetHitFlag()
+    {
+        // 1.5초 후 충돌 플래그 초기화
+        yield return new WaitForSeconds(1.5f);
+        isHit = false;
     }
 }
