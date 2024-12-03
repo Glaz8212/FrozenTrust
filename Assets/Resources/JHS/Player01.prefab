@@ -5720,7 +5720,7 @@ GameObject:
   - component: {fileID: 3886090525627721343}
   m_Layer: 0
   m_Name: Wrist_L
-  m_TagString: Weapon
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16364,7 +16364,7 @@ GameObject:
   - component: {fileID: 2334945806972254037}
   m_Layer: 0
   m_Name: Wrist_R
-  m_TagString: Weapon
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
