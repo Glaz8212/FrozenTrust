@@ -55,6 +55,10 @@ MonoBehaviour:
   - DieAnimation
   - AddMission
   - MissionSteal
+  - NickNameEvent
+  - TeleportEvent
+  - Active
+  - Deactivate
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
