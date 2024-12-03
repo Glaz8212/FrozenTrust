@@ -49,7 +49,7 @@ public class MainPanel : UIBinder
         }
 
         RoomOptions options = new RoomOptions();
-        options.MaxPlayers = maxPlayer;
+        options.MaxPlayers = (byte)maxPlayer;
 
         createRoomPanel.SetActive(false);
         PhotonNetwork.CreateRoom(roomName, options);
