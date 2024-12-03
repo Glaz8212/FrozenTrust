@@ -61,9 +61,15 @@ public class PlayerStatus : MonoBehaviourPun
     private void Update()
     {
         if (!photonView.IsMine || playerDie) return;
-
-        CheckState();
-
+        if (state == PlayerState.Die)
+        {
+            Die();
+        }
+        else
+        {
+            CheckState();
+        }
+        
         switch (state)
         {
             case PlayerState.Idle:
@@ -83,10 +89,7 @@ public class PlayerStatus : MonoBehaviourPun
                 break;
             case PlayerState.LackVeryBad:
                 LackVeryBad();
-                break;
-            case PlayerState.Die:
-                Die();
-                break;
+                break;         
         }
 
         // 플레이어 상태 판단 필요
