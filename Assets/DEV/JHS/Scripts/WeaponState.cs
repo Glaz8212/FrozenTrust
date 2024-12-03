@@ -88,7 +88,7 @@ public class WeaponState : MonoBehaviour
             }
             else
             {
-                Debug.LogWarning("충돌한 객체에 ResourceController 스크립트가 없습니다.");
+                Debug.LogWarning("충돌한 객체에 Elk 스크립트가 없습니다.");
             }
         }
     }
