@@ -127,7 +127,7 @@ public class PlayerInteraction : MonoBehaviourPun
     private void MoverWeapon()
     {
         PhotonView weaponPhotonView = weaponGameObject.GetComponent<PhotonView>();
-        if (weaponPhotonView != null && !weaponPhotonView.IsMine)
+        if (weaponPhotonView != null && weaponPhotonView.IsMine)
         {
             weaponPhotonView.TransferOwnership(photonView.Owner);
         }
