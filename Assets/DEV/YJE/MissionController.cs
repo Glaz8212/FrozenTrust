@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// TODO: MissionBox들의 UI관리 필요
 /// </summary>
-public class MissionController : MonoBehaviour, IPunObservable
+public class MissionController : MonoBehaviour//, IPunObservable
 {
     public bool Is1Clear = false;
     public bool Is2Clear = false;
@@ -13,7 +13,7 @@ public class MissionController : MonoBehaviour, IPunObservable
     [SerializeField] GameObject missionBox1;
     [SerializeField] GameObject missionBox2;
     [SerializeField] GameObject Ending;
-
+    /*
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
         if (stream.IsWriting)
@@ -29,7 +29,7 @@ public class MissionController : MonoBehaviour, IPunObservable
             IsEndingClear = (bool)stream.ReceiveNext();
         }
     }
-
+    */
     private void Update()
     {
         if (IsEndingClear)
@@ -52,6 +52,7 @@ public class MissionController : MonoBehaviour, IPunObservable
     /// <summary>
     /// Mission1의 클리어 여부를 확인하는 함수
     /// </summary>
+    [PunRPC]
     public void Mission1ClearChecked()
     {
         // 미션 클리어가 완료된 경우에는 함수 종료
@@ -72,6 +73,7 @@ public class MissionController : MonoBehaviour, IPunObservable
     /// <summary>
     /// Mission2의 클리어 여부를 확인하는 함수
     /// </summary>
+    [PunRPC]
     public void Mission2ClearChecked()
     {
         // 미션1 클리어가 완료되지 않은 경우에는 함수 종료
@@ -92,6 +94,7 @@ public class MissionController : MonoBehaviour, IPunObservable
     /// <summary>
     /// 게임의 클리어 여부를 확인하는 함수
     /// </summary>
+    [PunRPC]
     public void EndingClearChecked()
     {
         // 미션1 또는 미션2가 클리어되지 않은 경우 함수 종료

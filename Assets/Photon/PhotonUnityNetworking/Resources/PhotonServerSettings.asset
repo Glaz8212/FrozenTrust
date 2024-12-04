@@ -64,6 +64,10 @@ MonoBehaviour:
   - TakeDamage
   - Synchsurvivor
   - RemoveSurvivor
+  - endingPanelActive
+  - EndingClearChecked
+  - Mission1ClearChecked
+  - Mission2ClearChecked
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
