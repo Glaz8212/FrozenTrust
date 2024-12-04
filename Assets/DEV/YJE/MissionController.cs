@@ -43,8 +43,13 @@ public class MissionController : MonoBehaviour//, IPunObservable
         }
         else if (Is1Clear)
         {
-            missionBox2.gameObject.SetActive(true);
             missionBox1.gameObject.SetActive(false);
+            missionBox2.gameObject.SetActive(true);
+        }
+        else
+        {
+            missionBox1.gameObject.SetActive(true);
+            missionBox2.gameObject.SetActive(false);
         }
     }
 
