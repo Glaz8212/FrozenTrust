@@ -68,6 +68,8 @@ MonoBehaviour:
   - EndingClearChecked
   - Mission1ClearChecked
   - Mission2ClearChecked
+  - Mission1Checked
+  - Mission2Checked
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

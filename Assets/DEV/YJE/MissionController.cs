@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// TODO: MissionBox들의 UI관리 필요
 /// </summary>
-public class MissionController : MonoBehaviour//, IPunObservable
+public class MissionController : MonoBehaviourPun//, IPunObservable
 {
     public bool Is1Clear = false;
     public bool Is2Clear = false;
@@ -76,8 +76,14 @@ public class MissionController : MonoBehaviour//, IPunObservable
     /// <summary>
     /// Mission1의 클리어 여부를 확인하는 함수
     /// </summary>
-    [PunRPC]
+
     public void Mission1ClearChecked()
+    {
+        photonView.RPC("Mission1Checked", RpcTarget.All);
+    }
+
+    [PunRPC]
+    public void Mission1Checked()
     {
         // 미션 클리어가 완료된 경우에는 함수 종료
         if (Is1Clear)
@@ -99,6 +105,11 @@ public class MissionController : MonoBehaviour//, IPunObservable
     /// </summary>
     [PunRPC]
     public void Mission2ClearChecked()
+    {
+        photonView.RPC("Mission2Checked", RpcTarget.All);
+    }
+    [PunRPC]
+    public void Mission2Checked()
     {
         // 미션1 클리어가 완료되지 않은 경우에는 함수 종료
         if (!Is1Clear)
