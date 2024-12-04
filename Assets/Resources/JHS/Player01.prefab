@@ -156,6 +156,9 @@ MonoBehaviour:
   environment: 1
   ishungry: 0
   iscold: 0
+  OnPlayerDied:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8731797197536340158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +191,7 @@ MonoBehaviour:
   leftAttackArea: {fileID: 3886090525627721343}
   rightAttackArea: {fileID: 2334945806972254037}
   weaponState: {fileID: 0}
+  damageCollider: {fileID: 0}
   weaponCollider: {fileID: 0}
   animator: {fileID: 704822815211919128}
 --- !u!114 &6152684959547424343
@@ -227,7 +231,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.3
   m_SlopeLimit: 45
-  m_StepOffset: 0.1
+  m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 1, z: 0}
