@@ -222,7 +222,7 @@ public class PlayerInteraction : MonoBehaviourPun
         if (other == currentCollider)
         {
             // 미션 콜라이더에 값이 있고 그 값이 other의 MissionBox와 같다면 미션 ui닫기 실행
-            if (missionController != null && missionController == other.GetComponent<MissionBox>())
+            if (missionBox != null && missionBox == other.GetComponent<MissionBox>())
             {
                 missionBox.MissionBoxClose();
             }
