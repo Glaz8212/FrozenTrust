@@ -6,7 +6,7 @@ using UnityEngine;
 using static WeaponState;
 
 public class PlayerInteraction : MonoBehaviourPun
-{ 
+{
     public enum Type { Idle, Mission, ItemBox, Item, Weapon, Ending }
     public Type type = Type.Idle;
     // 상호작용 상태 판정
@@ -27,7 +27,7 @@ public class PlayerInteraction : MonoBehaviourPun
 
     // 플레이어의 무기가 소환되는 위치
     [SerializeField] Transform playerHandTransform;
-    
+
     private void Awake()
     {
         status = GetComponent<PlayerStatus>();
@@ -73,16 +73,16 @@ public class PlayerInteraction : MonoBehaviourPun
                     missionController?.EndingClearChecked();
                     break;
                 case Type.Item:
-                    if(playerInventory.inventory.Count < 4)
+                    if (playerInventory.inventory.Count <= 4)
                     {
-                        item?.interaction(playerInventory);                        
+                        item?.interaction(playerInventory);
                         ResetInteraction();
-                    }                    
+                    }
                     // 아이템의 값이 3개라면 
                     // item의 interaction에 인벤토리의 playerInventory값을 넣어 실행                    
                     break;
                 case Type.Weapon:
-                    if(currentCollider == null)
+                    if (currentCollider == null)
                     {
                         ResetInteraction();
                     }
@@ -117,7 +117,7 @@ public class PlayerInteraction : MonoBehaviourPun
                 Debug.Log("무기 다시 활성화");
 
                 weaponState.photonView.RPC("Active", RpcTarget.All);
-                               
+
             }
             PhotonView weaponPhotonView = weaponGameObject.GetComponent<PhotonView>();
             if (weaponPhotonView != null && weaponPhotonView.IsMine)
@@ -125,7 +125,7 @@ public class PlayerInteraction : MonoBehaviourPun
                 weaponPhotonView.TransferOwnership(0); // 소유권 반환
             }
             weaponGameObject.transform.SetParent(null);
-            weaponGameObject = null;          
+            weaponGameObject = null;
         }
     }
 
@@ -152,7 +152,7 @@ public class PlayerInteraction : MonoBehaviourPun
         attacker?.InstallationWeapon(PlayerAttacker.Type.TwoHandWeapon);
     }
 
-   
+
     private void OnTriggerEnter(Collider other)
     {
         if (!photonView.IsMine) return;
@@ -208,7 +208,7 @@ public class PlayerInteraction : MonoBehaviourPun
             boxController = other.GetComponent<BoxController>();
             // 타입이 boxController에 값이 있다면 ItemBox 아니면 Idle
             type = boxController != null ? Type.ItemBox : Type.Idle;
-        }       
+        }
         else
         {
             Debug.Log("상호작용 할수있는 오브젝트가 아닙니다");
