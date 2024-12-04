@@ -174,7 +174,6 @@ public class GameSceneManager : MonoBehaviourPun
 
     private void FindNameUI()
     {
-        namePrints.Clear();
         namePrints.AddRange(FindObjectsOfType<NamePrint>());
     }
 
