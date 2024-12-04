@@ -103,7 +103,7 @@ public class Elk : MonoBehaviourPun, IPunObservable
         if (!PhotonNetwork.IsMasterClient)
             return;
 
-        maxHp -= damage;
+        curHp -= damage;
 
         if (curHp <= 0)
         {
