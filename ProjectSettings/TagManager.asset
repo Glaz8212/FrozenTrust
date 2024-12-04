@@ -18,6 +18,9 @@ TagManager:
   - WoodPool
   - OrePool
   - FruitPool
+  - Tree
+  - Rock
+  - Grass
   layers:
   - Default
   - TransparentFX
