@@ -16,6 +16,7 @@ public class PlayerAttacker : MonoBehaviourPun
     [SerializeField] BoxCollider leftAttackArea; // 맨손 공격 판정 // 무기 든거는 무기 오브젝트에다가 추가. 휘두르는 모션만 구현
     [SerializeField] BoxCollider rightAttackArea;
     public WeaponState weaponState;
+    public WeaponDamage weaponDamage;
     public Collider weaponCollider;
 
     [SerializeField] Animator animator;
@@ -64,6 +65,7 @@ public class PlayerAttacker : MonoBehaviourPun
         if (weaponState != null)
         {
             weaponCollider = weaponState.GetComponent<Collider>();
+            weaponDamage = weaponState.GetComponent<WeaponDamage>();
             Debug.Log("WeaponState와 Collider가 설정되었습니다.");
         }
         else
@@ -84,6 +86,7 @@ public class PlayerAttacker : MonoBehaviourPun
 
         // 이미 설정된 weaponState에서 Collider 참조
         weaponCollider = weaponState.GetComponent<Collider>();
+        weaponDamage = weaponState.GetComponent<WeaponDamage>();
         DeactivateAttackArea();
         Debug.Log($"{type}으로 변경");
     }
@@ -93,6 +96,7 @@ public class PlayerAttacker : MonoBehaviourPun
         type = Type.Non;
         weaponState = null;
         weaponCollider = null;
+        weaponDamage = null;
         Debug.Log($"{type}으로 변경");
     }
     public void Non()
@@ -149,18 +153,18 @@ public class PlayerAttacker : MonoBehaviourPun
     private void CloserAttack()
     {
         animator.Play("SlashOneHand");
-        if (weaponCollider != null)
+        if (weaponDamage != null)
         {
-            weaponCollider.enabled = true;
+            weaponDamage.enabled = true;
         }
     }
     [PunRPC]
     private void TwoHandedAttack()
     {
         animator.Play("SlashTwoHand");
-        if (weaponCollider != null)
+        if (weaponDamage != null)
         {
-            weaponCollider.enabled = true;
+            weaponDamage.enabled = true;
         }
     }
 
@@ -173,9 +177,9 @@ public class PlayerAttacker : MonoBehaviourPun
             leftAttackArea.enabled = false;
             rightAttackArea.enabled = false;
         }      
-        else if (weaponCollider != null)
+        else if (weaponDamage != null)
         {
-            weaponCollider.enabled = false;
+            weaponDamage.enabled = false;
         }
     }
 
