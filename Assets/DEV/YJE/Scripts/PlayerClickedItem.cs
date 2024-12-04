@@ -18,7 +18,7 @@ public class PlayerClickedItem : MonoBehaviour
     [SerializeField] BoxInventoryList boxInventoryList;
     [SerializeField] BoxInventory boxInventory;
 
-    [SerializeField] MissionBox missionBoxController;
+    [SerializeField] MissionController missionBoxController;
     [SerializeField] MissionInventoryList missionInventoryList;
     [SerializeField] MissionBoxInventory missionBoxInventory;
 
