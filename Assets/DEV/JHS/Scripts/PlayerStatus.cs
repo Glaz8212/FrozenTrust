@@ -265,7 +265,6 @@ public class PlayerStatus : MonoBehaviourPun
         {
             TakeHunger(1f); // 허기 1 감소
             HealWarmth(4f); // 온기 4 회복
-            Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
     }
@@ -275,7 +274,6 @@ public class PlayerStatus : MonoBehaviourPun
         {
             TakeHunger(2f); // 허기 2 감소
             TakeWarmth(2f); // 온기 2 감소
-            Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
     }
@@ -285,7 +283,6 @@ public class PlayerStatus : MonoBehaviourPun
         {
             TakeHunger(5f); // 허기 5 감소
             TakeWarmth(5f); // 온기 5 감소
-            Debug.Log($"{environment} 체력 : {playerHP} 허기 : {hunger} 온기 : {warmth}");
             yield return new WaitForSeconds(1f);
         }
     }
