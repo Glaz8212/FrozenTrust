@@ -42,18 +42,11 @@ public class ResourceController : MonoBehaviourPun
 
     private void Die()
     {
-        if (!photonView.IsMine)
-        {
-            return;
-        }
-        else
-        {
             range = Random.Range(1.5f, 2f);
             itemSpawnPos = new Vector3(Random.onUnitSphere.x * range + startPos.x,
-                               startPos.y + 0.5f,
+                               startPos.y + 1.5f,
                                Random.onUnitSphere.z * range + startPos.z);
             StartCoroutine(DieRoutine());
-        }
     }
 
     IEnumerator DieRoutine()

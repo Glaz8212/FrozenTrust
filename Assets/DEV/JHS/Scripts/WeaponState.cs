@@ -74,7 +74,7 @@ public class WeaponState : MonoBehaviourPun
         }
         else if (other.CompareTag("Resource"))
         {
-            Debug.Log("충돌동물");
+            Debug.Log("충돌자원");
             ResourceController resourceController = other.GetComponent<ResourceController>();
             if (resourceController != null)
             {
@@ -89,6 +89,7 @@ public class WeaponState : MonoBehaviourPun
         }
         else if (other.CompareTag("Animal"))
         {
+            Debug.Log("충돌동물");
             Elk animals = other.GetComponent<Elk>();
             if (animals != null)
             { 
