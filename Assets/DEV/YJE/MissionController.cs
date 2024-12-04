@@ -12,6 +12,7 @@ public class MissionController : MonoBehaviour, IPunObservable
 
     [SerializeField] GameObject missionBox1;
     [SerializeField] GameObject missionBox2;
+    [SerializeField] GameObject Ending;
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -26,6 +27,26 @@ public class MissionController : MonoBehaviour, IPunObservable
             Is1Clear = (bool)stream.ReceiveNext();
             Is2Clear = (bool)stream.ReceiveNext();
             IsEndingClear = (bool)stream.ReceiveNext();
+        }
+    }
+
+    private void Update()
+    {
+        if (Is1Clear)
+        {
+            missionBox2.gameObject.SetActive(true);
+            missionBox1.gameObject.SetActive(false);
+            GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>().ResetInteraction();
+        }
+        else if(Is2Clear)
+        {
+            missionBox2.gameObject.SetActive(false);
+            Ending.gameObject.SetActive(true);
+            GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>().ResetInteraction();
+        }
+        else if (IsEndingClear)
+        {
+            GameManager.Instance.CheckWin(IsEndingClear);
         }
     }
 
@@ -46,8 +67,6 @@ public class MissionController : MonoBehaviour, IPunObservable
         {
             Debug.Log("1 클리어");
             Is1Clear = true;
-            missionBox2.gameObject.SetActive(true);
-            missionBox1.gameObject.SetActive(false);
         }
     }
 
@@ -67,7 +86,6 @@ public class MissionController : MonoBehaviour, IPunObservable
         {
             Debug.Log("2 클리어");
             Is2Clear = true;
-            missionBox2.gameObject.SetActive(false);
         }
     }
 
