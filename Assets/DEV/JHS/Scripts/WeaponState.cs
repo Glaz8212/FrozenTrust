@@ -56,15 +56,15 @@ public class WeaponState : MonoBehaviourPun
         // 오브젝트 공격 판정
         isHit = true;
         // 활성화된 공격 판정에 적이 들어오면 데미지를 적용 // 부모 플레이어 제외
-        if (other.CompareTag("Player") && other.gameObject != photonView.IsMine)
+        if (other.CompareTag("Player") && other.gameObject != gameObject.transform.root.gameObject)
         {
             //충돌한 플레이어의 스크립트에 있는 공격 함수 가져오기
-            PlayerStatus playerStatus = other.GetComponent<PlayerStatus>();
             Debug.Log("충돌플레이어");
-            if (playerStatus != null)
+            PhotonView targetPhotonView = other.GetComponent<PhotonView>();
+            if (targetPhotonView != null)
             {
                 // TakeHP 함수 호출로 데미지 적용
-                playerStatus.TakeHP(weaponDamage);
+                targetPhotonView.RPC("TakeHP", RpcTarget.All, weaponDamage);
                 Debug.Log($"데미지 {weaponDamage}만큼 공격");
             }
             else
@@ -90,11 +90,11 @@ public class WeaponState : MonoBehaviourPun
         else if (other.CompareTag("Animal"))
         {
             Debug.Log("충돌동물");
-            Elk animals = other.GetComponent<Elk>();
+            PhotonView animals = other.GetComponent<PhotonView>();
             if (animals != null)
             { 
                 // TakeHP 함수 호출로 데미지 적용
-                animals.TakeDamage(weaponDamage);
+                animals.RPC("TakeDamage", RpcTarget.All, weaponDamage);
                 Debug.Log($"데미지 {weaponDamage}만큼 공격");
             }
             else
