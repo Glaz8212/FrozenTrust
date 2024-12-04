@@ -7,7 +7,7 @@ public class SetMissionUI : MonoBehaviour
     MissionBoxInventory missionBoxInventory;
     [SerializeField] RectTransform itemContent; // 프리팹이 생성 될 위치
     [SerializeField] GameObject questPrefab; // 생성될 UI Prefab
-    /*
+    
     private void Awake()
     {
         // MissionBoxInventory.cs 참조
@@ -17,7 +17,12 @@ public class SetMissionUI : MonoBehaviour
     private void Start()
     {
         Debug.LogWarning("UI세팅을 시작.");
-        if(missionBoxInventory.missionWoodCount != 0)
+
+        Debug.Log(missionBoxInventory.missionWoodCount);
+        Debug.Log(missionBoxInventory.missionOreCount);
+        Debug.Log(missionBoxInventory.missionFruitCount);
+
+        if(missionBoxInventory.missionWoodCount > 0)
         {
             GameObject woodObj = missionBoxInventory.MakeItemObject("Wood");
             Item woodItem = woodObj.GetComponent<Item>();
@@ -25,7 +30,7 @@ public class SetMissionUI : MonoBehaviour
             SetUI(woodData, missionBoxInventory.missionWoodCount);
             missionBoxInventory.DeleteItemObject("Wood");
         }
-        if(missionBoxInventory.missionOreCount != 0)
+        if(missionBoxInventory.missionOreCount > 0)
         {
             GameObject oreObj = missionBoxInventory.MakeItemObject("Ore");
             Item oreItem = oreObj.GetComponent<Item>();
@@ -33,7 +38,7 @@ public class SetMissionUI : MonoBehaviour
             SetUI(oreData, missionBoxInventory.missionWoodCount);
             missionBoxInventory.DeleteItemObject("Ore");
         }
-        if(missionBoxInventory.missionFruitCount != 0)
+        if(missionBoxInventory.missionFruitCount >0)
         {
             GameObject fruitObj = missionBoxInventory.MakeItemObject("Fruit");
             Item fruitItem = fruitObj.GetComponent<Item>();
@@ -51,5 +56,5 @@ public class SetMissionUI : MonoBehaviour
         itemPrefab.SetItemUI(item.itemData.itemSprite, item.itemData.itemName, count);
         item.itemPrefab = itemPrefab;
     }
-    */
+    
 }

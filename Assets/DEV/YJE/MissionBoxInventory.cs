@@ -124,7 +124,7 @@ public class MissionBoxInventory : MonoBehaviourPun, IPunObservable
     }
 
     /// <summary>
-    /// 네트워크 동기함수로 AddBox() 생성
+    /// 네트워크 동기함수로 AddMission() 생성
     /// </summary>
     /// <param name="itemName"></param>
     [PunRPC]

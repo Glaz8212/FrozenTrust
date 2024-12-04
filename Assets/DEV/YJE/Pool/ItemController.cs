@@ -15,7 +15,7 @@ public class ItemController : MonoBehaviour
     [SerializeField] public List<ItemObj> woodPool;
     [SerializeField] public List<ItemObj> orePool;
     [SerializeField] public List<ItemObj> fruitPool;
-    private void Start()
+    private void Awake()
     {
         woodPool = GameObject.FindGameObjectWithTag("WoodPool").GetComponent<ItemPool>().itemPools;
         orePool = GameObject.FindGameObjectWithTag("OrePool").GetComponent<ItemPool>().itemPools;
@@ -30,8 +30,11 @@ public class ItemController : MonoBehaviour
     }
     public GameObject MakeWoodItem()
     {
+        Debug.Log("ItemController의 나무 만들기 실행");
         nowWoodItemObj = itemPool.MakeItemPool(Vector3.zero, woodPool);
         GameObject curItme = MakeItem(nowWoodItemObj, woodPool).gameObject;
+        Debug.Log("ItemController의 나무 만들기 GameObject 설정");
+
         return curItme;
     }
     public void ResetWoodItem()
