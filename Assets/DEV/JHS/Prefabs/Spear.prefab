@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 2462083253016103568}
   - component: {fileID: 2462083253015030388}
   - component: {fileID: 4928223303667124928}
-  - component: {fileID: 7150952324278072012}
   m_Layer: 0
   m_Name: Spear
   m_TagString: Untagged
@@ -98,21 +97,3 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.15512681, y: 0.49061537, z: 0.10345646}
   m_Center: {x: -0.00000059604645, y: 1.6700253, z: -0.012137208}
---- !u!114 &7150952324278072012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2462083253012811924}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbff194140944e947b8140e8f170e785, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponDamage: 250
-  weaponCollider: {fileID: 4928223303667124928}
-  collider1: {fileID: 0}
-  collider2: {fileID: 0}
-  rigidbody1: {fileID: 0}
-  weaponType: 0
