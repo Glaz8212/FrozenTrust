@@ -12,13 +12,13 @@ public class ResourceController : MonoBehaviourPun
     private float range;
     [SerializeField] int second; // 리스폰 시간
 
-    private string resourceName;
+    private string resourceTag;
 
     private void Start()
     {
         curHp = maxHp;
         startPos = transform.position;
-        resourceName = gameObject.name;
+        resourceTag = gameObject.tag;
     }
   
     /// <summary>
@@ -56,15 +56,15 @@ public class ResourceController : MonoBehaviourPun
     IEnumerator DieRoutine()
     {
         gameObject.transform.position = new Vector3(startPos.x, startPos.y - 10, startPos.z);
-        switch (resourceName)
+        switch (resourceTag)
         {
-            case "R_Tree":
+            case "Tree":
                 PhotonNetwork.Instantiate("YJE/Wood", itemSpawnPos, Quaternion.identity);
                 break;
-            case "R_Rock":
+            case "Rock":
                 PhotonNetwork.Instantiate("YJE/Ore", itemSpawnPos, Quaternion.identity);
                 break;
-            case "R_Grass":
+            case "Grass":
                 PhotonNetwork.Instantiate("YJE/Fruit", itemSpawnPos, Quaternion.identity);
                 break;
             default:
