@@ -18,5 +18,9 @@ public class MissionBoxBtn : MonoBehaviour
         {
             applyBtn.SetActive(true);
         }
+        else 
+        {
+            applyBtn.SetActive(false);
+        }
     }
 }

@@ -57,7 +57,11 @@ public class MissionBoxInventory : MonoBehaviourPun, IPunObservable
                     {
                         IsWoodChecked = true;
                     }
-                    else IsWoodChecked = false;
+                    else
+                    {
+                        Debug.LogWarning("개수가 다름");
+                        IsWoodChecked = false;
+                    }
                     break;
 
                 case "Ore":
@@ -65,7 +69,11 @@ public class MissionBoxInventory : MonoBehaviourPun, IPunObservable
                     {
                         IsOreChecked = true;
                     }
-                    else IsWoodChecked = false;
+                    else
+                    {
+                        IsWoodChecked = false;
+                        Debug.LogWarning("개수가 다름");
+                    } 
                     break;
 
                 case "Fruit":
@@ -73,7 +81,11 @@ public class MissionBoxInventory : MonoBehaviourPun, IPunObservable
                     {
                         IsFruitChecked = true;
                     }
-                    else IsWoodChecked = false;
+                    else
+                    {
+                        IsWoodChecked = false;
+                        Debug.LogWarning("개수가 다름");
+                    } 
                     break;
                 default:
                     break;
