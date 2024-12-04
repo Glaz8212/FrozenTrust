@@ -111,8 +111,9 @@ public class PlayerInteraction : MonoBehaviourPun
             {
                 attacker.ReleaseWeapon();
                 Debug.Log("무기 다시 활성화");
-                // 물리 활성화 및 충돌기 활성화
+
                 weaponState.photonView.RPC("Active", RpcTarget.All);
+                               
             }
             PhotonView weaponPhotonView = weaponGameObject.GetComponent<PhotonView>();
             if (weaponPhotonView != null && weaponPhotonView.IsMine)
