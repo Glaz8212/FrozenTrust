@@ -1,4 +1,5 @@
 using Photon.Pun;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
@@ -9,6 +10,8 @@ public class MissionController : MonoBehaviour//, IPunObservable
     public bool Is1Clear = false;
     public bool Is2Clear = false;
     public bool IsEndingClear = false;
+
+    private bool timerEnd = false;
 
     [SerializeField] GameObject missionBox1;
     [SerializeField] GameObject missionBox2;
@@ -30,27 +33,43 @@ public class MissionController : MonoBehaviour//, IPunObservable
         }
     }
     */
+    private void Start()
+    {
+        StartCoroutine(DelayTimer());
+    }
+
     private void Update()
     {
-        if (IsEndingClear)
+        if (timerEnd)
         {
-            GameManager.Instance.CheckWin(IsEndingClear);
+
+            if (IsEndingClear)
+            {
+                GameManager.Instance.CheckWin(IsEndingClear);
+            }
+            else if (Is2Clear)
+            {
+                missionBox2.gameObject.SetActive(false);
+                Ending.gameObject.SetActive(true);
+            }
+            else if (Is1Clear)
+            {
+                missionBox1.gameObject.SetActive(false);
+                missionBox2.gameObject.SetActive(true);
+            }
+            else
+            {
+                missionBox1.gameObject.SetActive(true);
+                missionBox2.gameObject.SetActive(false);
+            }
         }
-        else if(Is2Clear)
-        {
-            missionBox2.gameObject.SetActive(false);
-            Ending.gameObject.SetActive(true);
-        }
-        else if (Is1Clear)
-        {
-            missionBox1.gameObject.SetActive(false);
-            missionBox2.gameObject.SetActive(true);
-        }
-        else
-        {
-            missionBox1.gameObject.SetActive(true);
-            missionBox2.gameObject.SetActive(false);
-        }
+    }
+
+    IEnumerator DelayTimer()
+    {
+        yield return new WaitForSeconds(15f);
+
+        timerEnd = true;
     }
 
 

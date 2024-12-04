@@ -23862,7 +23862,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3263514658013008855, guid: 5cf6998d868dd90408d14545c325bd41, type: 3}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3291649272302892081, guid: 5cf6998d868dd90408d14545c325bd41, type: 3}
+      propertyPath: m_Convex
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3291649272302892081, guid: 5cf6998d868dd90408d14545c325bd41, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3301186501557145093, guid: 5cf6998d868dd90408d14545c325bd41, type: 3}
       propertyPath: m_IsActive
