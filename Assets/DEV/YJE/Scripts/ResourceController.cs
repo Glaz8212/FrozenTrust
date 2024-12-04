@@ -36,17 +36,21 @@ public class ResourceController : MonoBehaviourPun
         if (curHp <= 0)
         {
             Debug.Log("Á×À½");
-            Die();
+            photonView.RPC("Die", RpcTarget.MasterClient);
         }
     }
 
+    [PunRPC]
     private void Die()
     {
+        if (PhotonNetwork.IsMasterClient)
+        {
             range = Random.Range(1.5f, 2f);
             itemSpawnPos = new Vector3(Random.onUnitSphere.x * range + startPos.x,
                                startPos.y + 1.5f,
                                Random.onUnitSphere.z * range + startPos.z);
             StartCoroutine(DieRoutine());
+        }
     }
 
     IEnumerator DieRoutine()
