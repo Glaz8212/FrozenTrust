@@ -18,7 +18,8 @@ public class PlayerClickedItem : MonoBehaviour
     [SerializeField] BoxInventoryList boxInventoryList;
     [SerializeField] BoxInventory boxInventory;
 
-    [SerializeField] MissionController missionBoxController;
+    [SerializeField] MissionController missionController;
+    [SerializeField] MissionBox missionBox;
     [SerializeField] MissionInventoryList missionInventoryList;
     [SerializeField] MissionBoxInventory missionBoxInventory;
 
@@ -66,7 +67,7 @@ public class PlayerClickedItem : MonoBehaviour
 
         // player와 상호작용한 BoxConroller.cs 참조
         boxController = playerInteraction.boxController;
-        missionBoxController = playerInteraction.missionController;
+        missionController = playerInteraction.missionController;
         // boxController 참조가 된 경우
         if (boxController != null)
         {
@@ -98,14 +99,14 @@ public class PlayerClickedItem : MonoBehaviour
         }
 
         // 미션박스가 있는 경우
-        else if (missionBoxController != null)
+        else if (missionController != null)
         {
-            Debug.Log(missionBoxController.gameObject.transform.GetSiblingIndex());
-            missionBoxInventory = missionInventoryList.missionInventoryList[missionBoxController.gameObject.transform.GetSiblingIndex()];
+            Debug.Log(missionBox.gameObject.transform.GetSiblingIndex());
+            missionBoxInventory = missionInventoryList.missionInventoryList[missionBox.gameObject.transform.GetSiblingIndex()];
             PhotonView photonView = missionBoxInventory.GetComponent<PhotonView>();
 
             // Box의 인벤토리 UI가 닫혀있는 경우 - 소모 아이템 사용
-            if (missionBoxController.IsUIOpen == false)
+            if (missionBox.IsUIOpen == false)
             {
                 if (nowItemPrefab.itemNameText.text == "Fruit" || nowItemPrefab.itemNameText.text == "Meat")
                 {
@@ -118,7 +119,7 @@ public class PlayerClickedItem : MonoBehaviour
                 return;
             }
             // Box의 인벤토리 UI가 열려있는 경우 박스에 아이템 추가
-            else if (missionBoxController.IsUIOpen == true)
+            else if (missionBox.IsUIOpen == true)
             {
                 // MissionBoxInventory.cs의 RPC함수로 AddMission실행
                 photonView.RPC("AddMission", RpcTarget.All, nowItemPrefab.itemNameText.text);
