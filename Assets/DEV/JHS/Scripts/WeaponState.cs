@@ -72,7 +72,7 @@ public class WeaponState : MonoBehaviourPun
                 Debug.LogWarning("충돌한 객체에 PlayerStatus 스크립트가 없습니다.");
             }            
         }
-        else if (other.CompareTag("Resource"))
+        else if (other.CompareTag("Tree") || other.CompareTag("Rock") || other.CompareTag("Grass"))
         {
             Debug.Log("충돌자원");
             ResourceController resourceController = other.GetComponent<ResourceController>();
@@ -84,10 +84,11 @@ public class WeaponState : MonoBehaviourPun
             }
             else
             {
+                
                 Debug.LogWarning("충돌한 객체에 ResourceController 스크립트가 없습니다.");
             }
         }
-        else if (other.CompareTag("Tree") || other.CompareTag("Rock") || other.CompareTag("Grass"))
+        else if (other.CompareTag("Animal"))
         {
             Debug.Log("충돌동물");
             PhotonView animals = other.GetComponent<PhotonView>();
