@@ -2,6 +2,7 @@ using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using static WeaponState;
 
@@ -142,9 +143,11 @@ public class PlayerInteraction : MonoBehaviourPun
         weaponGameObject.transform.localRotation = Quaternion.Euler(0, -90, 0); // Y값 90도 회전
 
         WeaponState weaponState = weapon.GetComponentInChildren<WeaponState>();
+        WeaponDamage weaponDamage = weapon.GetComponentInChildren<WeaponDamage>();
+
         if (weaponState != null)
         {
-            attacker?.SetWeaponState(weaponState);
+            attacker?.SetWeaponState(weaponState, weaponDamage);
             weaponState.photonView.RPC("Deactivate", RpcTarget.All);
         }
         attacker?.InstallationWeapon(PlayerAttacker.Type.TwoHandWeapon);
