@@ -56,7 +56,7 @@ public class WeaponState : MonoBehaviourPun
         // 오브젝트 공격 판정
         isHit = true;
         // 활성화된 공격 판정에 적이 들어오면 데미지를 적용 // 부모 플레이어 제외
-        if (other.CompareTag("Player") && other.gameObject != transform.root.gameObject)
+        if (other.CompareTag("Player") && other.gameObject != photonView.IsMine)
         {
             //충돌한 플레이어의 스크립트에 있는 공격 함수 가져오기
             PlayerStatus playerStatus = other.GetComponent<PlayerStatus>();
