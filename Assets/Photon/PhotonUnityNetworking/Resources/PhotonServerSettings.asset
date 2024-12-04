@@ -59,6 +59,9 @@ MonoBehaviour:
   - TeleportEvent
   - Active
   - Deactivate
+  - Die
+  - TakeHP
+  - TakeDamage
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1
