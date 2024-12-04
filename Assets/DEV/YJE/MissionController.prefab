@@ -28,7 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 8969720505568305814}
   - {fileID: 6549869853652126580}
@@ -50,6 +50,8 @@ MonoBehaviour:
   Is1Clear: 0
   Is2Clear: 0
   IsEndingClear: 0
+  missionBox1: {fileID: 8969720505568036342}
+  missionBox2: {fileID: 6549869853652397076}
 --- !u!114 &3336704074263386685
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -70,6 +72,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2087757030799200462}
     m_Modifications:
+    - target: {fileID: 343044544149694913, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2087757030799200449}
+    - target: {fileID: 343044544149694913, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Mission1ClearChecked
+      objectReference: {fileID: 0}
+    - target: {fileID: 343044544149694913, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MissionController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 343044544149694913, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1582462066438075430, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
       propertyPath: m_SizeDelta.y
       value: 110
@@ -148,6 +166,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+--- !u!1 &8969720505568036342 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4247545372545295604, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+  m_PrefabInstance: {fileID: 5082463112104321282}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8969720505568305814 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4247545372545549204, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
@@ -160,6 +183,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2087757030799200462}
     m_Modifications:
+    - target: {fileID: 343044544149694913, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2087757030799200449}
+    - target: {fileID: 343044544149694913, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: Mission2ClearChecked
+      objectReference: {fileID: 0}
+    - target: {fileID: 343044544149694913, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: MissionController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 343044544149694913, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 1582462066438075430, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
       propertyPath: m_SizeDelta.y
       value: 110
@@ -167,6 +206,10 @@ PrefabInstance:
     - target: {fileID: 4247545372545295604, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
       propertyPath: m_Name
       value: MissionBox2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4247545372545295604, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4247545372545295604, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
       propertyPath: m_TagString
@@ -245,5 +288,10 @@ PrefabInstance:
 --- !u!4 &6549869853652126580 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4247545372545549204, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
+  m_PrefabInstance: {fileID: 6924178800248293600}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6549869853652397076 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4247545372545295604, guid: 3b4d81b42e6a3c643b033e2e73a2f21a, type: 3}
   m_PrefabInstance: {fileID: 6924178800248293600}
   m_PrefabAsset: {fileID: 0}

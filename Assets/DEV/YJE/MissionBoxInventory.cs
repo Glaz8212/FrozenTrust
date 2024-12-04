@@ -2,7 +2,7 @@ using Photon.Pun;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissionBoxInventory : MonoBehaviour
+public class MissionBoxInventory : MonoBehaviourPun, IPunObservable
 {
     [SerializeField] ItemController itemController;
 
@@ -18,18 +18,109 @@ public class MissionBoxInventory : MonoBehaviour
     public int missionOreCount; // 최종 미션에 필요한 개수
     public int missionFruitCount; // 최종 미션에 필요한 개수
 
-    public bool IsEnterChecked = false; 
+    public bool IsEnterChecked;
+
+    public bool IsWoodChecked = false;
+    public bool IsOreChecked = false;
+    public bool IsFruitChecked = false;
 
     // 랜덤으로 미션 개수 설정
-    private void Start()
+    private void Awake()
     {
-        int num = Random.Range(0, 5);
-        missionWoodCount = num;
-        num = Random.Range(0, 5);
-        missionOreCount = num;
-        num = Random.Range(0, 5);
-        missionFruitCount = num;
+        if (PhotonNetwork.IsMasterClient)
+        {
+            missionWoodCount = Random.Range(1, 5);
+            missionOreCount = Random.Range(1, 5);
+            missionFruitCount = Random.Range(1, 5);
+
+            /* 아무것도 없는 0개의 경우 확인 에러 발생 - 구조상의 문제로 확인
+             do
+            {
+                missionWoodCount = Random.Range(0, 5);
+                missionOreCount = Random.Range(0, 5);
+                missionFruitCount = Random.Range(0, 5);
+            }
+            while (missionWoodCount == 0 && missionOreCount == 0 && missionFruitCount == 0);*/
+        }
         playerInventory = GameObject.FindGameObjectWithTag("PlayerInventory").GetComponent<PlayerInventory>();
+    }
+
+    private void Update()
+    {
+        for (int i = 0; i < inventory.Count; i++)
+        {
+            // 미션 성공 여부를 판단하는 switch 문
+            switch (inventory[i].itemData.itemName)
+            {
+                case "Wood":
+                    if (inventoryCount[i] == missionWoodCount)
+                    {
+                        IsWoodChecked = true;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("개수가 다름");
+                        IsWoodChecked = false;
+                    }
+                    break;
+
+                case "Ore":
+                    if (inventoryCount[i] == missionOreCount)
+                    {
+                        IsOreChecked = true;
+                    }
+                    else
+                    {
+                        IsWoodChecked = false;
+                        Debug.LogWarning("개수가 다름");
+                    } 
+                    break;
+
+                case "Fruit":
+                    if (inventoryCount[i] == missionFruitCount)
+                    {
+                        IsFruitChecked = true;
+                    }
+                    else
+                    {
+                        IsWoodChecked = false;
+                        Debug.LogWarning("개수가 다름");
+                    } 
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    }
+
+    /// <summary>
+    /// Mission용 Item 동기화
+    /// </summary>
+    /// <param name="stream"></param>
+    /// <param name="info"></param>
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(missionWoodCount);
+            stream.SendNext(missionOreCount);
+            stream.SendNext(missionFruitCount);
+
+            stream.SendNext(IsWoodChecked);
+            stream.SendNext(IsOreChecked);
+            stream.SendNext(IsFruitChecked);
+        }
+        else if (stream.IsReading)
+        {
+            missionWoodCount = (int)stream.ReceiveNext();
+            missionOreCount = (int)stream.ReceiveNext();
+            missionFruitCount = (int)stream.ReceiveNext();
+
+            IsWoodChecked = (bool)stream.ReceiveNext();
+            IsOreChecked = (bool)stream.ReceiveNext();
+            IsFruitChecked = (bool)stream.ReceiveNext();
+        }
     }
 
     /// <summary>
@@ -39,6 +130,7 @@ public class MissionBoxInventory : MonoBehaviour
     [PunRPC]
     public void AddMission(string itemName)
     {
+        IsEnterChecked = false;
         Debug.Log("AddMission RPC함수 정상 실행");
         ItemData curItemData = null;
         int curItemCount = 0;
@@ -68,33 +160,27 @@ public class MissionBoxInventory : MonoBehaviour
                 case "Wood":
                     if (curItemCount == missionWoodCount)
                     {
-                        Debug.Log("더 이상 넣을 수 없습니다.");
+                        Debug.Log("나무 완성");
                         IsEnterChecked = true; // 가득 차 있는 경우
-                        //playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
                         return;
                     }
-                    else
-                        break;
+                    break;
                 case "Ore":
                     if (curItemCount == missionOreCount)
                     {
-                        Debug.Log("더 이상 넣을 수 없습니다.");
+                        Debug.Log("돌 완성");
                         IsEnterChecked = true; // 가득 차 있는 경우
-                        //playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
                         return;
                     }
-                    else
-                        break;
+                    break;
                 case "Fruit":
                     if (curItemCount == missionFruitCount)
                     {
-                        Debug.Log("더 이상 넣을 수 없습니다.");
+                        Debug.Log("열매 완성");
                         IsEnterChecked = true; // 가득 차 있는 경우
-                        //playerInventory.AddItem(curItemData.itemData.itemName, curItemData.itemData.itemSprite, 1); //추가로 삭제되는 것을 방지
                         return;
                     }
-                    else
-                        break;
+                    break;
                 default:
                     break;
             }
@@ -124,9 +210,10 @@ public class MissionBoxInventory : MonoBehaviour
         {
             return;
         }
+
     }
     /// <summary>
-    /// 네트워크 동기함수로 SubBox() 생성
+    /// 네트워크 동기함수로 MissionSteal() 생성
     /// </summary>
     /// <param name="itemName"></param>
     [PunRPC]
@@ -158,6 +245,7 @@ public class MissionBoxInventory : MonoBehaviour
             Debug.Log($"인벤토리 아이템 수정 후 갯수 : {curItemData.itemData.itemName} : {curItemCount} ");
             inventoryCount[index] = curItemCount; // 인벤토리에 카운트 저장
             Debug.Log($"{inventoryCount[index]}");
+
             if (inventoryCount[index] <= 0) // 0 이하인 경우
             {
                 Debug.Log(curItemData.itemData.gameObject.name);
