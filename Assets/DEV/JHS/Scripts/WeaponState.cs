@@ -48,8 +48,11 @@ public class WeaponState : MonoBehaviourPun
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("충돌01");
         if (!photonView.IsMine) return;
+        Debug.Log("충돌02");
         if (isHit) return;
+        Debug.Log("충돌03");
         // 오브젝트 공격 판정
         isHit = true;
         // 활성화된 공격 판정에 적이 들어오면 데미지를 적용 // 부모 플레이어 제외
@@ -57,6 +60,7 @@ public class WeaponState : MonoBehaviourPun
         {
             //충돌한 플레이어의 스크립트에 있는 공격 함수 가져오기
             PlayerStatus playerStatus = other.GetComponent<PlayerStatus>();
+            Debug.Log("충돌플레이어");
             if (playerStatus != null)
             {
                 // TakeHP 함수 호출로 데미지 적용
@@ -70,6 +74,7 @@ public class WeaponState : MonoBehaviourPun
         }
         else if (other.CompareTag("Resource"))
         {
+            Debug.Log("충돌동물");
             ResourceController resourceController = other.GetComponent<ResourceController>();
             if (resourceController != null)
             {
@@ -102,6 +107,7 @@ public class WeaponState : MonoBehaviourPun
     {
         // 1.5초 후 충돌 플래그 초기화
         yield return new WaitForSeconds(1.5f);
+        Debug.Log("공격 쿨타임");
         isHit = false;
     }
 }
