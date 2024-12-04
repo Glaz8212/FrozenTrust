@@ -153,9 +153,15 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
     }
 
-    private IEnumerator SurvivorEndingPanel()
+    [PunRPC]
+    private void endingPanelActive()
     {
         survivorEnding.gameObject.SetActive(true);
+    }
+
+    private IEnumerator SurvivorEndingPanel()
+    {
+        photonView.RPC("endingPanelActive", RpcTarget.All);
         yield return new WaitForSeconds(20f);
         if (PhotonNetwork.IsMasterClient)
         {
