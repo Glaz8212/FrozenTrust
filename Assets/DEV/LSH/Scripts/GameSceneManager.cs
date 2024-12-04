@@ -32,31 +32,63 @@ public class GameSceneManager : MonoBehaviourPun
         {
             Destroy(gameObject);
         }
+    }
 
-        StartCoroutine(StartDelayRoutine());
+    private void Start()
+    {
+         StartCoroutine(StartDelayRoutine());
     }
 
     IEnumerator StartDelayRoutine()
     {
         yield return new WaitForSeconds(1f); // 네트워크 준비에 필요한 시간 살짝 주기
+        PhotonNetwork.LocalPlayer.SetInGameReady(true); // "InGameReady" 상태 true 설정
+        Debug.Log("플레이어 InGameReady 설정");
+
+        StartCoroutine(WaitForAllPlayersReady());
+    }
+
+    private IEnumerator WaitForAllPlayersReady()
+    {
+        Debug.Log("모든 플레이어 준비 상태 확인 중...");
+
+        while (!AllPlayersReady())
+        {
+            yield return new WaitForSeconds(0.5f);
+        }
+
+        Debug.Log("모든 플레이어 준비 완료. 게임 시작");
+
         PlayerSpawn();
-    }
 
-    private void PlayerSpawn()
-    {
-        Vector3 randomPos = new Vector3(Random.Range(-5f, 5f), 0, Random.Range(-5f, 5f));
-        nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
-        playerStatus = nowPlayer.gameObject.GetComponent<PlayerStatus>();
-        OnPlayerSpawned?.Invoke();
-    }
-
-    private void Start()
-    {
+        // 마스터 클라이언트만 타이머 시작
         if (PhotonNetwork.IsMasterClient)
         {
             StartCoroutine(GameTimerCoroutine());
         }
     }
+
+    private bool AllPlayersReady()
+    {
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (!player.GetInGameReady())
+            {
+                return false; // 아직 준비되지 않은 플레이어가 있음
+            }
+        }
+        return true; // 모든 플레이어가 준비됨
+    }
+
+
+    private void PlayerSpawn()
+    {
+        Vector3 randomPos = new Vector3(-51f + Random.Range(-5f, 5f), 8f, -6.5f + Random.Range(-5f, 5f));
+        nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
+        playerStatus = nowPlayer.gameObject.GetComponent<PlayerStatus>();
+        OnPlayerSpawned?.Invoke();
+    }
+
 
     private IEnumerator GameTimerCoroutine()
     {
