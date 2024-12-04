@@ -67,7 +67,7 @@ public class PlayerClickedItem : MonoBehaviour
 
         // player와 상호작용한 BoxConroller.cs 참조
         boxController = playerInteraction.boxController;
-        missionController = playerInteraction.missionController;
+        missionBox = playerInteraction.missionBox;
         // boxController 참조가 된 경우
         if (boxController != null)
         {
@@ -99,7 +99,7 @@ public class PlayerClickedItem : MonoBehaviour
         }
 
         // 미션박스가 있는 경우
-        else if (missionController != null)
+        else if (missionBox != null)
         {
             Debug.Log(missionBox.gameObject.transform.GetSiblingIndex());
             missionBoxInventory = missionInventoryList.missionInventoryList[missionBox.gameObject.transform.GetSiblingIndex()];
