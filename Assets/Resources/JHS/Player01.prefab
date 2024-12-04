@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4d4ea2be88e80408ea48463a9ab0f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 5
   playerMaxHP: 1000
   playerReducedHP: 0
   playerHP: 0
@@ -5849,8 +5849,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.30942914, y: 0.1924113, z: 0.16187762}
-  m_Center: {x: 0.09378583, y: -0.000000009236673, z: 0.0000000042924513}
+  m_Size: {x: 0.30942914, y: 0.3892095, z: 0.29044318}
+  m_Center: {x: 0.09378583, y: -0.04695809, z: 0.0069861556}
 --- !u!54 &1154935928426704079
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -16510,7 +16510,7 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 0.2810984, y: 0.1924113, z: 0.16187568}
+  m_Size: {x: 0.3094291, y: 0.3892095, z: 0.2904432}
   m_Center: {x: -0.09014362, y: -0.015052079, z: 0.01465667}
 --- !u!54 &5632923345048396960
 Rigidbody:

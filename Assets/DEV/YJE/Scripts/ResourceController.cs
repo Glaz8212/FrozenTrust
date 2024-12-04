@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ResourceController : MonoBehaviourPun
 {
-    public int maxHp;
-    public int curHp;
+    public float maxHp;
+    public float curHp;
 
     public Vector3 startPos; // 처음 스폰 위치를 기억
     public Vector3 itemSpawnPos; // 아이템 스폰 위치
@@ -26,7 +26,7 @@ public class ResourceController : MonoBehaviourPun
     /// Resource의 사망상태를 처리
     /// </summary>
     /// <param name="damage"></param>
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         if (curHp > 0)
         {
