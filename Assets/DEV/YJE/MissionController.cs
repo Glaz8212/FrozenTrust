@@ -32,11 +32,9 @@ public class MissionController : MonoBehaviour, IPunObservable
 
     private void Update()
     {
-        if (Is1Clear)
+        if (IsEndingClear)
         {
-            missionBox2.gameObject.SetActive(true);
-            missionBox1.gameObject.SetActive(false);
-            GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>().ResetInteraction();
+            GameManager.Instance.CheckWin(IsEndingClear);
         }
         else if(Is2Clear)
         {
@@ -44,9 +42,11 @@ public class MissionController : MonoBehaviour, IPunObservable
             Ending.gameObject.SetActive(true);
             GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>().ResetInteraction();
         }
-        else if (IsEndingClear)
+        else if (Is1Clear)
         {
-            GameManager.Instance.CheckWin(IsEndingClear);
+            missionBox2.gameObject.SetActive(true);
+            missionBox1.gameObject.SetActive(false);
+            GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>().ResetInteraction();
         }
     }
 
