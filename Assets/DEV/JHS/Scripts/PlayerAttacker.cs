@@ -16,7 +16,7 @@ public class PlayerAttacker : MonoBehaviourPun
     [SerializeField] BoxCollider leftAttackArea; // 맨손 공격 판정 // 무기 든거는 무기 오브젝트에다가 추가. 휘두르는 모션만 구현
     [SerializeField] BoxCollider rightAttackArea;
     public WeaponState weaponState;
-    public WeaponDamage weaponDamage;
+    public WeaponDamage damageCollider;
     public Collider weaponCollider;
 
     [SerializeField] Animator animator;
@@ -58,19 +58,18 @@ public class PlayerAttacker : MonoBehaviourPun
             }
         }
     }
-    public void SetWeaponState(WeaponState state)
+    public void SetWeaponState(WeaponState state, WeaponDamage weaponDamage)
     {
         weaponState = state;
+        damageCollider = weaponDamage;
 
         if (weaponState != null)
         {
-            weaponCollider = weaponState.GetComponent<Collider>();
-            weaponDamage = weaponState.GetComponent<WeaponDamage>();
-            Debug.Log("WeaponState와 Collider가 설정되었습니다.");
+            weaponCollider = damageCollider.GetComponent<Collider>();
         }
         else
         {
-            Debug.LogError("WeaponState가 null입니다.");
+            Debug.LogError("weaponCollider null입니다.");
         }
     }
     // 무기 장착
@@ -84,9 +83,6 @@ public class PlayerAttacker : MonoBehaviourPun
             return;
         }
 
-        // 이미 설정된 weaponState에서 Collider 참조
-        weaponCollider = weaponState.GetComponent<Collider>();
-        weaponDamage = weaponState.GetComponent<WeaponDamage>();
         DeactivateAttackArea();
         Debug.Log($"{type}으로 변경");
     }
@@ -95,8 +91,8 @@ public class PlayerAttacker : MonoBehaviourPun
     {      
         type = Type.Non;
         weaponState = null;
+        damageCollider = null;
         weaponCollider = null;
-        weaponDamage = null;
         Debug.Log($"{type}으로 변경");
     }
     public void Non()
@@ -153,18 +149,18 @@ public class PlayerAttacker : MonoBehaviourPun
     private void CloserAttack()
     {
         animator.Play("SlashOneHand");
-        if (weaponDamage != null)
+        if (weaponCollider != null)
         {
-            weaponDamage.enabled = true;
+            weaponCollider.enabled = true;
         }
     }
     [PunRPC]
     private void TwoHandedAttack()
     {
         animator.Play("SlashTwoHand");
-        if (weaponDamage != null)
+        if (weaponCollider != null)
         {
-            weaponDamage.enabled = true;
+            weaponCollider.enabled = true;
         }
     }
 
@@ -177,11 +173,9 @@ public class PlayerAttacker : MonoBehaviourPun
             leftAttackArea.enabled = false;
             rightAttackArea.enabled = false;
         }      
-        else if (weaponDamage != null)
+        else if (weaponCollider != null)
         {
-            weaponDamage.enabled = false;
+            weaponCollider.enabled = false;
         }
-    }
-
-     
+    }     
 }
