@@ -11,7 +11,7 @@ public class WeaponState : MonoBehaviourPun
         Non, OneHanded, TwoHanded
     }
     // µ¥¹ÌÁö
-    [SerializeField] int weaponDamage;
+    [SerializeField] float weaponDamage;
 
     private PlayerAttacker playerAttacker;
     [SerializeField] Collider weaponCollider;
