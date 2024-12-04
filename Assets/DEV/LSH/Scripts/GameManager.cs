@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         {
             Debug.Log("반복문 실행");
             int rand = Random.Range(0, playerId.Count);
+            Debug.Log(rand);
             traitor.Add(playerId[rand]);
             playerId.RemoveAt(rand);
             Debug.Log($"배신자는 : {traitor[0]}");

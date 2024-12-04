@@ -21,7 +21,7 @@ public class SetMissionUI : MonoBehaviour
 
     private IEnumerator SettingUI()
     {
-        yield return new WaitForSeconds(15f);
+        yield return new WaitForSecondsRealtime(5f);
 
         Debug.LogWarning("UI세팅을 시작.");
         Debug.Log(missionBoxInventory.missionWoodCount);
@@ -41,7 +41,7 @@ public class SetMissionUI : MonoBehaviour
             GameObject oreObj = missionBoxInventory.MakeItemObject("Ore");
             Item oreItem = oreObj.GetComponent<Item>();
             ItemData oreData = new ItemData(oreItem);
-            SetUI(oreData, missionBoxInventory.missionWoodCount);
+            SetUI(oreData, missionBoxInventory.missionOreCount);
             missionBoxInventory.DeleteItemObject("Ore");
         }
         if (missionBoxInventory.missionFruitCount > 0)
@@ -49,7 +49,7 @@ public class SetMissionUI : MonoBehaviour
             GameObject fruitObj = missionBoxInventory.MakeItemObject("Fruit");
             Item fruitItem = fruitObj.GetComponent<Item>();
             ItemData fruitData = new ItemData(fruitItem);
-            SetUI(fruitData, missionBoxInventory.missionWoodCount);
+            SetUI(fruitData, missionBoxInventory.missionFruitCount);
             missionBoxInventory.DeleteItemObject("Fruit");
         }
 
