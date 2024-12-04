@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SocialPlatforms;
 
 public class PlayerStatus : MonoBehaviourPun
@@ -48,6 +49,8 @@ public class PlayerStatus : MonoBehaviourPun
     public bool iscold = false;
 
     private Coroutine healthTackCoroutine;
+    public UnityEvent OnPlayerDied = new UnityEvent();
+
     private void Start()
     {
         environment = SurroundingEnvironment.Cold;
@@ -161,24 +164,48 @@ public class PlayerStatus : MonoBehaviourPun
         // 네트워크 RPC 호출
         photonView.RPC("PlayDeathAnimation", RpcTarget.All);
 
-        if (GameManager.Instance.playerRole == 1)
+        if (GameManager.Instance.playerRole == 0)
         {
+            Debug.Log("플레이어 사망 탐색");
             List<int> survivorIds = GameManager.Instance.GetSurvivorIds();
             for (int i = 0; i < survivorIds.Count; i++)
             {
                 int PlayerId = survivorIds[i];
+                
+                Debug.Log(PlayerId);
+
                 foreach (Player player in PhotonNetwork.PlayerList)
                 {
                     if (player.ActorNumber == PlayerId)
                     {
-                        GameManager.Instance.survivor.RemoveAt(PlayerId);
+                        photonView.RPC("RemoveSurvivor", RpcTarget.All, player.ActorNumber);
                     }
                 }
             }
         }
+        OnPlayerDied?.Invoke();
 
         Debug.Log("플레이어가 사망했습니다.");
     }
+
+    [PunRPC]
+    public void RemoveSurvivor(int actorNumber)
+    {
+        if (GameManager.Instance.survivor.Contains(actorNumber))
+        {
+            Debug.Log(actorNumber);
+            GameManager.Instance.survivor.Remove(actorNumber);
+            Debug.Log($"Player {actorNumber}가 생존자 리스트에서 제거되었습니다.");
+            GameSceneManager.Instance.OnDied();
+        }
+        else
+        {
+            Debug.LogWarning($"Player {actorNumber}가 생존자 리스트에 없습니다.");
+            OnPlayerDied?.Invoke();
+        }
+    }
+
+
     [PunRPC]
     private void PlayDeathAnimation()
     {
