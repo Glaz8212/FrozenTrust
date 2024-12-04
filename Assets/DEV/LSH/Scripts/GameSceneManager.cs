@@ -6,6 +6,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Networking.Types;
 
 public class GameSceneManager : MonoBehaviourPun
 {
@@ -21,8 +22,15 @@ public class GameSceneManager : MonoBehaviourPun
     public TMP_Text timerText;
 
     public UnityEvent OnPlayerSpawned = new UnityEvent();
-    
 
+    private void OnDisable()
+    {
+        if (playerStatus != null)
+        {
+            Debug.Log("이벤트 삭제");
+            playerStatus.OnPlayerDied.RemoveListener(OnDied);
+        }
+    }
 
     private void Awake()
     {
@@ -39,7 +47,7 @@ public class GameSceneManager : MonoBehaviourPun
 
     private void Start()
     {
-         StartCoroutine(StartDelayRoutine());
+        StartCoroutine(StartDelayRoutine());
     }
 
     IEnumerator StartDelayRoutine()
@@ -89,6 +97,11 @@ public class GameSceneManager : MonoBehaviourPun
         Vector3 randomPos = new Vector3(-51f + Random.Range(-5f, 5f), 8f, -6.5f + Random.Range(-5f, 5f));
         nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
         playerStatus = nowPlayer.gameObject.GetComponent<PlayerStatus>();
+        if (playerStatus != null)
+        {
+            Debug.Log("이벤트 등록");
+            playerStatus.OnPlayerDied.AddListener(OnDied);
+        }
         OnPlayerSpawned?.Invoke();
     }
 
@@ -188,5 +201,12 @@ public class GameSceneManager : MonoBehaviourPun
         int min = (int)(time / 60f);
         int sce = (int)(time % 60f);
         timerText.text = $"{min:00}:{sce:00}"; // 남은 시간을 MM:SS 형식으로 표시
+    }
+
+    public void OnDied()
+    {
+        Debug.Log("이벤트데드실행");
+        if (GameManager.Instance.survivor.Count == 0)
+            GameManager.Instance.CheckWin(false);
     }
 }

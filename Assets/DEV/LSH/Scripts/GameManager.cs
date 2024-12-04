@@ -107,6 +107,7 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (PhotonNetwork.LocalPlayer.ActorNumber == actorNumber)
         {
             playerRole = role;
+            Debug.Log($"내 넘버는 : {actorNumber}");
             Debug.Log($"내 역할은 {(playerRole == 1 ? "배신자" : "생존자")}입니다.");
         }
     }
@@ -150,12 +151,8 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log("패배");
             StartCoroutine(TraitorEndingPanel());
         }
-
-        if (PhotonNetwork.IsConnected)
-        {
-            PhotonNetwork.Disconnect();
-        }
     }
+
     private IEnumerator SurvivorEndingPanel()
     {
         survivorEnding.gameObject.SetActive(true);
