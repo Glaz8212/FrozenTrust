@@ -40,13 +40,11 @@ public class MissionController : MonoBehaviour, IPunObservable
         {
             missionBox2.gameObject.SetActive(false);
             Ending.gameObject.SetActive(true);
-            GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>().ResetInteraction();
         }
         else if (Is1Clear)
         {
             missionBox2.gameObject.SetActive(true);
             missionBox1.gameObject.SetActive(false);
-            GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>().ResetInteraction();
         }
     }
 
@@ -66,6 +64,7 @@ public class MissionController : MonoBehaviour, IPunObservable
         else
         {
             Debug.Log("1 클리어");
+            GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>().ResetInteraction();
             Is1Clear = true;
         }
     }
@@ -86,6 +85,7 @@ public class MissionController : MonoBehaviour, IPunObservable
         {
             Debug.Log("2 클리어");
             Is2Clear = true;
+            GameSceneManager.Instance.nowPlayer.GetComponent<PlayerInteraction>().ResetInteraction();
         }
     }
 

@@ -52,6 +52,9 @@ public class PlayerClickedItem : MonoBehaviour
         missionInventoryList = GameObject.FindGameObjectWithTag("MissionController").GetComponent<MissionInventoryList>();
 
         playerStatus = GameSceneManager.Instance.nowPlayer.GetComponent<PlayerStatus>();
+
+        boxController = null;
+        missionBox = null;
     }
 
     /// <summary>
