@@ -97,7 +97,7 @@ public class Elk : MonoBehaviourPun, IPunObservable
             animator.SetBool("isRunning", isRunning);
         }
     }
-
+    [PunRPC]
     public void TakeDamage(float damage)
     {
         if (!PhotonNetwork.IsMasterClient)

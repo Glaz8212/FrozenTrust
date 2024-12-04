@@ -333,6 +333,7 @@ public class PlayerStatus : MonoBehaviourPun
         }
     }
 
+    [PunRPC]
     // 체력 저하
     public void TakeHP(float damage)
     {
