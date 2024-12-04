@@ -167,9 +167,13 @@ public class GameSceneManager : MonoBehaviourPun
         {
             Debug.Log("for시작");
 
-            // 닉네임 비활성화
+            // 닉네임 활성화
             name.gameObject.SetActive(true);
         }
+
+        yield return new WaitForSeconds(5f);
+
+        namePrints.Clear();
     }
 
     private void FindNameUI()

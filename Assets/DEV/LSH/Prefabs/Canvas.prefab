@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quset
+  m_Text: Quest
 --- !u!1 &337295990003595225
 GameObject:
   m_ObjectHideFlags: 0
@@ -1799,6 +1799,10 @@ MonoBehaviour:
   boxController: {fileID: 0}
   boxInventoryList: {fileID: 0}
   boxInventory: {fileID: 0}
+  missionController: {fileID: 0}
+  missionBox: {fileID: 0}
+  missionInventoryList: {fileID: 0}
+  missionBoxInventory: {fileID: 0}
   photonView: {fileID: 0}
   playerInventory: {fileID: 0}
 --- !u!1 &7215266476559534961

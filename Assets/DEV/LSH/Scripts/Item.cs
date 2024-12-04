@@ -28,9 +28,6 @@ public class Item : MonoBehaviour
             // RPC 마스터 클라이언트에 ViewID 전송
             photonView.RPC(nameof(DestroyItem), RpcTarget.MasterClient, photonView.ViewID);
         }
-        
-        //PhotonNetwork.Destroy(gameObject);
-        // Destroy(gameObject);
     }
 
     [PunRPC]
