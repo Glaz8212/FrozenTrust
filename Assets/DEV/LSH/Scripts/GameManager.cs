@@ -22,8 +22,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] GameState curState;  // 게임 상태
     [SerializeField] int traitorCount;        // 배신자 수
     [SerializeField] int survivorCount;       // 생존자 수
-    [SerializeField] List<int> survivor;
-    [SerializeField] List<int> traitor;
+    [SerializeField] public List<int> survivor;
+    [SerializeField] public List<int> traitor;
     public int playerRole;
 
     [SerializeField] GameObject survivorEnding;
@@ -93,11 +93,12 @@ public class GameManager : MonoBehaviourPunCallbacks
                 role = 0; // 생존자
             }
 
-            
+
             photonView.RPC(nameof(SynchRoles), RpcTarget.All, role, player.ActorNumber);
-            
+
         }
         photonView.RPC(nameof(Synchtraitor), RpcTarget.All, traitor.ToArray());
+        photonView.RPC(nameof(Synchsurvivor), RpcTarget.All, survivor.ToArray());
     }
 
     [PunRPC]
@@ -116,9 +117,20 @@ public class GameManager : MonoBehaviourPunCallbacks
         traitor = new List<int>(traitorIds);
     }
 
+    [PunRPC]
+    private void Synchsurvivor(int[] survivorIds)
+    {
+        survivor = new List<int>(survivorIds);
+    }
+
     public List<int> GetTraitorIds()
     {
         return traitor;
+    }
+
+    public List<int> GetSurvivorIds()
+    {
+        return survivor;
     }
 
     public void CheckWin(bool checkwin)
@@ -148,7 +160,7 @@ public class GameManager : MonoBehaviourPunCallbacks
     {
         survivorEnding.gameObject.SetActive(true);
         yield return new WaitForSeconds(20f);
-        if(PhotonNetwork.IsMasterClient)
+        if (PhotonNetwork.IsMasterClient)
         {
             PhotonNetwork.LoadLevel("LobbyScene");
         }

@@ -161,6 +161,22 @@ public class PlayerStatus : MonoBehaviourPun
         // 네트워크 RPC 호출
         photonView.RPC("PlayDeathAnimation", RpcTarget.All);
 
+        if (GameManager.Instance.playerRole == 1)
+        {
+            List<int> survivorIds = GameManager.Instance.GetSurvivorIds();
+            for (int i = 0; i < survivorIds.Count; i++)
+            {
+                int PlayerId = survivorIds[i];
+                foreach (Player player in PhotonNetwork.PlayerList)
+                {
+                    if (player.ActorNumber == PlayerId)
+                    {
+                        GameManager.Instance.survivor.RemoveAt(PlayerId);
+                    }
+                }
+            }
+        }
+
         Debug.Log("플레이어가 사망했습니다.");
     }
     [PunRPC]
