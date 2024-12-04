@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviourPunCallbacks
     [SerializeField] List<int> traitor;
     public int playerRole;
 
+    [SerializeField] GameObject survivorEnding;
+    [SerializeField] GameObject traitorEnding;
 
     private void Awake()
     {
@@ -126,19 +128,38 @@ public class GameManager : MonoBehaviourPunCallbacks
         if (checkwin == true)// 생존자 승리조건
         {
             GameStateChange(GameState.End);
-            
+            // TODO : UI 승리 코루틴 추가
             Debug.Log("승리");
+            StartCoroutine(SurvivorEndingPanel());
         }
         else if (checkwin == false)// 배신자 승리조건
         {
             GameStateChange(GameState.End);
-            
             Debug.Log("패배");
+            StartCoroutine(TraitorEndingPanel());
         }
 
         if (PhotonNetwork.IsConnected)
         {
             PhotonNetwork.Disconnect();
+        }
+    }
+    private IEnumerator SurvivorEndingPanel()
+    {
+        survivorEnding.gameObject.SetActive(true);
+        yield return new WaitForSeconds(20f);
+        if(PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("LobbyScene");
+        }
+    }
+    private IEnumerator TraitorEndingPanel()
+    {
+        traitorEnding.gameObject.SetActive(true);
+        yield return new WaitForSeconds(20f);
+        if (PhotonNetwork.IsMasterClient)
+        {
+            PhotonNetwork.LoadLevel("LobbyScene");
         }
     }
 

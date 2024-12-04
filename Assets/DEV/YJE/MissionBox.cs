@@ -6,6 +6,7 @@ public class MissionBox : MonoBehaviour
 {
     public bool IsUIOpen;
     [SerializeField] GameObject UI_ItemBox;
+
     public void MissionBoxOpen()
     {
         Debug.Log("미션상자 열기");
