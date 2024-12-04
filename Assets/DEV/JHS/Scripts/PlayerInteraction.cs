@@ -7,7 +7,7 @@ using static WeaponState;
 
 public class PlayerInteraction : MonoBehaviourPun
 { 
-    public enum Type { Idle, Mission, ItemBox, Item, Weapon }
+    public enum Type { Idle, Mission, ItemBox, Item, Weapon, Ending }
     public Type type = Type.Idle;
     // 상호작용 상태 판정
     public bool isInteracting = false;
@@ -15,7 +15,8 @@ public class PlayerInteraction : MonoBehaviourPun
     public Collider currentCollider;
 
     // 스크립트 값 불러오기 위한 변수들
-    public MissionBox missionController;
+    public MissionBox missionBox;
+    public MissionController missionController;
     public BoxController boxController;
     public Item item;
     public WeaponState weapon;
@@ -62,11 +63,14 @@ public class PlayerInteraction : MonoBehaviourPun
                     break;
                 case Type.Mission:
                     // null조건 연산자 ?. missionController의 값이 null이 아닐경우에만 MissionBoxOpen를 실행. nulld이면 MissionBoxOpen를 실행하지 않음
-                    missionController?.MissionBoxOpen();
+                    missionBox?.MissionBoxOpen();
                     break;
                 case Type.ItemBox:
                     //boxController값의 BoxOpen실행
                     boxController?.BoxOpen();
+                    break;
+                case Type.Ending:
+                    missionController?.EndingClearChecked();
                     break;
                 case Type.Item:
                     if(playerInventory.inventory.Count < 4)
@@ -175,14 +179,24 @@ public class PlayerInteraction : MonoBehaviourPun
             Debug.Log($"{weaponGameObject}");
             type = weaponGameObject != null ? Type.Weapon : Type.Idle;
         }
-        else if (other.CompareTag("Mission1") || other.CompareTag("Mission2") || other.CompareTag("Ending"))
+        else if (other.CompareTag("Mission1") || other.CompareTag("Mission2"))
         {
             // currentCollider에 충돌한 other값 삽입
             currentCollider = other;
             // missionController에 other값의 MissionBox 불러오기
-            missionController = other.GetComponent<MissionBox>();
+            missionBox = other.GetComponent<MissionBox>();
             // 삼항 연산자 사용 : 변수 = 조건문 ? 조건문이 참일 때 값 : 조건문이 거짓일 때 값
-            type = missionController != null ? Type.Mission : Type.Idle;
+            type = missionBox != null ? Type.Mission : Type.Idle;
+        }
+        else if (other.CompareTag("Ending"))
+        {
+            currentCollider = other;
+            Transform parentTransform = other.transform.parent;
+            if (parentTransform != null)
+            {
+                missionController = parentTransform.GetComponent<MissionController>();
+            }
+            type = missionController != null ? Type.Ending : Type.Idle;
         }
         else if (other.CompareTag("ItemBox"))
         {
@@ -210,7 +224,7 @@ public class PlayerInteraction : MonoBehaviourPun
             // 미션 콜라이더에 값이 있고 그 값이 other의 MissionBox와 같다면 미션 ui닫기 실행
             if (missionController != null && missionController == other.GetComponent<MissionBox>())
             {
-                missionController.MissionBoxClose();
+                missionBox.MissionBoxClose();
             }
             // 박스 콜라이더에 값이 있고 그 값이 other의 BoxController와 같다면 박스 ui닫기 실행
             else if (boxController != null && boxController == other.GetComponent<BoxController>())

@@ -5790,6 +5790,7 @@ GameObject:
   - component: {fileID: 7206196327155948513}
   - component: {fileID: 166760087545724826}
   - component: {fileID: 3886090525627721343}
+  - component: {fileID: 1154935928426704079}
   m_Layer: 0
   m_Name: Wrist_L
   m_TagString: Untagged
@@ -5849,6 +5850,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.30942914, y: 0.1924113, z: 0.16187762}
   m_Center: {x: 0.09378583, y: -0.000000009236673, z: 0.0000000042924513}
+--- !u!54 &1154935928426704079
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094380171904800742}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &2106708970150303078
 GameObject:
   m_ObjectHideFlags: 0
@@ -16434,6 +16451,7 @@ GameObject:
   - component: {fileID: 2743104306908230684}
   - component: {fileID: 8630257861240794670}
   - component: {fileID: 2334945806972254037}
+  - component: {fileID: 5632923345048396960}
   m_Layer: 0
   m_Name: Wrist_R
   m_TagString: Untagged
@@ -16493,6 +16511,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.2810984, y: 0.1924113, z: 0.16187568}
   m_Center: {x: -0.09014362, y: -0.015052079, z: 0.01465667}
+--- !u!54 &5632923345048396960
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7778408287831069560}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7786952898487059879
 GameObject:
   m_ObjectHideFlags: 0
