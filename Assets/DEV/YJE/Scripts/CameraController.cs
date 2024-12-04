@@ -29,7 +29,7 @@ public class CameraController : MonoBehaviourPunCallbacks
     IEnumerator StartDelayRoutine()
     {
         // 네트워크 준비에 필요한 시간 설정
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         SetCam();
     }
 
