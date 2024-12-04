@@ -13,6 +13,7 @@ public class GameSceneManager : MonoBehaviourPun
     [SerializeField] public MissionController missionController;
     [SerializeField] public GameObject nowPlayer;
     [SerializeField] PlayerStatus playerStatus;
+    [SerializeField] List<NamePrint> names = new List<NamePrint>();
 
     private float moveTime = -10f;
     private float teleportCooldown = 10f;
@@ -20,6 +21,8 @@ public class GameSceneManager : MonoBehaviourPun
     public TMP_Text timerText;
 
     public UnityEvent OnPlayerSpawned = new UnityEvent();
+    
+
 
     private void Awake()
     {
@@ -101,8 +104,7 @@ public class GameSceneManager : MonoBehaviourPun
 
             if (gameTimer <= 880 && gameTimer >= 879 && (Time.time - moveTime >= teleportCooldown))
             {
-                photonView.RPC(nameof(TeleportEvent), RpcTarget.All);
-
+                EventManager(Random.Range(1, 3));
             }
 
             yield return null;
@@ -111,7 +113,7 @@ public class GameSceneManager : MonoBehaviourPun
         GameManager.Instance.CheckWin(false);
     }
 
-    private void EventManager(int eventNum)
+    private void EventManager(float eventNum)
     {
         if (eventNum == 1)
         {
@@ -144,9 +146,9 @@ public class GameSceneManager : MonoBehaviourPun
     [PunRPC]
     private void NickNameEvent()
     {
-        NamePrint[] namePrints = FindObjectsOfType<NamePrint>();
+        FindNameUI();
 
-        foreach (NamePrint name in namePrints)
+        foreach (NamePrint name in names)
         {
                 // 닉네임 비활성화
                 name.gameObject.SetActive(false);
@@ -157,18 +159,23 @@ public class GameSceneManager : MonoBehaviourPun
     }
 
     IEnumerator ReSetNickName(float delay)
-    {
-        NamePrint[] namePrints = FindObjectsOfType<NamePrint>();
-
-        
+    {        
         // 지정된 시간 동안 대기
         yield return new WaitForSeconds(delay);
 
-        foreach (NamePrint name in namePrints)
+        foreach (NamePrint name in names)
         {
+            Debug.Log("for시작");
+
             // 닉네임 비활성화
             name.gameObject.SetActive(true);
         }
+    }
+
+    private void FindNameUI()
+    {
+        names.Clear();
+        names.AddRange(FindObjectsOfType<NamePrint>());
     }
 
     // 클라이언트 타이머 UI 업데이트
