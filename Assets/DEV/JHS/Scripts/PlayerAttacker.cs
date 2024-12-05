@@ -21,7 +21,7 @@ public class PlayerAttacker : MonoBehaviourPun
     public PlayerInteraction interaction;
 
     [SerializeField] Animator animator;
-        
+
     private void Awake()
     {
         Init();
@@ -37,8 +37,16 @@ public class PlayerAttacker : MonoBehaviourPun
     {
         if (!photonView.IsMine || attackTerm)
             return;
-        if (interaction.missionBox.IsUIOpen == true || interaction.boxController.IsUIOpen == true)
-            return;
+        if (interaction.missionBox != null)
+        {
+            if (interaction.missionBox.IsUIOpen == true)
+                return;
+        }
+        if (interaction.boxController != null)
+        {
+            if (interaction.boxController.IsUIOpen == true)
+                return;
+        }
         if (status.playerDie == false)
         {
             if (Input.GetMouseButtonDown(0))
@@ -53,7 +61,7 @@ public class PlayerAttacker : MonoBehaviourPun
                         CloserWeapon();
                         break;
                     case Type.TwoHandWeapon:
-                        TwoHandWeapon();                    
+                        TwoHandWeapon();
                         break;
                     case Type.RangedWeapon:
                         // 원거리 넣을꺼면 여기
@@ -92,7 +100,7 @@ public class PlayerAttacker : MonoBehaviourPun
     }
     // 무기 해제
     public void ReleaseWeapon()
-    {      
+    {
         type = Type.Non;
         weaponState = null;
         damageCollider = null;
@@ -125,27 +133,27 @@ public class PlayerAttacker : MonoBehaviourPun
         // 원거리 애니메이션 실행
     }
     private IEnumerator EndAttack()
-    {        
+    {
         yield return new WaitForSeconds(2f); // 공격 지속 시간
         //leftAttackArea.enabled = false;
         //rightAttackArea.enabled = false;
         photonView.RPC("DeactivateAttackArea", RpcTarget.All);
         attackTerm = false; // 공격 쿨타임 해제
-    }  
+    }
     [PunRPC]
     private void ExecuteAttack(bool isLeftHand)
     {
         if (isLeftHand)
         {
             // 좌측 펀치 애니메이션 실행
-            
+
             animator.Play("Punch_LeftHand");
             leftAttackArea.enabled = true;
         }
         else
         {
             // 우측 펀치 애니메이션 실행
-            animator.Play("Punch_RightHand");          
+            animator.Play("Punch_RightHand");
             rightAttackArea.enabled = true;
         }
     }
@@ -172,14 +180,14 @@ public class PlayerAttacker : MonoBehaviourPun
     [PunRPC]
     private void DeactivateAttackArea()
     {
-        if (weaponCollider ==  null)
+        if (weaponCollider == null)
         {
             leftAttackArea.enabled = false;
             rightAttackArea.enabled = false;
-        }      
+        }
         else if (weaponCollider != null)
         {
             weaponCollider.enabled = false;
         }
-    }     
+    }
 }
