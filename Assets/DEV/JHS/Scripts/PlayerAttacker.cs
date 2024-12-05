@@ -18,6 +18,7 @@ public class PlayerAttacker : MonoBehaviourPun
     public WeaponState weaponState;
     public WeaponDamage damageCollider;
     public Collider weaponCollider;
+    public PlayerInteraction interaction;
 
     [SerializeField] Animator animator;
         
@@ -29,11 +30,14 @@ public class PlayerAttacker : MonoBehaviourPun
     private void Init()
     {
         status = GetComponent<PlayerStatus>();
+        interaction = GetComponent<PlayerInteraction>();
     }
 
     private void Update()
     {
         if (!photonView.IsMine || attackTerm)
+            return;
+        if (interaction.missionBox.IsUIOpen == true || interaction.boxController.IsUIOpen == true)
             return;
         if (status.playerDie == false)
         {

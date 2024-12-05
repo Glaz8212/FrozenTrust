@@ -52,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ab187da7be87ab49987baea8943a776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10
+  maxHp: 400
   curHp: 0
   startPos: {x: 0, y: 0, z: 0}
   itemSpawnPos: {x: 0, y: 0, z: 0}

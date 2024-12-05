@@ -1728,7 +1728,7 @@ MonoBehaviour:
   patrolPoints:
   - {fileID: 0}
   - {fileID: 0}
-  maxHp: 100
+  maxHp: 400
   curHp: 0
 --- !u!136 &6203844779388227175
 CapsuleCollider:
