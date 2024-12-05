@@ -38,7 +38,10 @@ public class RoomPanel : UIBinder
     {
         foreach (PlayerEntry entry in playerEntries)
         {
-            entry.SetEmpty();
+            if (entry != null)
+            {
+                entry.SetEmpty();
+            }
         }
 
         foreach (Player player in PhotonNetwork.PlayerList)
@@ -95,6 +98,7 @@ public class RoomPanel : UIBinder
     public void StartGame(PointerEventData eventData)
     {
         PhotonNetwork.LoadLevel("GameScene");
+        PlayerNumbering.OnPlayerNumberingChanged -= UpdatePlayers;
         PhotonNetwork.CurrentRoom.IsOpen = false;
     }
 
