@@ -3,12 +3,29 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Item
+  - Weapon
+  - Resource
+  - ItemBox
+  - Mission1
+  - Mission2
+  - Ending
+  - Animal
+  - ItemBoxList
+  - MissionController
+  - PlayerInventory
+  - WoodPool
+  - OrePool
+  - FruitPool
+  - Tree
+  - Rock
+  - Grass
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - CamBarrier
   - Water
   - UI
   - 
