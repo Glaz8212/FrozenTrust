@@ -108,6 +108,7 @@ public class GameSceneManager : MonoBehaviourPun
 
     private IEnumerator GameTimerCoroutine()
     {
+        float nextEventTime = 700f;
         while (gameTimer > 0)
         {
             gameTimer -= Time.deltaTime;
@@ -115,9 +116,11 @@ public class GameSceneManager : MonoBehaviourPun
             // RPC 함수 타이머 동기화
             photonView.RPC(nameof(UpdateTimerUI), RpcTarget.All, gameTimer);
 
-            if (gameTimer <= 880 && gameTimer >= 879 && (Time.time - moveTime >= teleportCooldown))
+            if (gameTimer <= nextEventTime && gameTimer >= nextEventTime - 1f && gameTimer > 240f)
             {
-                EventManager(Random.Range(1, 3));
+                EventManager(Random.Range(1, 4));
+
+                nextEventTime -= 200f;
             }
 
             yield return null;
@@ -132,18 +135,23 @@ public class GameSceneManager : MonoBehaviourPun
         {
             photonView.RPC(nameof(TeleportEvent), RpcTarget.All);
         }
+        else if (eventNum == 2)
+        {
+            photonView.RPC(nameof(NickNameEvent), RpcTarget.All);
+        }
         else
         {
             photonView.RPC(nameof(NickNameEvent), RpcTarget.All);
+            photonView.RPC(nameof(TeleportEvent), RpcTarget.All);            
         }
     }
 
     [PunRPC]
     private void TeleportEvent()
     {
-        if ((Time.time - moveTime >= teleportCooldown) && playerStatus.environment != PlayerStatus.SurroundingEnvironment.Warm)
+        if (playerStatus.environment != PlayerStatus.SurroundingEnvironment.Warm)
         {
-            Vector3 randomPos = new Vector3(Random.Range(-10f, 10f), 3, Random.Range(-10f, 10f));
+            Vector3 randomPos = new Vector3(Random.Range(-150f, 130f), 7.5f, Random.Range(-10f, 40f));
             CharacterController controller = nowPlayer.GetComponent<CharacterController>();
 
             controller.enabled = false; // CharacterController 비활성화
@@ -151,8 +159,6 @@ public class GameSceneManager : MonoBehaviourPun
             controller.enabled = true;  // CharacterController 재활성화
 
             moveTime = Time.time;
-
-            photonView.RPC(nameof(NickNameEvent), RpcTarget.All);
         }
     }
 
@@ -168,7 +174,7 @@ public class GameSceneManager : MonoBehaviourPun
         }
 
         // 지정 시간 동안 대기 후 복구
-        StartCoroutine(ReSetNickName(30f));
+        StartCoroutine(ReSetNickName(120f));
     }
 
     IEnumerator ReSetNickName(float delay)
