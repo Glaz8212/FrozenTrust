@@ -24,7 +24,7 @@ public class PlayerInteraction : MonoBehaviourPun
     public PlayerInventory playerInventory;
     private PlayerStatus status;
     private PlayerAttacker attacker;
-
+    private bool weaponEquip = false;
     // 플레이어의 무기가 소환되는 위치
     [SerializeField] Transform playerHandTransform;
 
@@ -109,6 +109,7 @@ public class PlayerInteraction : MonoBehaviourPun
         // 플레이어 본인이고 죽지 않았고 무기 오브젝트가 장착되어 있을때 Q를 누른다면
         else if (photonView.IsMine && Input.GetKeyDown(KeyCode.Q) && status.playerDie == false && weaponGameObject != null)
         {
+            weaponEquip = false;
             // 자식에 들어간 무기 제거
             WeaponState weaponState = weaponGameObject.GetComponentInChildren<WeaponState>();
             if (weaponState != null)
@@ -131,6 +132,7 @@ public class PlayerInteraction : MonoBehaviourPun
 
     private void MoverWeapon()
     {
+        weaponEquip = true;
         PhotonView weaponPhotonView = weaponGameObject.GetComponent<PhotonView>();
         if (weaponPhotonView != null && !weaponPhotonView.IsMine)
         {
@@ -233,8 +235,14 @@ public class PlayerInteraction : MonoBehaviourPun
             {
                 boxController.BoxClose();
             }
-            // 값 리셋
-            weaponGameObject = null;
+            
+            if (type == Type.Weapon)
+            {
+                if (weaponEquip = false)
+                {
+                    weaponGameObject = null;
+                }
+            }
             ResetInteraction();
         }
     }
