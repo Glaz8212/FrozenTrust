@@ -72,7 +72,7 @@ public class PlayerStatus : MonoBehaviourPun
         {
             CheckState();
         }
-        
+
         switch (state)
         {
             case PlayerState.Idle:
@@ -92,7 +92,7 @@ public class PlayerStatus : MonoBehaviourPun
                 break;
             case PlayerState.LackVeryBad:
                 LackVeryBad();
-                break;         
+                break;
         }
 
         // 플레이어 상태 판단 필요
@@ -171,7 +171,7 @@ public class PlayerStatus : MonoBehaviourPun
             for (int i = 0; i < survivorIds.Count; i++)
             {
                 int PlayerId = survivorIds[i];
-                
+
                 Debug.Log(PlayerId);
 
                 foreach (Player player in PhotonNetwork.PlayerList)
@@ -338,7 +338,23 @@ public class PlayerStatus : MonoBehaviourPun
     {
         iscold = true;
         //이동속도 감소 절반
-        moveSpeed = moveSpeed / 2;
+        if (state == PlayerState.LackVeryBad)
+        {
+            moveSpeed = moveSpeed / 2;
+        }
+        else if (state == PlayerState.LackEverything)
+        {
+            moveSpeed = moveSpeed * 0.8f;
+        }
+        else if (state == PlayerState.NonWarmth)
+        {
+            moveSpeed = moveSpeed / 2;
+        }
+        else if (state == PlayerState.LackHunger)
+        {
+            moveSpeed = moveSpeed * 0.8f;
+        }
+
         Debug.Log($"이동속도 {moveSpeed}로 감소");
     }
     // 스피드 복구
@@ -386,7 +402,7 @@ public class PlayerStatus : MonoBehaviourPun
             playerHP = 0;
             // 보스의 체력이 0 이하가 되면 상태를 Die로 변경
             state = PlayerState.Die;
-        }               
+        }
     }
     // 체력 회복
     public void HealHP(float heal)

@@ -100,6 +100,12 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         photonView.RPC(nameof(Synchtraitor), RpcTarget.All, traitor.ToArray());
         photonView.RPC(nameof(Synchsurvivor), RpcTarget.All, survivor.ToArray());
+
+        for (int i = 0; i < playerList; i++)
+        {
+            Vector3 randomPos = new Vector3(-51f + Random.Range(-5f, 5f), 8f, -6.5f + Random.Range(-5f, 5f));
+            PhotonNetwork.Instantiate("JHS/WeaponAxe 1", randomPos, Quaternion.identity);
+        }
     }
 
     [PunRPC]

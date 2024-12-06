@@ -1,5 +1,6 @@
 using Photon.Pun;
 using Photon.Realtime;
+using Photon.Voice.PUN;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -7,6 +8,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Networking.Types;
+using UnityEngine.UI;
 
 public class GameSceneManager : MonoBehaviourPun
 {
@@ -20,6 +22,8 @@ public class GameSceneManager : MonoBehaviourPun
     private float teleportCooldown = 10f;
     private float gameTimer = 900f; // 15분 타이머
     public TMP_Text timerText;
+    [SerializeField] private Text Teleport_Text;
+    public TMP_Text teleportTimerText;
 
     public UnityEvent OnPlayerSpawned = new UnityEvent();
 
@@ -95,7 +99,7 @@ public class GameSceneManager : MonoBehaviourPun
     private void PlayerSpawn()
     {
         Vector3 randomPos = new Vector3(-51f + Random.Range(-5f, 5f), 8f, -6.5f + Random.Range(-5f, 5f));
-        nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);
+        nowPlayer = PhotonNetwork.Instantiate("JHS/Player01", randomPos, Quaternion.identity);        
         playerStatus = nowPlayer.gameObject.GetComponent<PlayerStatus>();
         if (playerStatus != null)
         {
@@ -108,7 +112,7 @@ public class GameSceneManager : MonoBehaviourPun
 
     private IEnumerator GameTimerCoroutine()
     {
-        float nextEventTime = 700f;
+        float nextEventTime = 880f;
         while (gameTimer > 0)
         {
             gameTimer -= Time.deltaTime;
@@ -118,7 +122,9 @@ public class GameSceneManager : MonoBehaviourPun
 
             if (gameTimer <= nextEventTime && gameTimer >= nextEventTime - 1f && gameTimer > 240f)
             {
-                EventManager(Random.Range(1, 4));
+                //EventManager(1);
+                int num = Random.Range(1, 4);
+                photonView.RPC(nameof(EventManager), RpcTarget.All, num);
 
                 nextEventTime -= 200f;
             }
@@ -126,10 +132,11 @@ public class GameSceneManager : MonoBehaviourPun
             yield return null;
         }
 
-        GameManager.Instance.CheckWin(false);
+
     }
 
-    private void EventManager(float eventNum)
+    [PunRPC]
+    private void EventManager(int eventNum)
     {
         if (eventNum == 1)
         {
@@ -149,6 +156,17 @@ public class GameSceneManager : MonoBehaviourPun
     [PunRPC]
     private void TeleportEvent()
     {
+        Teleport_Text.text = "알 수 없는 기운이 주변을 맴돌고 있습니다.\n건물 안으로 30초 안에 건물 안으로 대피하십시오.";
+        Teleport_Text.gameObject.SetActive(true);
+        StartCoroutine(TeleportTime(30f));
+    }
+
+    IEnumerator TeleportTime(float delay)
+    {
+
+        // 지정된 시간 동안 대기
+        yield return new WaitForSeconds(delay);
+
         if (playerStatus.environment != PlayerStatus.SurroundingEnvironment.Warm)
         {
             Vector3 randomPos = new Vector3(Random.Range(-150f, 130f), 7.5f, Random.Range(-10f, 40f));
@@ -160,6 +178,8 @@ public class GameSceneManager : MonoBehaviourPun
 
             moveTime = Time.time;
         }
+        Teleport_Text.gameObject.SetActive(false);
+        yield return null;
     }
 
     [PunRPC]
@@ -207,6 +227,11 @@ public class GameSceneManager : MonoBehaviourPun
         int min = (int)(time / 60f);
         int sce = (int)(time % 60f);
         timerText.text = $"{min:00}:{sce:00}"; // 남은 시간을 MM:SS 형식으로 표시
+
+        if(time <= 0.1)
+        {
+            GameManager.Instance.CheckWin(false);
+        }
     }
 
     public void OnDied()

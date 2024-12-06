@@ -19,7 +19,7 @@ MonoBehaviour:
     AppIdVoice: 156752ec-73f9-467a-a4c0-0e48e2323bc8
     AppVersion: 
     UseNameServer: 1
-    FixedRegion: 
+    FixedRegion: kr
     Server: 
     Port: 0
     ProxyServer: 
@@ -70,6 +70,7 @@ MonoBehaviour:
   - Mission2ClearChecked
   - Mission1Checked
   - Mission2Checked
+  - EventManager
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

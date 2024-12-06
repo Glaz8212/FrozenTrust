@@ -39,7 +39,9 @@ public class MainPanel : UIBinder
     public void CreateRoomConfirm(PointerEventData eventData)
     {
         string roomName = roomNameInputField.text;
+        Debug.Log(maxPlayerInputField);
         int.TryParse(maxPlayerInputField.text, out int maxPlayer);
+        Debug.Log(maxPlayer);
         maxPlayer = Mathf.Clamp(maxPlayer, 4, 8);
         
         if (roomName == " ")

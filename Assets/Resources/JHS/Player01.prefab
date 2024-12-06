@@ -142,7 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b4d4ea2be88e80408ea48463a9ab0f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 10
   playerMaxHP: 1000
   playerReducedHP: 0
   playerHP: 0
@@ -193,6 +193,7 @@ MonoBehaviour:
   weaponState: {fileID: 0}
   damageCollider: {fileID: 0}
   weaponCollider: {fileID: 0}
+  interaction: {fileID: 0}
   animator: {fileID: 704822815211919128}
 --- !u!114 &6152684959547424343
 MonoBehaviour:
