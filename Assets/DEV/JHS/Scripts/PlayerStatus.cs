@@ -362,7 +362,7 @@ public class PlayerStatus : MonoBehaviourPun
     {
         iscold = false;
         // 이동속도 복구
-        moveSpeed = moveSpeed * 2;
+        moveSpeed = 10;
         Debug.Log($"이동속도 {moveSpeed}로 증가");
     }
     // 최대 HP 감소

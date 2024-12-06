@@ -108,8 +108,7 @@ public class PlayerInteraction : MonoBehaviourPun
         }
         // 플레이어 본인이고 죽지 않았고 무기 오브젝트가 장착되어 있을때 Q를 누른다면
         else if (photonView.IsMine && Input.GetKeyDown(KeyCode.Q) && status.playerDie == false && weaponGameObject != null)
-        {
-            weaponEquip = false;
+        {           
             // 자식에 들어간 무기 제거
             WeaponState weaponState = weaponGameObject.GetComponentInChildren<WeaponState>();
             if (weaponState != null)
@@ -127,6 +126,7 @@ public class PlayerInteraction : MonoBehaviourPun
             }
             weaponGameObject.transform.SetParent(null);
             weaponGameObject = null;
+            weaponEquip = false;
         }
     }
 
